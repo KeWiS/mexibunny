@@ -3,18 +3,35 @@
 #define SDL_MAIN_HANDLED
 
 #include <SDL.h>
+#include "render_helper.h"
+#include "../game_objects/player.h"
 
 class Game {
-private:
-    int gameWindowWidth;
-    int gameWindowHeight;
+public:
+    Game(int gameWindowWidth, int gameWindowHeight);
 
-    SDL_Window *window;
+private:
+    bool gameInProgress;
+
+    Uint64 previousTick = 0;
+    Uint64 currentTick = SDL_GetTicks64();
+    double deltaTime = 0;
+
+    RenderHelper renderHelper;
+
+    Player player;
 
     void initGame();
 
-public:
-    Game(int gameWindowWidth, int gameWindowHeight);
+    void startGame();
+
+    void updateGameState();
+
+    void handleGameEvents();
+
+    void updateGraphics();
+
+    void closeGame();
 };
 
 #endif //MEXIBUNNY_GAME_H
