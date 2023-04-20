@@ -27,7 +27,11 @@ private:
 
     void updateGameState();
 
+    double calculateDeltaTime();
+
     void handleGameEvents();
+
+    void handlePlayerMovement(const Uint8 *keyStates);
 
     void updateGraphics();
 

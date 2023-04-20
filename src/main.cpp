@@ -1,8 +1,8 @@
 #include "core/game.h"
 
 int main() {
-    int gameWindowWidth = 640;
-    int gameWindowHeight = 480;
+    int gameWindowWidth = 1280;
+    int gameWindowHeight = 720;
 
     Game(gameWindowWidth, gameWindowHeight);
 

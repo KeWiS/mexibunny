@@ -18,6 +18,7 @@ void RenderHelper::renderBackground() {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 }
 
+// Rendering characters
 void RenderHelper::render(Character &p_character) {
     cleanRenderer();
     SDL_SetRenderDrawColor(renderer, 255, 100, 50, 255);

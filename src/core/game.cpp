@@ -26,12 +26,18 @@ void Game::startGame() {
 }
 
 void Game::updateGameState() {
-    previousTick = currentTick;
-    currentTick = SDL_GetTicks64();
-    deltaTime = currentTick - previousTick;
-
+    // Calculating delta time for physics and other computations
+    deltaTime = calculateDeltaTime();
+    // Handling game events, player movement, calculations of NPC movements and physics
     handleGameEvents();
     updateGraphics();
+}
+
+double Game::calculateDeltaTime() {
+    previousTick = currentTick;
+    currentTick = SDL_GetTicks64();
+
+    return currentTick - previousTick;
 }
 
 void Game::handleGameEvents() {
@@ -47,10 +53,14 @@ void Game::handleGameEvents() {
         }
     }
 
-    if (keyStates[SDL_SCANCODE_UP]) player.getModel().y -= 0.1 * deltaTime;
-    if (keyStates[SDL_SCANCODE_DOWN]) player.getModel().y += 0.1 * deltaTime;
-    if (keyStates[SDL_SCANCODE_LEFT]) player.getModel().x -= 0.1 * deltaTime;
-    if (keyStates[SDL_SCANCODE_RIGHT]) player.getModel().x += 0.1 * deltaTime;
+    handlePlayerMovement(keyStates);
+}
+
+void Game::handlePlayerMovement(const Uint8 *keyStates) {
+    if (keyStates[SDL_SCANCODE_UP]) player.getModel().y -= 0.3 * deltaTime;
+    if (keyStates[SDL_SCANCODE_DOWN]) player.getModel().y += 0.3 * deltaTime;
+    if (keyStates[SDL_SCANCODE_LEFT]) player.getModel().x -= 0.3 * deltaTime;
+    if (keyStates[SDL_SCANCODE_RIGHT]) player.getModel().x += 0.3 * deltaTime;
 }
 
 void Game::updateGraphics() {
