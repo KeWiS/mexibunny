@@ -1,18 +1,42 @@
 #include "game.h"
+#include "constants.h"
+#include <SDL_image.h>
 
 Game::Game(int gameWindowWidth, int gameWindowHeight) {
     this->renderHelper = RenderHelper(gameWindowWidth, gameWindowHeight);
     this->player = Player();
 
+    this->grassCollection = generateGrassCollection();
+
     initGame();
+}
+
+std::vector<Grass> Game::generateGrassCollection() {
+    std::vector<Grass> generatedGrass = std::vector<Grass>();
+
+    Grass grass = Grass(0, 0, 32, 32);
+    generatedGrass.push_back(grass);
+
+    return generatedGrass;
 }
 
 void Game::initGame() {
     SDL_Init(SDL_INIT_EVERYTHING);
+    IMG_Init(IMG_INIT_PNG);
 
     renderHelper.initiateWindow();
+    loadAllTextures();
 
     startGame();
+}
+
+void Game::loadAllTextures() {
+    // Texture loading for player
+    //player.setTexture(renderHelper.loadTexture(""));
+    // Texture loading for grass
+    for (auto &grass: grassCollection) {
+        grass.setTexture(renderHelper.loadTexture(constants::file_names::kGrassFilePath));
+    }
 }
 
 void Game::startGame() {
@@ -64,7 +88,8 @@ void Game::handlePlayerMovement(const Uint8 *keyStates) {
 }
 
 void Game::updateGraphics() {
-    renderHelper.renderBackground();
+    renderHelper.cleanRenderer();
+    renderHelper.renderBackground(grassCollection[0].getTexture());
     renderHelper.render(player);
     renderHelper.display();
 }

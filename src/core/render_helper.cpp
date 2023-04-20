@@ -1,4 +1,6 @@
 #include "render_helper.h"
+#include <SDL_image.h>
+#include <iostream>
 
 RenderHelper::RenderHelper(int gameWindowWidth, int gameWindowHeight) {
     this->gameWindowWidth = gameWindowWidth;
@@ -6,21 +8,32 @@ RenderHelper::RenderHelper(int gameWindowWidth, int gameWindowHeight) {
 }
 
 void RenderHelper::initiateWindow() {
-    SDL_CreateWindowAndRenderer(gameWindowWidth, gameWindowHeight, SDL_WINDOW_SHOWN,
-                                &window, &renderer);
+    window = SDL_CreateWindow("MexiBunny", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, gameWindowWidth,
+                              gameWindowHeight, SDL_WINDOW_SHOWN);
+
+    if (window == NULL) {
+        std::cout << "Window initiation failed, error: " << SDL_GetError() << std::endl;
+    }
+
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+}
+
+SDL_Texture *RenderHelper::loadTexture(const char *p_filePath) {
+    SDL_Texture *texture = IMG_LoadTexture(renderer, p_filePath);
+
+    return texture;
 }
 
 void RenderHelper::cleanRenderer() {
     SDL_RenderClear(renderer);
 }
 
-void RenderHelper::renderBackground() {
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+void RenderHelper::renderBackground(SDL_Texture *texture) {
+    SDL_RenderCopy(renderer, texture, nullptr, nullptr);
 }
 
-// Rendering characters
+// Function for rendering characters
 void RenderHelper::render(Character &p_character) {
-    cleanRenderer();
     SDL_SetRenderDrawColor(renderer, 255, 100, 50, 255);
     SDL_RenderFillRectF(renderer, &p_character.getModel());
 }

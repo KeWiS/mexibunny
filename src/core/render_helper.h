@@ -12,9 +12,11 @@ public:
 
     void initiateWindow();
 
+    SDL_Texture *loadTexture(const char *p_filePath);
+
     void cleanRenderer();
 
-    void renderBackground();
+    void renderBackground(SDL_Texture *texture);
 
     void render(Character &p_character);
 

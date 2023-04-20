@@ -3,8 +3,10 @@
 #define SDL_MAIN_HANDLED
 
 #include <SDL.h>
+#include <vector>
 #include "render_helper.h"
 #include "../game_objects/player.h"
+#include "../game_objects/grass.h"
 
 class Game {
 public:
@@ -20,6 +22,12 @@ private:
     RenderHelper renderHelper;
 
     Player player;
+
+    std::vector<Grass> grassCollection;
+
+    std::vector<Grass> generateGrassCollection();
+
+    void loadAllTextures();
 
     void initGame();
 
