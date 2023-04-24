@@ -6,16 +6,18 @@
 // Top-level class for non-character objects (surfaces etc.)
 class Entity {
 public:
+    Entity(float posX, float posY, SDL_Texture *tex);
+
     SDL_Rect &getModel();
 
     SDL_Texture *getTexture();
 
-    void setTexture(SDL_Texture *texture);
+    float getX();
 
-protected:
-    void setModel(SDL_Rect model);
+    float getY();
 
 private:
+    float x, y;
     SDL_Rect model;
     SDL_Texture *texture;
 };

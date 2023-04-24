@@ -32,10 +32,25 @@ void RenderHelper::renderBackground(SDL_Texture *texture) {
     SDL_RenderCopy(renderer, texture, nullptr, nullptr);
 }
 
-// Function for rendering characters
-void RenderHelper::render(Character &p_character) {
+void RenderHelper::renderEntity(Entity &entity) {
+    SDL_Rect source;
+    source.x = entity.getModel().x;
+    source.y = entity.getModel().y;
+    source.w = entity.getModel().w;
+    source.h = entity.getModel().h;
+
+    SDL_Rect destination;
+    destination.x = entity.getX() * 2;
+    destination.y = entity.getY() * 2;
+    destination.w = 32 * 2;
+    destination.h = 32 * 2;
+
+    SDL_RenderCopy(renderer, entity.getTexture(), &source, &destination);
+}
+
+void RenderHelper::renderCharacter(Character &character) {
     SDL_SetRenderDrawColor(renderer, 255, 100, 50, 255);
-    SDL_RenderFillRectF(renderer, &p_character.getModel());
+    SDL_RenderFillRectF(renderer, &character.getModel());
 }
 
 void RenderHelper::display() {

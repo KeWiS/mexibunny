@@ -4,9 +4,6 @@
 
 Game::Game(int gameWindowWidth, int gameWindowHeight) {
     this->renderHelper = RenderHelper(gameWindowWidth, gameWindowHeight);
-    this->player = Player();
-
-    this->grassCollection = generateGrassCollection();
 
     initGame();
 }
@@ -14,7 +11,7 @@ Game::Game(int gameWindowWidth, int gameWindowHeight) {
 std::vector<Grass> Game::generateGrassCollection() {
     std::vector<Grass> generatedGrass = std::vector<Grass>();
 
-    Grass grass = Grass(0, 0, 32, 32);
+    Grass grass = Grass(100, 100, renderHelper.loadTexture(constants::file_names::kGrassFilePath));
     generatedGrass.push_back(grass);
 
     return generatedGrass;
@@ -25,18 +22,9 @@ void Game::initGame() {
     IMG_Init(IMG_INIT_PNG);
 
     renderHelper.initiateWindow();
-    loadAllTextures();
+    this->grassCollection = generateGrassCollection();
 
     startGame();
-}
-
-void Game::loadAllTextures() {
-    // Texture loading for player
-    //player.setTexture(renderHelper.loadTexture(""));
-    // Texture loading for grass
-    for (auto &grass: grassCollection) {
-        grass.setTexture(renderHelper.loadTexture(constants::file_names::kGrassFilePath));
-    }
 }
 
 void Game::startGame() {
@@ -77,20 +65,20 @@ void Game::handleGameEvents() {
         }
     }
 
-    handlePlayerMovement(keyStates);
+//    handlePlayerMovement(keyStates);
 }
 
-void Game::handlePlayerMovement(const Uint8 *keyStates) {
-    if (keyStates[SDL_SCANCODE_UP]) player.getModel().y -= 0.3 * deltaTime;
-    if (keyStates[SDL_SCANCODE_DOWN]) player.getModel().y += 0.3 * deltaTime;
-    if (keyStates[SDL_SCANCODE_LEFT]) player.getModel().x -= 0.3 * deltaTime;
-    if (keyStates[SDL_SCANCODE_RIGHT]) player.getModel().x += 0.3 * deltaTime;
-}
+//void Game::handlePlayerMovement(const Uint8 *keyStates) {
+//    if (keyStates[SDL_SCANCODE_UP]) player.getModel().y -= 0.3 * deltaTime;
+//    if (keyStates[SDL_SCANCODE_DOWN]) player.getModel().y += 0.3 * deltaTime;
+//    if (keyStates[SDL_SCANCODE_LEFT]) player.getModel().x -= 0.3 * deltaTime;
+//    if (keyStates[SDL_SCANCODE_RIGHT]) player.getModel().x += 0.3 * deltaTime;
+//}
 
 void Game::updateGraphics() {
     renderHelper.cleanRenderer();
-    renderHelper.renderBackground(grassCollection[0].getTexture());
-    renderHelper.render(player);
+    renderHelper.renderEntity(grassCollection[0]);
+//    renderHelper.renderCharacter(player);
     renderHelper.display();
 }
 

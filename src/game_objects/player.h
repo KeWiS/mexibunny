@@ -4,7 +4,8 @@
 #include "character.h"
 
 class Player : public Character {
-
+public:
+    Player(float x, float y, SDL_Texture *texture);
 };
 
 #endif //MEXIBUNNY_PLAYER_H

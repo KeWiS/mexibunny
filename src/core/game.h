@@ -21,7 +21,7 @@ private:
 
     RenderHelper renderHelper;
 
-    Player player;
+//    Player player;
 
     std::vector<Grass> grassCollection;
 

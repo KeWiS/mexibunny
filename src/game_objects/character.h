@@ -6,17 +6,19 @@
 // Top-level class for character objects (player, enemies)
 class Character {
 public:
+    Character(float posX, float posY, SDL_Texture *tex);
+
     SDL_FRect &getModel();
 
     SDL_Texture *getTexture();
 
-    void setTexture(SDL_Texture *texture);
+    float getX();
 
-protected:
-    void setModel();
+    float getY();
 
 private:
-    SDL_FRect model = {10, 10, 100, 200};
+    float x, y;
+    SDL_FRect model;
     SDL_Texture *texture;
 };
 

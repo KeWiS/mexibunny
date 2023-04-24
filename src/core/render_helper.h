@@ -3,6 +3,7 @@
 
 #include <SDL.h>
 #include "../game_objects/character.h"
+#include "../game_objects/entity.h"
 
 class RenderHelper {
 public:
@@ -18,7 +19,9 @@ public:
 
     void renderBackground(SDL_Texture *texture);
 
-    void render(Character &p_character);
+    void renderEntity(Entity &entity);
+
+    void renderCharacter(Character &character);
 
     void display();
 
