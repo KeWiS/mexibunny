@@ -49,8 +49,27 @@ void RenderHelper::renderEntity(Entity &entity) {
 }
 
 void RenderHelper::renderCharacter(Character &character) {
-    SDL_SetRenderDrawColor(renderer, 255, 100, 50, 255);
-    SDL_RenderFillRectF(renderer, &character.getModel());
+    SDL_Rect source;
+    source.x = character.getModel().x;
+    source.y = character.getModel().y;
+    source.w = character.getModel().w;
+    source.h = character.getModel().h;
+
+    SDL_Rect destination;
+    destination.x = character.getX() * 2;
+    destination.y = character.getY()  * 2;
+    destination.w = 32  * 2;
+    destination.h = 32  * 2;
+
+    SDL_Texture *texture;
+    if (character.getMovement() == Movement::kLeft) {
+        texture = character.getTextureLeft();
+    }
+    else {
+        texture = character.getTextureRight();
+    }
+
+    SDL_RenderCopy(renderer, texture, &source, &destination);
 }
 
 void RenderHelper::display() {

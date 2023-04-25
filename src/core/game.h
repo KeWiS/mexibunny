@@ -21,11 +21,13 @@ private:
 
     RenderHelper renderHelper;
 
-//    Player player;
+    Player player;
 
     std::vector<Grass> grassCollection;
 
     std::vector<Grass> generateGrassCollection();
+
+    Player generatePlayer();
 
     void loadAllTextures();
 

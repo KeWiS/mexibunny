@@ -8,6 +8,25 @@ Game::Game(int gameWindowWidth, int gameWindowHeight) {
     initGame();
 }
 
+void Game::initGame() {
+    SDL_Init(SDL_INIT_EVERYTHING);
+    IMG_Init(IMG_INIT_PNG);
+
+    renderHelper.initiateWindow();
+
+    this->player = generatePlayer();
+    this->grassCollection = generateGrassCollection();
+
+    startGame();
+}
+
+Player Game::generatePlayer() {
+    SDL_Texture *bunnyLeft = renderHelper.loadTexture(constants::file_names::kBunnyLeft);
+    SDL_Texture *bunnyRight = renderHelper.loadTexture(constants::file_names::kBunnyRight);
+
+    return Player(100, 68, bunnyLeft, bunnyRight);
+}
+
 std::vector<Grass> Game::generateGrassCollection() {
     std::vector<Grass> generatedGrass = std::vector<Grass>();
 
@@ -15,16 +34,6 @@ std::vector<Grass> Game::generateGrassCollection() {
     generatedGrass.push_back(grass);
 
     return generatedGrass;
-}
-
-void Game::initGame() {
-    SDL_Init(SDL_INIT_EVERYTHING);
-    IMG_Init(IMG_INIT_PNG);
-
-    renderHelper.initiateWindow();
-    this->grassCollection = generateGrassCollection();
-
-    startGame();
 }
 
 void Game::startGame() {
@@ -65,20 +74,26 @@ void Game::handleGameEvents() {
         }
     }
 
-//    handlePlayerMovement(keyStates);
+    handlePlayerMovement(keyStates);
 }
 
-//void Game::handlePlayerMovement(const Uint8 *keyStates) {
-//    if (keyStates[SDL_SCANCODE_UP]) player.getModel().y -= 0.3 * deltaTime;
-//    if (keyStates[SDL_SCANCODE_DOWN]) player.getModel().y += 0.3 * deltaTime;
-//    if (keyStates[SDL_SCANCODE_LEFT]) player.getModel().x -= 0.3 * deltaTime;
-//    if (keyStates[SDL_SCANCODE_RIGHT]) player.getModel().x += 0.3 * deltaTime;
-//}
+void Game::handlePlayerMovement(const Uint8 *keyStates) {
+    if (keyStates[SDL_SCANCODE_UP]) player.setY(player.getY() - 0.3 * deltaTime);
+    if (keyStates[SDL_SCANCODE_DOWN]) player.setY(player.getY() + 0.3 * deltaTime);
+    if (keyStates[SDL_SCANCODE_LEFT]) {
+        player.setX(player.getX() - 0.3 * deltaTime);
+        player.setMovement(Movement::kLeft);
+    }
+    if (keyStates[SDL_SCANCODE_RIGHT]) {
+        player.setX(player.getX() + 0.3 * deltaTime);
+        player.setMovement(Movement::kRight);
+    }
+}
 
 void Game::updateGraphics() {
     renderHelper.cleanRenderer();
     renderHelper.renderEntity(grassCollection[0]);
-//    renderHelper.renderCharacter(player);
+    renderHelper.renderCharacter(player);
     renderHelper.display();
 }
 
