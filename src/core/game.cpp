@@ -1,7 +1,9 @@
 #include "game.h"
 #include "constants.h"
+#include "texture_holder.h"
 #include <SDL_image.h>
 #include <cmath>
+#include <iostream>
 
 Game::Game(int gameWindowWidth, int gameWindowHeight) : windowWidth(gameWindowWidth), windowHeight(gameWindowHeight) {
     this->renderHelper = RenderHelper(gameWindowWidth, gameWindowHeight);
@@ -14,6 +16,7 @@ void Game::initGame() {
     IMG_Init(IMG_INIT_PNG);
 
     renderHelper.initiateWindow();
+    renderHelper.setTextureHolder(loadAllTextures());
 
     this->player = generatePlayer();
     this->grassCollection = generateGrassCollection();
@@ -21,11 +24,21 @@ void Game::initGame() {
     startGame();
 }
 
-Player Game::generatePlayer() {
-    SDL_Texture *bunnyLeft = renderHelper.loadTexture(constants::file_names::kBunnyLeft);
-    SDL_Texture *bunnyRight = renderHelper.loadTexture(constants::file_names::kBunnyRight);
+TextureHolder Game::loadAllTextures() {
+    TextureHolder textureHolder;
 
-    return Player(100, 592, bunnyLeft, bunnyRight);
+    textureHolder.textureMap.insert({"grass",
+                                     renderHelper.loadTexture(constants::file_names::kGrassFilePath)});
+    textureHolder.textureMap.insert({"playerLeft",
+                                     renderHelper.loadTexture(constants::file_names::kBunnyLeft)});
+    textureHolder.textureMap.insert({"playerRight",
+                                     renderHelper.loadTexture(constants::file_names::kBunnyRight)});
+
+    return textureHolder;
+}
+
+Player Game::generatePlayer() {
+    return Player(100, 592);
 }
 
 std::vector<Grass> Game::generateGrassCollection() {
@@ -33,8 +46,7 @@ std::vector<Grass> Game::generateGrassCollection() {
 
 
     for (int i = 0; i < std::floor(windowWidth / 64); i++) {
-        Grass grass = Grass(i * 64, 656,
-                            renderHelper.loadTexture(constants::file_names::kGrassFilePath));
+        Grass grass = Grass(i * 64, 656);
 
         generatedGrass.push_back(grass);
     }
@@ -84,8 +96,6 @@ void Game::handleGameEvents() {
 }
 
 void Game::handlePlayerMovement(const Uint8 *keyStates) {
-    if (keyStates[SDL_SCANCODE_UP]) player.setY(player.getY() - 0.3 * deltaTime);
-    if (keyStates[SDL_SCANCODE_DOWN]) player.setY(player.getY() + 0.3 * deltaTime);
     if (keyStates[SDL_SCANCODE_LEFT]) {
         player.setX(player.getX() - 0.3 * deltaTime);
         player.setMovement(Movement::kLeft);
@@ -107,5 +117,12 @@ void Game::updateGraphics() {
 
 void Game::closeGame() {
     renderHelper.cleanup();
+
+    for (auto &textureMapEntry : renderHelper.getTextureHolder().textureMap) {
+        SDL_DestroyTexture(textureMapEntry.second);
+    }
+
     SDL_Quit();
+
+    std::cout << "Game has been closed.";
 }

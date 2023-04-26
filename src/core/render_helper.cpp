@@ -1,5 +1,6 @@
 #include "render_helper.h"
 #include <SDL_image.h>
+#include <string>
 #include <iostream>
 
 RenderHelper::RenderHelper(int gameWindowWidth, int gameWindowHeight) {
@@ -45,7 +46,14 @@ void RenderHelper::renderEntity(Entity &entity) {
     destination.w = 32 * 2;
     destination.h = 32 * 2;
 
-    SDL_RenderCopy(renderer, entity.getTexture(), &source, &destination);
+    std::string textureKey = entity.objectName;
+
+    auto texturePosition = textureHolder.textureMap.find(textureKey);
+    if (texturePosition == textureHolder.textureMap.end()) {
+        std::cout << "texture not found";
+    }
+
+    SDL_RenderCopy(renderer, texturePosition->second, &source, &destination);
 }
 
 void RenderHelper::renderCharacter(Character &character) {
@@ -61,15 +69,20 @@ void RenderHelper::renderCharacter(Character &character) {
     destination.w = 32  * 2;
     destination.h = 32  * 2;
 
-    SDL_Texture *texture;
+    std::string textureKey;
     if (character.getMovement() == Movement::kLeft) {
-        texture = character.getTextureLeft();
+        textureKey = character.objectName + "Left";
     }
     else {
-        texture = character.getTextureRight();
+        textureKey = character.objectName + "Right";
     }
 
-    SDL_RenderCopy(renderer, texture, &source, &destination);
+    auto texturePosition = textureHolder.textureMap.find(textureKey);
+    if (texturePosition == textureHolder.textureMap.end()) {
+
+    }
+
+    SDL_RenderCopy(renderer, texturePosition->second, &source, &destination);
 }
 
 void RenderHelper::display() {
@@ -79,4 +92,12 @@ void RenderHelper::display() {
 void RenderHelper::cleanup() {
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+}
+
+TextureHolder RenderHelper::getTextureHolder() {
+    return textureHolder;
+}
+
+void RenderHelper::setTextureHolder(const TextureHolder &textureHolder) {
+    this->textureHolder = textureHolder;
 }

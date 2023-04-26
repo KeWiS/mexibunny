@@ -5,7 +5,7 @@
 
 class Grass : public Entity {
 public:
-    Grass(int posX, int posY, SDL_Texture *texture);
+    Grass(int posX, int posY);
 };
 
 #endif //MEXIBUNNY_GRASS_H

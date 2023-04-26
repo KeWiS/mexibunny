@@ -1,18 +1,9 @@
 #include "character.h"
 
-Character::Character(float posX, float posY, SDL_Texture *texLeft, SDL_Texture *texRight) : x(posX), y(posY),
-textureLeft(texLeft), textureRight(texRight) {}
+Character::Character(float posX, float posY, std::string objName) : x(posX), y(posY), objectName(objName) {}
 
 SDL_FRect &Character::getModel() {
     return model;
-}
-
-SDL_Texture *Character::getTextureLeft() {
-    return textureLeft;
-}
-
-SDL_Texture *Character::getTextureRight() {
-    return textureRight;
 }
 
 float Character::getX() {

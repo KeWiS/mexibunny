@@ -2,15 +2,16 @@
 #define MEXIBUNNY_ENTITY_H
 
 #include <SDL.h>
+#include <string>
 
 // Top-level class for non-character objects (surfaces etc.)
 class Entity {
 public:
-    Entity(float posX, float posY, SDL_Texture *tex);
+    const std::string objectName;
+
+    Entity(float posX, float posY, std::string objName);
 
     SDL_Rect &getModel();
-
-    SDL_Texture *getTexture();
 
     float getX();
 
@@ -19,7 +20,6 @@ public:
 private:
     float x, y;
     SDL_Rect model;
-    SDL_Texture *texture;
 };
 
 #endif //MEXIBUNNY_ENTITY_H

@@ -2,6 +2,7 @@
 #define MEXIBUNNY_RENDER_HELPER_H
 
 #include <SDL.h>
+#include "texture_holder.h"
 #include "../game_objects/character.h"
 #include "../game_objects/entity.h"
 
@@ -27,9 +28,15 @@ public:
 
     void cleanup();
 
+    TextureHolder getTextureHolder();
+
+    void setTextureHolder(const TextureHolder &textureHolder);
+
 private:
     int gameWindowWidth;
     int gameWindowHeight;
+
+    TextureHolder textureHolder;
 
     SDL_Window *window;
     SDL_Renderer *renderer;

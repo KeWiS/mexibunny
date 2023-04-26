@@ -29,9 +29,9 @@ private:
 
     std::vector<Grass> generateGrassCollection();
 
-    Player generatePlayer();
+    TextureHolder loadAllTextures();
 
-    void loadAllTextures();
+    Player generatePlayer();
 
     void initGame();
 

@@ -1,13 +1,9 @@
 #include "entity.h"
 
-Entity::Entity(float posX, float posY, SDL_Texture *tex) : x(posX), y(posY), texture(tex) {}
+Entity::Entity(float posX, float posY, std::string objName) : x(posX), y(posY), objectName(objName) {}
 
 SDL_Rect &Entity::getModel() {
     return model;
-}
-
-SDL_Texture *Entity::getTexture() {
-    return texture;
 }
 
 float Entity::getX() {

@@ -3,19 +3,18 @@
 
 #include <SDL.h>
 #include "../enums/movement.h"
+#include <string>
 
 // Top-level class for character objects (player, enemies)
 class Character {
 public:
+    std::string objectName;
+
     Character() {}
 
-    Character(float posX, float posY, SDL_Texture *texLeft, SDL_Texture *texRight);
+    Character(float posX, float posY, std::string objName);
 
     SDL_FRect &getModel();
-
-    SDL_Texture *getTextureLeft();
-
-    SDL_Texture *getTextureRight();
 
     float getX();
 
@@ -33,8 +32,6 @@ private:
     float x, y;
     Movement movement;
     SDL_FRect model;
-    SDL_Texture *textureLeft;
-    SDL_Texture *textureRight;
 };
 
 #endif //MEXIBUNNY_CHARACTER_H

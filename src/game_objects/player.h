@@ -5,8 +5,8 @@
 
 class Player : public Character {
 public:
-    Player() {}
-    Player(float x, float y, SDL_Texture *textureLeft, SDL_Texture *textureRight);
+    Player() : Character() {}
+    Player(float x, float y);
 };
 
 #endif //MEXIBUNNY_PLAYER_H

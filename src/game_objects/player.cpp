@@ -1,7 +1,6 @@
 #include "player.h"
 
-Player::Player(float x, float y, SDL_Texture *textureLeft, SDL_Texture *textureRight) :
-Character(x, y, textureLeft,textureRight) {
+Player::Player(float x, float y) : Character(x, y, "player") {
     getModel().x = 0;
     getModel().y = 0;
     getModel().w = 32;
