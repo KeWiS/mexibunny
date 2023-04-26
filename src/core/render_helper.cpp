@@ -66,14 +66,13 @@ void RenderHelper::renderCharacter(Character &character) {
     SDL_Rect destination;
     destination.x = character.getX();
     destination.y = character.getY();
-    destination.w = 32  * 2;
-    destination.h = 32  * 2;
+    destination.w = 32 * 2;
+    destination.h = 32 * 2;
 
     std::string textureKey;
     if (character.getMovement() == Movement::kLeft) {
         textureKey = character.objectName + "Left";
-    }
-    else {
+    } else {
         textureKey = character.objectName + "Right";
     }
 

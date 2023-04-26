@@ -6,6 +6,7 @@
 class Player : public Character {
 public:
     Player() : Character() {}
+
     Player(float x, float y);
 };
 

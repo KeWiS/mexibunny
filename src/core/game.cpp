@@ -108,7 +108,7 @@ void Game::handlePlayerMovement(const Uint8 *keyStates) {
 
 void Game::updateGraphics() {
     renderHelper.cleanRenderer();
-    for (Entity grass : grassCollection) {
+    for (Entity grass: grassCollection) {
         renderHelper.renderEntity(grass);
     }
     renderHelper.renderCharacter(player);
@@ -118,7 +118,7 @@ void Game::updateGraphics() {
 void Game::closeGame() {
     renderHelper.cleanup();
 
-    for (auto &textureMapEntry : renderHelper.getTextureHolder().textureMap) {
+    for (auto &textureMapEntry: renderHelper.getTextureHolder().textureMap) {
         SDL_DestroyTexture(textureMapEntry.second);
     }
 
