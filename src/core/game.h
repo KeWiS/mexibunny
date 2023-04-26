@@ -13,6 +13,8 @@ public:
     Game(int gameWindowWidth, int gameWindowHeight);
 
 private:
+    int windowWidth, windowHeight;
+
     bool gameInProgress;
 
     Uint64 previousTick = 0;

@@ -1,8 +1,9 @@
 #include "game.h"
 #include "constants.h"
 #include <SDL_image.h>
+#include <cmath>
 
-Game::Game(int gameWindowWidth, int gameWindowHeight) {
+Game::Game(int gameWindowWidth, int gameWindowHeight) : windowWidth(gameWindowWidth), windowHeight(gameWindowHeight) {
     this->renderHelper = RenderHelper(gameWindowWidth, gameWindowHeight);
 
     initGame();
@@ -24,14 +25,19 @@ Player Game::generatePlayer() {
     SDL_Texture *bunnyLeft = renderHelper.loadTexture(constants::file_names::kBunnyLeft);
     SDL_Texture *bunnyRight = renderHelper.loadTexture(constants::file_names::kBunnyRight);
 
-    return Player(100, 68, bunnyLeft, bunnyRight);
+    return Player(100, 592, bunnyLeft, bunnyRight);
 }
 
 std::vector<Grass> Game::generateGrassCollection() {
     std::vector<Grass> generatedGrass = std::vector<Grass>();
 
-    Grass grass = Grass(100, 100, renderHelper.loadTexture(constants::file_names::kGrassFilePath));
-    generatedGrass.push_back(grass);
+
+    for (int i = 0; i < std::floor(windowWidth / 64); i++) {
+        Grass grass = Grass(i * 64, 656,
+                            renderHelper.loadTexture(constants::file_names::kGrassFilePath));
+
+        generatedGrass.push_back(grass);
+    }
 
     return generatedGrass;
 }
@@ -92,7 +98,9 @@ void Game::handlePlayerMovement(const Uint8 *keyStates) {
 
 void Game::updateGraphics() {
     renderHelper.cleanRenderer();
-    renderHelper.renderEntity(grassCollection[0]);
+    for (Entity grass : grassCollection) {
+        renderHelper.renderEntity(grass);
+    }
     renderHelper.renderCharacter(player);
     renderHelper.display();
 }

@@ -40,8 +40,8 @@ void RenderHelper::renderEntity(Entity &entity) {
     source.h = entity.getModel().h;
 
     SDL_Rect destination;
-    destination.x = entity.getX() * 2;
-    destination.y = entity.getY() * 2;
+    destination.x = entity.getX();
+    destination.y = entity.getY();
     destination.w = 32 * 2;
     destination.h = 32 * 2;
 
@@ -56,8 +56,8 @@ void RenderHelper::renderCharacter(Character &character) {
     source.h = character.getModel().h;
 
     SDL_Rect destination;
-    destination.x = character.getX() * 2;
-    destination.y = character.getY()  * 2;
+    destination.x = character.getX();
+    destination.y = character.getY();
     destination.w = 32  * 2;
     destination.h = 32  * 2;
 
