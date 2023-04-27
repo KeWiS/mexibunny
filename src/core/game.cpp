@@ -19,7 +19,7 @@ void Game::initGame() {
     renderHelper.setTextureHolder(loadAllTextures());
 
     this->player = generatePlayer();
-    this->grassCollection = generateGrassCollection();
+    this->entitiesCollection = generateEntitiesCollection();
 
     startGame();
 }
@@ -41,8 +41,8 @@ Player Game::generatePlayer() {
     return Player(100, 592);
 }
 
-std::vector<Grass> Game::generateGrassCollection() {
-    std::vector<Grass> generatedGrass = std::vector<Grass>();
+std::vector<Entity> Game::generateEntitiesCollection() {
+    std::vector<Entity> generatedGrass = std::vector<Entity>();
 
     // Calculating how many ground grass there should be
     for (int i = 0; i < std::floor(windowWidth / 64); i++) {
@@ -110,8 +110,8 @@ void Game::handlePlayerMovement(const Uint8 *keyStates) {
 void Game::updateGraphics() {
     renderHelper.cleanRenderer();
 
-    for (Entity grass : grassCollection) {
-        renderHelper.renderEntity(grass);
+    for (Entity entity : entitiesCollection) {
+        renderHelper.renderEntity(entity);
     }
 
     renderHelper.renderCharacter(player);

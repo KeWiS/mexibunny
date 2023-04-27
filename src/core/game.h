@@ -5,6 +5,7 @@
 #include <SDL.h>
 #include <vector>
 #include "render_helper.h"
+#include "physics.h"
 #include "../game_objects/player.h"
 #include "../game_objects/grass.h"
 
@@ -23,11 +24,13 @@ private:
 
     RenderHelper renderHelper;
 
+    Physics physics = Physics();
+
     Player player;
 
-    std::vector<Grass> grassCollection;
+    std::vector<Entity> entitiesCollection;
 
-    std::vector<Grass> generateGrassCollection();
+    std::vector<Entity> generateEntitiesCollection();
 
     TextureHolder loadAllTextures();
 
