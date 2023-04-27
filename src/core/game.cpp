@@ -44,7 +44,7 @@ Player Game::generatePlayer() {
 std::vector<Grass> Game::generateGrassCollection() {
     std::vector<Grass> generatedGrass = std::vector<Grass>();
 
-
+    // Calculating how many ground grass there should be
     for (int i = 0; i < std::floor(windowWidth / 64); i++) {
         Grass grass = Grass(i * 64, 656);
 
@@ -81,16 +81,17 @@ double Game::calculateDeltaTime() {
 
 void Game::handleGameEvents() {
     SDL_Event e;
-    auto *keyStates = SDL_GetKeyboardState(nullptr);
 
     while (SDL_PollEvent(&e) != 0) {
         switch (e.type) {
             case SDL_QUIT:
                 gameInProgress = false;
 
-                break;
+                return;
         }
     }
+
+    auto *keyStates = SDL_GetKeyboardState(nullptr);
 
     handlePlayerMovement(keyStates);
 }
@@ -108,21 +109,27 @@ void Game::handlePlayerMovement(const Uint8 *keyStates) {
 
 void Game::updateGraphics() {
     renderHelper.cleanRenderer();
-    for (Entity grass: grassCollection) {
+
+    for (Entity grass : grassCollection) {
         renderHelper.renderEntity(grass);
     }
+
     renderHelper.renderCharacter(player);
     renderHelper.display();
 }
 
 void Game::closeGame() {
-    renderHelper.cleanup();
+    destroyTextures();
 
-    for (auto &textureMapEntry: renderHelper.getTextureHolder().textureMap) {
-        SDL_DestroyTexture(textureMapEntry.second);
-    }
+    renderHelper.cleanup();
 
     SDL_Quit();
 
     std::cout << "Game has been closed.";
+}
+
+void Game::destroyTextures() {
+    for (auto &textureMapEntry : renderHelper.getTextureHolder().textureMap) {
+        SDL_DestroyTexture(textureMapEntry.second);
+    }
 }

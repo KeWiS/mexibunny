@@ -24,6 +24,13 @@ public:
 
     void renderCharacter(Character &character);
 
+    std::string getPlayerTextureKeyNameSuffix(Movement playerMovement);
+
+    SDL_Rect generateRectForRender(int x, int y, int w, int h);
+
+    std::_Rb_tree_iterator<std::pair<const std::basic_string<char>, SDL_Texture *>>
+    getTextureMapIterator(std::string key);
+
     void display();
 
     void cleanup();

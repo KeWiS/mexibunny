@@ -34,54 +34,46 @@ void RenderHelper::renderBackground(SDL_Texture *texture) {
 }
 
 void RenderHelper::renderEntity(Entity &entity) {
-    SDL_Rect source;
-    source.x = entity.getModel().x;
-    source.y = entity.getModel().y;
-    source.w = entity.getModel().w;
-    source.h = entity.getModel().h;
+    SDL_Rect source = generateRectForRender(entity.getModel().x, entity.getModel().y, entity.getModel().w,
+                                            entity.getModel().h);
 
-    SDL_Rect destination;
-    destination.x = entity.getX();
-    destination.y = entity.getY();
-    destination.w = 32 * 2;
-    destination.h = 32 * 2;
+    SDL_Rect destination = generateRectForRender(entity.getX(), entity.getY(), 32 * 2, 32 * 2);
 
-    std::string textureKey = entity.objectName;
-
-    auto texturePosition = textureHolder.textureMap.find(textureKey);
-    if (texturePosition == textureHolder.textureMap.end()) {
-        std::cout << "texture not found";
-    }
+    auto texturePosition = getTextureMapIterator(entity.textureKeyName);
 
     SDL_RenderCopy(renderer, texturePosition->second, &source, &destination);
 }
 
 void RenderHelper::renderCharacter(Character &character) {
-    SDL_Rect source;
-    source.x = character.getModel().x;
-    source.y = character.getModel().y;
-    source.w = character.getModel().w;
-    source.h = character.getModel().h;
+    SDL_Rect source = generateRectForRender(character.getModel().x, character.getModel().y, character.getModel().w,
+                                            character.getModel().h);
 
-    SDL_Rect destination;
-    destination.x = character.getX();
-    destination.y = character.getY();
-    destination.w = 32 * 2;
-    destination.h = 32 * 2;
+    SDL_Rect destination = generateRectForRender(character.getX(), character.getY(), 32 * 2, 32 * 2);
 
-    std::string textureKey;
-    if (character.getMovement() == Movement::kLeft) {
-        textureKey = character.objectName + "Left";
-    } else {
-        textureKey = character.objectName + "Right";
-    }
+    std::string textureKey = character.textureKeyName + getPlayerTextureKeyNameSuffix(character.getMovement());
 
-    auto texturePosition = textureHolder.textureMap.find(textureKey);
-    if (texturePosition == textureHolder.textureMap.end()) {
-
-    }
+    auto texturePosition = getTextureMapIterator(textureKey);
 
     SDL_RenderCopy(renderer, texturePosition->second, &source, &destination);
+}
+
+std::string RenderHelper::getPlayerTextureKeyNameSuffix(Movement playerMovement) {
+    if (playerMovement == Movement::kLeft) return "Left";
+    return "Right";
+}
+
+SDL_Rect RenderHelper::generateRectForRender(int x, int y, int w, int h) {
+    return SDL_Rect{x, y, w, h};
+}
+
+std::_Rb_tree_iterator<std::pair<const std::basic_string<char>, SDL_Texture *>>
+RenderHelper::getTextureMapIterator(std::string key) {
+    auto texturePosition = textureHolder.textureMap.find(key);
+    if (texturePosition == textureHolder.textureMap.end()) {
+        // TODO: Perform error exception handling
+    }
+
+    return texturePosition;
 }
 
 void RenderHelper::display() {

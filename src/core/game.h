@@ -48,6 +48,8 @@ private:
     void updateGraphics();
 
     void closeGame();
+
+    void destroyTextures();
 };
 
 #endif //MEXIBUNNY_GAME_H

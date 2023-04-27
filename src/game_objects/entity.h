@@ -7,7 +7,7 @@
 // Top-level class for non-character objects (surfaces etc.)
 class Entity {
 public:
-    const std::string objectName;
+    const std::string textureKeyName;
 
     Entity(float posX, float posY, std::string objName);
 

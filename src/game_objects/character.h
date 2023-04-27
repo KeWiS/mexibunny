@@ -1,14 +1,15 @@
 #ifndef MEXIBUNNY_CHARACTER_H
 #define MEXIBUNNY_CHARACTER_H
 
-#include <SDL.h>
 #include "../enums/movement.h"
+#include <SDL.h>
 #include <string>
 
 // Top-level class for character objects (player, enemies)
 class Character {
 public:
-    std::string objectName;
+    // TODO: Try to make it const
+    std::string textureKeyName;
 
     Character() {}
 

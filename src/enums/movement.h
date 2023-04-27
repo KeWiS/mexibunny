@@ -6,5 +6,4 @@ enum Movement {
     kRight
 };
 
-
 #endif //MEXIBUNNY_MOVEMENT_H
