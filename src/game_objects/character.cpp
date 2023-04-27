@@ -1,6 +1,8 @@
 #include "character.h"
 
-Character::Character(float posX, float posY, std::string objName) : x(posX), y(posY), textureKeyName(objName) {}
+Character::Character(float posX, float posY, std::string objName, float mass) : x(posX), y(posY),
+                                                                                  textureKeyName(objName),
+                                                                                  ph_mass(mass) {}
 
 SDL_FRect &Character::getModel() {
     return model;

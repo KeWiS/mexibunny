@@ -13,7 +13,7 @@ public:
 
     Character() {}
 
-    Character(float posX, float posY, std::string objName);
+    Character(float posX, float posY, std::string objName, float mass);
 
     SDL_FRect &getModel();
 
@@ -30,7 +30,7 @@ public:
     void setMovement(Movement movement);
 
 private:
-    float x, y;
+    float x, y, ph_mass = 1.0f;
     Movement movement;
     SDL_FRect model;
 };

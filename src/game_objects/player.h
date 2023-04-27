@@ -7,7 +7,7 @@ class Player : public Character {
 public:
     Player() {}
 
-    Player(float x, float y);
+    Player(float x, float y, float mass);
 };
 
 #endif //MEXIBUNNY_PLAYER_H

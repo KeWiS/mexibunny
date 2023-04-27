@@ -38,7 +38,7 @@ TextureHolder Game::loadAllTextures() {
 }
 
 Player Game::generatePlayer() {
-    return Player(100, 592);
+    return Player(100, 592, 80);
 }
 
 std::vector<Entity> Game::generateEntitiesCollection() {
