@@ -123,6 +123,7 @@ void Game::closeGame() {
 
     renderHelper.cleanup();
 
+    IMG_Quit();
     SDL_Quit();
 
     std::cout << "Game has been closed.";
@@ -132,4 +133,6 @@ void Game::destroyTextures() {
     for (auto &textureMapEntry : renderHelper.getTextureHolder().textureMap) {
         SDL_DestroyTexture(textureMapEntry.second);
     }
+
+    renderHelper.getTextureHolder().textureMap.clear();
 }
