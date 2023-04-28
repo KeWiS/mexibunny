@@ -5,7 +5,7 @@
 
 class Animator {
 public:
-    float computePlayerIdleTextureOffset(Character &character);
+    static float computePlayerIdleTextureOffset(Character &character);
 };
 
 #endif //MEXIBUNNY_ANIMATOR_H

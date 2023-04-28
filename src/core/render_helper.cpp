@@ -1,4 +1,5 @@
 #include "render_helper.h"
+#include "animator.h"
 #include <SDL_image.h>
 #include <string>
 #include <iostream>
@@ -47,7 +48,7 @@ void RenderHelper::renderEntity(Entity &entity) {
 void RenderHelper::renderCharacter(Character &character) {
     float xSource = 0;
     if (character.getMovement() == Movement::kLeftIdle || character.getMovement() == Movement::kRightIdle) {
-        xSource = animator.computePlayerIdleTextureOffset(character);
+        xSource = Animator::computePlayerIdleTextureOffset(character);
     }
 
     SDL_Rect source = generateRectForRender(xSource, character.getModel().y, character.getModel().w,
