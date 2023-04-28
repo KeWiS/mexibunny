@@ -2,6 +2,7 @@
 #define MEXIBUNNY_CHARACTER_H
 
 #include "../enums/movement.h"
+#include "../physics/vector2D.h"
 #include <SDL.h>
 #include <string>
 
@@ -15,22 +16,23 @@ public:
 
     Character(float posX, float posY, std::string objName, float mass);
 
+    double getX();
+
+    void setX(double x);
+
+    double getY();
+
+    void setY(double y);
+
     SDL_FRect &getModel();
-
-    float getX();
-
-    void setX(float x);
-
-    float getY();
-
-    void setY(float y);
 
     Movement getMovement();
 
     void setMovement(Movement movement);
 
 private:
-    float x, y, ph_mass = 1.0f;
+    physics::Vector2D cVector;
+    float ph_mass = 1.0f;
     Movement movement;
     SDL_FRect model;
 };

@@ -1,22 +1,22 @@
 #include "vector2D.h"
 
-Vector2D::Vector2D(float vX, float vY) {
+physics::Vector2D::Vector2D(double vX, double vY) {
     this->vX = vX;
     this->vY = vY;
 }
 
-float Vector2D::getVX() {
+double physics::Vector2D::getVX() {
     return vX;
 }
 
-void Vector2D::setVX(float vX) {
+void physics::Vector2D::setVX(double vX) {
     this->vX = vX;
 }
 
-float Vector2D::getVY() {
+double physics::Vector2D::getVY() {
     return vY;
 }
 
-void Vector2D::setVY(float vY) {
+void physics::Vector2D::setVY(double vY) {
     this->vY = vY;
 }

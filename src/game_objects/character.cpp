@@ -1,27 +1,24 @@
 #include "character.h"
 
-Character::Character(float posX, float posY, std::string objName, float mass) : x(posX), y(posY),
-                                                                                  textureKeyName(objName),
-                                                                                  ph_mass(mass) {}
+Character::Character(float posX, float posY, std::string objName, float mass) : textureKeyName(objName), ph_mass(mass) {
+    this->cVector = physics::Vector2D(posX, posY);
+}
+
+double Character::getX() {
+    return cVector.getVX();
+}
+void Character::setX(double x) {
+    cVector.setVX(x);
+}
+double Character::getY() {
+    return cVector.getVY();
+}
+void Character::setY(double y) {
+    cVector.setVY(y);
+}
 
 SDL_FRect &Character::getModel() {
     return model;
-}
-
-float Character::getX() {
-    return x;
-}
-
-void Character::setX(float x) {
-    this->x = x;
-}
-
-float Character::getY() {
-    return y;
-}
-
-void Character::setY(float y) {
-    this->y = y;
 }
 
 Movement Character::getMovement() {
