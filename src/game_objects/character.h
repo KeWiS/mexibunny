@@ -16,6 +16,10 @@ public:
 
     Character(float posX, float posY, std::string objName, float mass);
 
+    physics::Vector2D getCVector();
+
+    void setCVector(physics::Vector2D cVector);
+
     double getX();
 
     void setX(double x);

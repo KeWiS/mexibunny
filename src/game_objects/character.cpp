@@ -4,6 +4,14 @@ Character::Character(float posX, float posY, std::string objName, float mass) : 
     this->cVector = physics::Vector2D(posX, posY);
 }
 
+physics::Vector2D Character::getCVector() {
+    return cVector;
+}
+
+void Character::setCVector(physics::Vector2D cVector) {
+    this->cVector = cVector;
+}
+
 double Character::getX() {
     return cVector.getVX();
 }
