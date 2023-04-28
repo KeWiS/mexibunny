@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include "texture_holder.h"
 #include "../game_objects/character.h"
+#include "../game_objects/player.h"
 #include "../game_objects/entity.h"
 
 class RenderHelper {
@@ -24,7 +25,9 @@ public:
 
     void renderCharacter(Character &character);
 
-    std::string getPlayerTextureKeyNameSuffix(Movement playerMovement);
+    float computePlayerIdleTextureOffset(Player *player);
+
+    std::string getCharacterTextureKeyNameSuffix(Movement characterMovement);
 
     SDL_Rect generateRectForRender(int x, int y, int w, int h);
 

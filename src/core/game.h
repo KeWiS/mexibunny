@@ -13,6 +13,8 @@ class Game {
 public:
     Game(int gameWindowWidth, int gameWindowHeight);
 
+    inline static double animationTimeCounter = 0;
+
 private:
     int windowWidth, windowHeight;
 
@@ -43,6 +45,8 @@ private:
     void updateGameState();
 
     double calculateDeltaTime();
+
+    void updateAnimationTimeCounter();
 
     void handleGameEvents();
 

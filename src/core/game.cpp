@@ -33,6 +33,10 @@ TextureHolder Game::loadAllTextures() {
                                      renderHelper.loadTexture(constants::file_names::kBunnyLeft)});
     textureHolder.textureMap.insert({"playerRight",
                                      renderHelper.loadTexture(constants::file_names::kBunnyRight)});
+    textureHolder.textureMap.insert({"playerLeftIdle",
+                                     renderHelper.loadTexture(constants::file_names::kBunnyLeftIdle)});
+    textureHolder.textureMap.insert({"playerRightIdle",
+                                     renderHelper.loadTexture(constants::file_names::kBunnyRightIdle)});
 
     return textureHolder;
 }
@@ -67,6 +71,8 @@ void Game::startGame() {
 void Game::updateGameState() {
     // Calculating delta time for physics and other computations
     deltaTime = calculateDeltaTime();
+    // Updating animationTimeCounter for proper idle animations displaying
+    updateAnimationTimeCounter();
     // Handling game events, player movement, calculations of NPC movements and physics
     handleGameEvents();
     updateGraphics();
@@ -77,6 +83,10 @@ double Game::calculateDeltaTime() {
     currentTick = SDL_GetTicks64();
 
     return currentTick - previousTick;
+}
+
+void Game::updateAnimationTimeCounter() {
+    animationTimeCounter += deltaTime;
 }
 
 void Game::handleGameEvents() {
@@ -97,6 +107,12 @@ void Game::handleGameEvents() {
 }
 
 void Game::handlePlayerMovement(const Uint8 *keyStates) {
+    if (player.getMovement() == Movement::kLeft || player.getMovement() == Movement::kLeftIdle) {
+        player.setMovement(Movement::kLeftIdle);
+    } else {
+        player.setMovement(Movement::kRightIdle);
+    }
+
     if (keyStates[SDL_SCANCODE_LEFT]) {
         player.setX(player.getX() - 0.3 * deltaTime);
         player.setMovement(Movement::kLeft);

@@ -8,6 +8,13 @@ public:
     Player() {}
 
     Player(float x, float y, float mass);
+
+    int getIdleIndex() const;
+
+    void setIdleIndex(int idleIndex) const;
+
+private:
+    mutable int idleIndex = -1;
 };
 
 #endif //MEXIBUNNY_PLAYER_H

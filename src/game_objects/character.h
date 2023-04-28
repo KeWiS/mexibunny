@@ -14,6 +14,8 @@ public:
 
     Character() {}
 
+    virtual ~Character() = default;
+
     Character(float posX, float posY, std::string objName, float mass);
 
     physics::Vector2D getCVector();
