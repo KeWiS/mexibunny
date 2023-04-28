@@ -5,7 +5,7 @@ namespace physics {
     class Vector2D {
     public:
         Vector2D() {};
-        Vector2D(double vX, double vY);
+        Vector2D(float vX, float vY);
 
         inline Vector2D operator+(Vector2D &vec) const {
             return Vector2D(vX + vec.getVX(), vY + vec.getVY());
@@ -15,20 +15,20 @@ namespace physics {
             return Vector2D(vX - vec.getVX(), vY - vec.getVY());
         }
 
-        inline Vector2D operator*(const double scalar) const {
+        inline Vector2D operator*(const float scalar) const {
             return Vector2D(vX * scalar, vY * scalar);
         }
 
-        double getVX();
+        float getVX();
 
-        void setVX(double vX);
+        void setVX(float vX);
 
-        double getVY();
+        float getVY();
 
-        void setVY(double vY);
+        void setVY(float vY);
 
     private:
-        double vX = 0, vY = 0;
+        float vX = 0, vY = 0;
     };
 }
 

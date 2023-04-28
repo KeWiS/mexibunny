@@ -13,19 +13,19 @@ void Character::setCVector(physics::Vector2D cVector) {
     this->cVector = cVector;
 }
 
-double Character::getX() {
+float Character::getX() {
     return cVector.getVX();
 }
 
-void Character::setX(double x) {
+void Character::setX(float x) {
     cVector.setVX(x);
 }
 
-double Character::getY() {
+float Character::getY() {
     return cVector.getVY();
 }
 
-void Character::setY(double y) {
+void Character::setY(float y) {
     cVector.setVY(y);
 }
 

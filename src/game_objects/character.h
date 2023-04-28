@@ -22,13 +22,13 @@ public:
 
     void setCVector(physics::Vector2D cVector);
 
-    double getX();
+    float getX();
 
-    void setX(double x);
+    void setX(float x);
 
-    double getY();
+    float getY();
 
-    void setY(double y);
+    void setY(float y);
 
     int getIdleAnimationFrames();
 
