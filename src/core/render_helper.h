@@ -3,6 +3,7 @@
 
 #include <SDL.h>
 #include "texture_holder.h"
+#include "animator.h"
 #include "../game_objects/character.h"
 #include "../game_objects/player.h"
 #include "../game_objects/entity.h"
@@ -25,8 +26,6 @@ public:
 
     void renderCharacter(Character &character);
 
-    float computePlayerIdleTextureOffset(Player *player);
-
     std::string getCharacterTextureKeyNameSuffix(Movement characterMovement);
 
     SDL_Rect generateRectForRender(int x, int y, int w, int h);
@@ -47,6 +46,7 @@ private:
     int gameWindowHeight;
 
     TextureHolder textureHolder;
+    Animator animator;
 
     SDL_Window *window;
     SDL_Renderer *renderer;

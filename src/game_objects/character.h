@@ -16,7 +16,7 @@ public:
 
     virtual ~Character() = default;
 
-    Character(float posX, float posY, std::string objName, float mass);
+    Character(float posX, float posY, std::string objName, float mass, int idleAnimFrames);
 
     physics::Vector2D getCVector();
 
@@ -30,6 +30,12 @@ public:
 
     void setY(double y);
 
+    int getIdleAnimationFrames();
+
+    int getIdleAnimationIndex();
+
+    void setIdleAnimationIndex(int idleAnimationIndex);
+
     SDL_FRect &getModel();
 
     Movement getMovement();
@@ -38,7 +44,10 @@ public:
 
 private:
     physics::Vector2D cVector;
+
+    int idleAnimationFrames, idleAnimationIndex = -1;
     float ph_mass = 1.0f;
+
     Movement movement;
     SDL_FRect model;
 };
