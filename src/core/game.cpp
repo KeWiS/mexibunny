@@ -4,6 +4,7 @@
 #include <SDL_image.h>
 #include <cmath>
 #include <iostream>
+#include <random>
 
 Game::Game(int gameWindowWidth, int gameWindowHeight) : windowWidth(gameWindowWidth), windowHeight(gameWindowHeight) {
     this->renderHelper = RenderHelper(gameWindowWidth, gameWindowHeight);
@@ -27,8 +28,12 @@ void Game::initGame() {
 TextureHolder Game::loadAllTextures() {
     TextureHolder textureHolder;
 
-    textureHolder.textureMap.insert({"grass",
-                                     renderHelper.loadTexture(constants::file_names::kGrassFilePath)});
+    textureHolder.textureMap.insert({"grass1",
+                                     renderHelper.loadTexture(constants::file_names::kGrass1FilePath)});
+    textureHolder.textureMap.insert({"grass2",
+                                     renderHelper.loadTexture(constants::file_names::kGrass2FilePath)});
+    textureHolder.textureMap.insert({"grass3",
+                                     renderHelper.loadTexture(constants::file_names::kGrass3FilePath)});
     textureHolder.textureMap.insert({"playerLeft",
                                      renderHelper.loadTexture(constants::file_names::kBunnyLeft)});
     textureHolder.textureMap.insert({"playerRight",
@@ -47,10 +52,14 @@ Player Game::generatePlayer() {
 
 std::vector<Entity> Game::generateEntitiesCollection() {
     std::vector<Entity> generatedGrass = std::vector<Entity>();
+    // Generating random number to pick grass texture
+    std::random_device randomDevice;
+    std::mt19937 mt(randomDevice());
+    std::uniform_int_distribution<int> distribution(1, 3);
 
     // Calculating how many ground grass there should be
     for (int i = 0; i < std::floor(windowWidth / 64); i++) {
-        Grass grass = Grass(i * 64, 656);
+        Grass grass = Grass(i * 64, 656, distribution(mt));
 
         generatedGrass.push_back(grass);
     }
