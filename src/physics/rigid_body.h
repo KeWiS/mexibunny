@@ -11,23 +11,7 @@ public:
 
     void setMass(float mass);
 
-    physics::Vector2D getForce();
-
-    void setForce(physics::Vector2D force);
-
-    physics::Vector2D getFriction();
-
-    void setFriction(physics::Vector2D friction);
-
     physics::Vector2D getPosition();
-
-    void setPosition(physics::Vector2D position);
-
-    physics::Vector2D getVelocity();
-
-    void setVelocity(physics::Vector2D velocity);
-
-    physics::Vector2D getAcceleration();
 
     void applyForce(physics::Vector2D force);
 
