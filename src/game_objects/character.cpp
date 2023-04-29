@@ -3,6 +3,8 @@
 Character::Character(float posX, float posY, std::string objName, float mass, int idleAnimFrames) :
         textureKeyName(objName), ph_mass(mass), idleAnimationFrames(idleAnimFrames) {
     this->cVector = physics::Vector2D(posX, posY);
+
+    this->rigidBody = RigidBody();
 }
 
 physics::Vector2D Character::getCVector() {
@@ -51,4 +53,8 @@ Movement Character::getMovement() {
 
 void Character::setMovement(Movement movement) {
     this->movement = movement;
+}
+
+RigidBody *Character::getRigidBody() {
+    return &rigidBody;
 }

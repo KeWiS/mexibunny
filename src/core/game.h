@@ -50,6 +50,8 @@ private:
 
     void handleGameEvents();
 
+    void calculateBodiesPhysics();
+
     void handlePlayerMovement(const Uint8 *keyStates);
 
     void updateGraphics();

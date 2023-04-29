@@ -3,6 +3,7 @@
 
 #include "../enums/movement.h"
 #include "../physics/vector2D.h"
+#include "../physics/rigid_body.h"
 #include <SDL.h>
 #include <string>
 
@@ -42,14 +43,18 @@ public:
 
     void setMovement(Movement movement);
 
+    RigidBody *getRigidBody();
+
 private:
     physics::Vector2D cVector;
 
     int idleAnimationFrames, idleAnimationIndex = -1;
     float ph_mass = 1.0f;
 
-    Movement movement;
     SDL_FRect model;
+    Movement movement;
+
+    RigidBody rigidBody;
 };
 
 #endif //MEXIBUNNY_CHARACTER_H

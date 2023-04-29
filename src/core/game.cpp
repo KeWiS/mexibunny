@@ -1,6 +1,7 @@
 #include "game.h"
 #include "constants.h"
 #include "texture_holder.h"
+#include "../physics/engine.h"
 #include <SDL_image.h>
 #include <cmath>
 #include <iostream>
@@ -47,7 +48,7 @@ TextureHolder Game::loadAllTextures() {
 }
 
 Player Game::generatePlayer() {
-    return Player(100, 592, 80);
+    return Player(100, 100, 80);
 }
 
 std::vector<Entity> Game::generateEntitiesCollection() {
@@ -84,6 +85,7 @@ void Game::updateGameState() {
     updateAnimationTimeCounter();
     // Handling game events, player movement, calculations of NPC movements and physics
     handleGameEvents();
+    calculateBodiesPhysics();
     updateGraphics();
 }
 
@@ -115,6 +117,13 @@ void Game::handleGameEvents() {
     handlePlayerMovement(keyStates);
 }
 
+void Game::calculateBodiesPhysics() {
+    // Player
+    physics::Engine::calculateRigidBodyMovement(player.getRigidBody(), deltaTime);
+    player.setX(player.getCVector().getVX() + player.getRigidBody()->getPosition().getVX());
+    player.setY(player.getCVector().getVY() + player.getRigidBody()->getPosition().getVY());
+}
+
 void Game::handlePlayerMovement(const Uint8 *keyStates) {
     if (player.getMovement() == Movement::kLeft || player.getMovement() == Movement::kLeftIdle) {
         player.setMovement(Movement::kLeftIdle);
@@ -122,14 +131,16 @@ void Game::handlePlayerMovement(const Uint8 *keyStates) {
         player.setMovement(Movement::kRightIdle);
     }
 
-    if (keyStates[SDL_SCANCODE_LEFT]) {
-        player.setX(player.getX() - 0.3 * deltaTime);
-        player.setMovement(Movement::kLeft);
-    }
-    if (keyStates[SDL_SCANCODE_RIGHT]) {
-        player.setX(player.getX() + 0.3 * deltaTime);
-        player.setMovement(Movement::kRight);
-    }
+
+    // TODO: Rewrite movement logic to match new physics system
+//    if (keyStates[SDL_SCANCODE_LEFT]) {
+//        player.setX(player.getX() - 0.3 * deltaTime);
+//        player.setMovement(Movement::kLeft);
+//    }
+//    if (keyStates[SDL_SCANCODE_RIGHT]) {
+//        player.setX(player.getX() + 0.3 * deltaTime);
+//        player.setMovement(Movement::kRight);
+//    }
 }
 
 void Game::updateGraphics() {
