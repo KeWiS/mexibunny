@@ -10,8 +10,7 @@
 // Top-level class for character objects (player, enemies)
 class Character {
 public:
-    // TODO: Try to make it const
-    std::string textureKeyName;
+    const std::string textureKeyName;
 
     Character() {}
 

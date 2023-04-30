@@ -49,8 +49,8 @@ TextureHolder Game::loadAllTextures() {
     return textureHolder;
 }
 
-Player Game::generatePlayer() {
-    return Player(100, 100, 80, 64, 64);
+Player *Game::generatePlayer() {
+    return new Player(100, 100, 80, 64, 64);
 }
 
 std::vector<Entity> Game::generateEntitiesCollection() {
@@ -117,10 +117,10 @@ void Game::handleGameEvents() {
 void Game::handlePlayerMovement() {
     auto *keyStates = SDL_GetKeyboardState(nullptr);
 
-    if (player.getMovement() == Movement::kLeft || player.getMovement() == Movement::kLeftIdle) {
-        player.setMovement(Movement::kLeftIdle);
+    if (player->getMovement() == Movement::kLeft || player->getMovement() == Movement::kLeftIdle) {
+        player->setMovement(Movement::kLeftIdle);
     } else {
-        player.setMovement(Movement::kRightIdle);
+        player->setMovement(Movement::kRightIdle);
     }
 
 
@@ -137,20 +137,20 @@ void Game::handlePlayerMovement() {
 
 void Game::calculateBodiesPhysics() {
     // Player
-    physics::Engine::calculateRigidBodyMovement(player, deltaTime);
+    physics::Engine::calculateRigidBodyMovement(*player, deltaTime);
     updatePlayerPositionAfterCalculations();
 }
 
 void Game::updatePlayerPositionAfterCalculations() {
-    player.setX(player.getCVector().getVX() + player.getPosition().getVX());
-    player.setY(player.getCVector().getVY() + player.getPosition().getVY());
+    player->setX(player->getCVector().getVX() + player->getPosition().getVX());
+    player->setY(player->getCVector().getVY() + player->getPosition().getVY());
 }
 
 void Game::updateGraphics() {
     renderHelper.cleanRenderer();
 
     renderEntities();
-    renderHelper.renderCharacter(player);
+    renderHelper.renderCharacter(*player);
 
     renderHelper.display();
 }

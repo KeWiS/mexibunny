@@ -26,7 +26,7 @@ private:
 
     RenderHelper renderHelper;
 
-    Player player;
+    Player *player;
 
     std::vector<Entity> entitiesCollection;
 
@@ -34,7 +34,7 @@ private:
 
     TextureHolder loadAllTextures();
 
-    Player generatePlayer();
+    Player *generatePlayer();
 
     void initGame();
 
