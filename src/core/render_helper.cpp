@@ -9,7 +9,7 @@ RenderHelper::RenderHelper(int gameWindowWidth, int gameWindowHeight) {
     this->gameWindowHeight = gameWindowHeight;
 }
 
-void RenderHelper::initiateWindow() {
+void RenderHelper::initiateWindowAndRender() {
     window = SDL_CreateWindow("MexiBunny", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, gameWindowWidth,
                               gameWindowHeight, SDL_WINDOW_SHOWN);
 
@@ -38,7 +38,9 @@ void RenderHelper::renderEntity(Entity &entity) {
     SDL_Rect source = generateRectForRender(entity.getModel().x, entity.getModel().y, entity.getModel().w,
                                             entity.getModel().h);
 
-    SDL_Rect destination = generateRectForRender(entity.getX(), entity.getY(), 32 * 2, 32 * 2);
+    SDL_Rect destination = generateRectForRender(entity.getX(), entity.getY(),
+                                                 entity.getDestinationRenderWidth(),
+                                                 entity.getDestinationRenderHeight());
 
     auto texturePosition = getTextureMapIterator(entity.textureKeyName);
 
@@ -46,15 +48,12 @@ void RenderHelper::renderEntity(Entity &entity) {
 }
 
 void RenderHelper::renderCharacter(Character &character) {
-    float xSource = 0;
-    if (character.getMovement() == Movement::kLeftIdle || character.getMovement() == Movement::kRightIdle) {
-        xSource = Animator::computePlayerIdleTextureOffset(character);
-    }
+    SDL_Rect source = generateRectForRender(getXCoordinateForCharacterSource(character), character.getModel().y,
+                                            character.getModel().w, character.getModel().h);
 
-    SDL_Rect source = generateRectForRender(xSource, character.getModel().y, character.getModel().w,
-                                            character.getModel().h);
-
-    SDL_Rect destination = generateRectForRender(character.getX(), character.getY(), 32 * 2, 32 * 2);
+    SDL_Rect destination = generateRectForRender(character.getX(), character.getY(),
+                                                 character.getDestinationRenderWidth(),
+                                                 character.getDestinationRenderHeight());
 
     std::string textureKey = character.textureKeyName +
                              getCharacterTextureKeyNameSuffix(character.getMovement());
@@ -62,6 +61,14 @@ void RenderHelper::renderCharacter(Character &character) {
     auto texturePosition = getTextureMapIterator(textureKey);
 
     SDL_RenderCopy(renderer, texturePosition->second, &source, &destination);
+}
+
+float RenderHelper::getXCoordinateForCharacterSource(Character &character) {
+    if (character.getMovement() == Movement::kLeftIdle || character.getMovement() == Movement::kRightIdle) {
+        return Animator::computePlayerIdleTextureOffset(character);
+    }
+
+    return 0;
 }
 
 std::string RenderHelper::getCharacterTextureKeyNameSuffix(Movement characterMovement) {
@@ -78,6 +85,7 @@ SDL_Rect RenderHelper::generateRectForRender(int x, int y, int w, int h) {
 std::_Rb_tree_iterator<std::pair<const std::basic_string<char>, SDL_Texture *>>
 RenderHelper::getTextureMapIterator(std::string key) {
     auto texturePosition = textureHolder.textureMap.find(key);
+
     if (texturePosition == textureHolder.textureMap.end()) {
         // TODO: Perform error exception handling
     }

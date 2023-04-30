@@ -13,7 +13,7 @@ public:
 
     RenderHelper(int gameWindowWidth, int gameWindowHeight);
 
-    void initiateWindow();
+    void initiateWindowAndRender();
 
     SDL_Texture *loadTexture(const char *p_filePath);
 
@@ -24,6 +24,8 @@ public:
     void renderEntity(Entity &entity);
 
     void renderCharacter(Character &character);
+
+    float getXCoordinateForCharacterSource(Character &character);
 
     std::string getCharacterTextureKeyNameSuffix(Movement characterMovement);
 

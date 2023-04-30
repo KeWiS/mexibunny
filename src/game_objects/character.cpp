@@ -1,7 +1,9 @@
 #include "character.h"
 
-Character::Character(float posX, float posY, std::string objName, float mass, int idleAnimFrames) :
-        textureKeyName(objName), ph_mass(mass), idleAnimationFrames(idleAnimFrames) {
+Character::Character(float posX, float posY, std::string objName, float mass, int idleAnimFrames,
+                     int destRenderWidth, int destRenderHeight) :
+        textureKeyName(objName), ph_mass(mass), idleAnimationFrames(idleAnimFrames),
+        destinationRenderWidth(destRenderWidth), destinationRenderHeight(destRenderHeight) {
     this->cVector = physics::Vector2D(posX, posY);
 }
 
@@ -33,12 +35,20 @@ int Character::getIdleAnimationFrames() {
     return idleAnimationFrames;
 }
 
-int Character::getIdleAnimationIndex(){
+int Character::getIdleAnimationIndex() {
     return idleAnimationIndex;
 }
 
-void Character::setIdleAnimationIndex(int idleAnimationIndex){
+void Character::setIdleAnimationIndex(int idleAnimationIndex) {
     this->idleAnimationIndex = idleAnimationIndex;
+}
+
+int Character::getDestinationRenderWidth() {
+    return destinationRenderWidth;
+}
+
+int Character::getDestinationRenderHeight() {
+    return destinationRenderHeight;
 }
 
 SDL_FRect &Character::getModel() {

@@ -9,16 +9,21 @@ class Entity {
 public:
     const std::string textureKeyName;
 
-    Entity(float posX, float posY, std::string objName);
-
-    SDL_Rect &getModel();
+    Entity(float posX, float posY, std::string objName, int destRenderWidth, int destRenderHeight);
 
     float getX();
 
     float getY();
 
+    int getDestinationRenderWidth();
+
+    int getDestinationRenderHeight();
+
+    SDL_Rect &getModel();
+
 private:
     float x, y;
+    int destinationRenderWidth, destinationRenderHeight;
     SDL_Rect model;
 };
 

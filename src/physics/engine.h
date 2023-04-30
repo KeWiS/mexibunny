@@ -12,6 +12,9 @@ namespace physics {
         static bool collisionAABB(const SDL_Rect &rectangle1, const SDL_Rect &rectangle2);
 
         static void calculateRigidBodyMovement(RigidBody &body, const double deltaTime);
+
+    private:
+        Engine() = default;
     };
 }
 

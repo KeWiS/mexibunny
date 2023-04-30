@@ -7,7 +7,7 @@ class Player : public Character, public RigidBody {
 public:
     Player() {}
 
-    Player(float x, float y, float mass);
+    Player(float x, float y, float mass, int destinationRenderWidth, int destinationRenderHeight);
 };
 
 #endif //MEXIBUNNY_PLAYER_H

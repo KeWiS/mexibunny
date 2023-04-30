@@ -26,8 +26,6 @@ private:
 
     RenderHelper renderHelper;
 
-    physics::Engine physicsEngine = physics::Engine();
-
     Player player;
 
     std::vector<Entity> entitiesCollection;
@@ -50,15 +48,21 @@ private:
 
     void handleGameEvents();
 
+    void handlePlayerMovement();
+
     void calculateBodiesPhysics();
 
-    void handlePlayerMovement(const Uint8 *keyStates);
+    void updatePlayerPositionAfterCalculations();
 
     void updateGraphics();
+
+    void renderEntities();
 
     void closeGame();
 
     void destroyTextures();
+
+    void quitLibrariesEntities();
 };
 
 #endif //MEXIBUNNY_GAME_H

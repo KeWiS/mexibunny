@@ -5,7 +5,7 @@
 
 class Grass : public Entity {
 public:
-    Grass(int posX, int posY, int grassTextureIndex);
+    Grass(int posX, int posY, int grassTextureIndex, int destinationRenderWidth, int destinationRenderHeight);
 };
 
 #endif //MEXIBUNNY_GRASS_H
