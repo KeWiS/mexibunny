@@ -119,9 +119,9 @@ void Game::handleGameEvents() {
 
 void Game::calculateBodiesPhysics() {
     // Player
-    physics::Engine::calculateRigidBodyMovement(player.getRigidBody(), deltaTime);
-    player.setX(player.getCVector().getVX() + player.getRigidBody()->getPosition().getVX());
-    player.setY(player.getCVector().getVY() + player.getRigidBody()->getPosition().getVY());
+    physics::Engine::calculateRigidBodyMovement(player, deltaTime);
+    player.setX(player.getCVector().getVX() + player.getPosition().getVX());
+    player.setY(player.getCVector().getVY() + player.getPosition().getVY());
 }
 
 void Game::handlePlayerMovement(const Uint8 *keyStates) {

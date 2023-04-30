@@ -43,8 +43,6 @@ public:
 
     void setMovement(Movement movement);
 
-    RigidBody *getRigidBody();
-
 private:
     physics::Vector2D cVector;
 
@@ -53,8 +51,6 @@ private:
 
     SDL_FRect model;
     Movement movement;
-
-    RigidBody rigidBody;
 };
 
 #endif //MEXIBUNNY_CHARACTER_H

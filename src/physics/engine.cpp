@@ -8,7 +8,7 @@ bool physics::Engine::collisionAABB(const SDL_Rect &rectangle1, const SDL_Rect &
            rectangle2.y + rectangle2.h >= rectangle1.y);
 }
 
-void physics::Engine::calculateRigidBodyMovement(RigidBody *body, const double deltaTime) {
+void physics::Engine::calculateRigidBodyMovement(RigidBody &body, const double deltaTime) {
     // Dividing delta time by 1000 to get time in seconds
-    body->calculateMovement(deltaTime / 1000, gravity);
+    body.calculateMovement(deltaTime / 1000, gravity);
 }
