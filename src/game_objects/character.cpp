@@ -1,9 +1,10 @@
 #include "character.h"
 
-Character::Character(float posX, float posY, std::string objName, float mass, int idleAnimFrames,
+Character::Character(float posX, float posY, std::string objName, float mass, int idleAnimFrames, int movingAnimFrames,
                      int destRenderWidth, int destRenderHeight) :
         textureKeyName(objName), ph_mass(mass), idleAnimationFrames(idleAnimFrames),
-        destinationRenderWidth(destRenderWidth), destinationRenderHeight(destRenderHeight) {
+        movingAnimationFrames(movingAnimFrames), destinationRenderWidth (destRenderWidth),
+        destinationRenderHeight(destRenderHeight) {
     this->cVector = physics::Vector2D(posX, posY);
 }
 
@@ -41,6 +42,18 @@ int Character::getIdleAnimationIndex() {
 
 void Character::setIdleAnimationIndex(int idleAnimationIndex) {
     this->idleAnimationIndex = idleAnimationIndex;
+}
+
+int Character::getMovingAnimationFrames() {
+    return movingAnimationFrames;
+}
+
+int Character::getMovingAnimationIndex() {
+    return movingAnimationIndex;
+}
+
+void Character::setMovingAnimationIndex(int movingAnimationIndex) {
+    this->movingAnimationIndex = movingAnimationIndex;
 }
 
 int Character::getDestinationRenderWidth() {

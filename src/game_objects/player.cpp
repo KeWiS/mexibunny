@@ -1,7 +1,7 @@
 #include "player.h"
 
 Player::Player(float x, float y, float mass, int destinationRenderWidth, int destinationRenderHeight) :
-        Character(x, y, "player", mass, 3, destinationRenderWidth,
+        Character(x, y, "player", mass, 3, 1, destinationRenderWidth,
                   destinationRenderHeight) {
     getModel().x = 0;
     getModel().y = 0;

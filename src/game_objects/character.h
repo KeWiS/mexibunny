@@ -16,7 +16,7 @@ public:
 
     virtual ~Character() = default;
 
-    Character(float posX, float posY, std::string objName, float mass, int idleAnimFrames,
+    Character(float posX, float posY, std::string objName, float mass, int idleAnimFrames, int movingAnimFrames,
               int destRenderWidth, int destRenderHeight);
 
     physics::Vector2D getCVector();
@@ -37,6 +37,12 @@ public:
 
     void setIdleAnimationIndex(int idleAnimationIndex);
 
+    int getMovingAnimationFrames();
+
+    int getMovingAnimationIndex();
+
+    void setMovingAnimationIndex(int movingAnimationIndex);
+
     int getDestinationRenderWidth();
 
     int getDestinationRenderHeight();
@@ -51,6 +57,7 @@ private:
     physics::Vector2D cVector;
 
     int idleAnimationFrames, idleAnimationIndex = -1;
+    int movingAnimationFrames, movingAnimationIndex = 0;
     int destinationRenderWidth, destinationRenderHeight;
     float ph_mass = 1.0f;
 

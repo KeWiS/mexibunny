@@ -65,7 +65,10 @@ void RenderHelper::renderCharacter(Character &character) {
 
 float RenderHelper::getXCoordinateForCharacterSource(Character &character) {
     if (character.getMovement() == Movement::kLeftIdle || character.getMovement() == Movement::kRightIdle) {
-        return Animator::computePlayerIdleTextureOffset(character);
+        return Animator::computeCharacterIdleTextureOffset(character);
+    }
+    else if (character.getMovement() == Movement::kLeft || character.getMovement() == Movement::kRight) {
+        return Animator::computeCharacterMovingTextureOffset(character);
     }
 
     return 0;

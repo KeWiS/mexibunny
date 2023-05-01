@@ -119,20 +119,30 @@ void Game::handlePlayerMovement() {
 
     if (player->getMovement() == Movement::kLeft || player->getMovement() == Movement::kLeftIdle) {
         player->setMovement(Movement::kLeftIdle);
+        player->applyForceOnXAxis(0);
+        player->applyFriction(physics::Vector2D(0, 0));
     } else {
         player->setMovement(Movement::kRightIdle);
+        player->applyForceOnXAxis(0);
+        player->applyFriction(physics::Vector2D(0, 0));
     }
 
 
     // TODO: Rewrite movement logic to match new physics system
-//    if (keyStates[SDL_SCANCODE_LEFT]) {
-//        player.setX(player.getX() - 0.3 * deltaTime);
-//        player.setMovement(Movement::kLeft);
-//    }
-//    if (keyStates[SDL_SCANCODE_RIGHT]) {
-//        player.setX(player.getX() + 0.3 * deltaTime);
-//        player.setMovement(Movement::kRight);
-//    }
+    if (keyStates[SDL_SCANCODE_LEFT]) {
+        if (player->getMovement() != Movement::kLeft) {
+            player->applyForceOnXAxis(-1000);
+            player->applyFriction(physics::Vector2D(200, 1));
+        }
+        player->setMovement(Movement::kLeft);
+    }
+    if (keyStates[SDL_SCANCODE_RIGHT]) {
+        if (player->getMovement() != Movement::kRight) {
+            player->applyForceOnXAxis(1000);
+            player->applyFriction(physics::Vector2D(200, 1));
+        }
+        player->setMovement(Movement::kRight);
+    }
 }
 
 void Game::calculateBodiesPhysics() {
