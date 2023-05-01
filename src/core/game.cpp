@@ -37,14 +37,10 @@ TextureHolder Game::loadAllTextures() {
     textureHolder.textureMap.insert({"grass3",
                                      renderHelper.loadTexture(constants::file_names::kGrass3FilePath)});
     // Player
-    textureHolder.textureMap.insert({"playerLeft",
-                                     renderHelper.loadTexture(constants::file_names::kBunnyLeft)});
-    textureHolder.textureMap.insert({"playerRight",
-                                     renderHelper.loadTexture(constants::file_names::kBunnyRight)});
-    textureHolder.textureMap.insert({"playerLeftIdle",
-                                     renderHelper.loadTexture(constants::file_names::kBunnyLeftIdle)});
-    textureHolder.textureMap.insert({"playerRightIdle",
-                                     renderHelper.loadTexture(constants::file_names::kBunnyRightIdle)});
+    textureHolder.textureMap.insert({"playerRun",
+                                     renderHelper.loadTexture(constants::file_names::kBunnyRun)});
+    textureHolder.textureMap.insert({"playerIdle",
+                                     renderHelper.loadTexture(constants::file_names::kBunnyIdle)});
 
     return textureHolder;
 }
@@ -119,18 +115,19 @@ void Game::handlePlayerMovement() {
 
     if (player->getMovement() == Movement::kLeft || player->getMovement() == Movement::kLeftIdle) {
         player->setMovement(Movement::kLeftIdle);
+        player->setShouldTextureBeHorizontallyFlipped(true);
         player->applyForceOnXAxis(0);
         player->applyFriction(physics::Vector2D(0, 0));
     } else {
         player->setMovement(Movement::kRightIdle);
+        player->setShouldTextureBeHorizontallyFlipped(false);
         player->applyForceOnXAxis(0);
         player->applyFriction(physics::Vector2D(0, 0));
     }
 
-
-    // TODO: Rewrite movement logic to match new physics system
     if (keyStates[SDL_SCANCODE_LEFT]) {
         if (player->getMovement() != Movement::kLeft) {
+            player->setShouldTextureBeHorizontallyFlipped(true);
             player->applyForceOnXAxis(-1000);
             player->applyFriction(physics::Vector2D(200, 1));
         }
@@ -138,6 +135,7 @@ void Game::handlePlayerMovement() {
     }
     if (keyStates[SDL_SCANCODE_RIGHT]) {
         if (player->getMovement() != Movement::kRight) {
+            player->setShouldTextureBeHorizontallyFlipped(false);
             player->applyForceOnXAxis(1000);
             player->applyFriction(physics::Vector2D(200, 1));
         }

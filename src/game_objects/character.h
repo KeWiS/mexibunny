@@ -47,6 +47,10 @@ public:
 
     int getDestinationRenderHeight();
 
+    bool shouldTextureBeHorizontallyFlipped();
+
+    void setShouldTextureBeHorizontallyFlipped(bool shouldTextureBeHorizFlipped);
+
     SDL_FRect &getModel();
 
     Movement getMovement();
@@ -59,6 +63,8 @@ private:
     int idleAnimationFrames, idleAnimationIndex = -1;
     int movingAnimationFrames, movingAnimationIndex = 0;
     int destinationRenderWidth, destinationRenderHeight;
+    bool shouldTextureBeHorizFlipped;
+
     float ph_mass = 1.0f;
 
     SDL_FRect model;

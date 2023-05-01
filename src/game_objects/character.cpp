@@ -64,6 +64,14 @@ int Character::getDestinationRenderHeight() {
     return destinationRenderHeight;
 }
 
+bool Character::shouldTextureBeHorizontallyFlipped() {
+    return shouldTextureBeHorizFlipped;
+}
+
+void Character::setShouldTextureBeHorizontallyFlipped(bool shouldTextureBeHorizFlipped) {
+    this->shouldTextureBeHorizFlipped = shouldTextureBeHorizFlipped;
+}
+
 SDL_FRect &Character::getModel() {
     return model;
 }

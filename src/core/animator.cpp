@@ -1,6 +1,5 @@
 #include "animator.h"
 #include "game.h"
-#include <iostream>
 
 float Animator::computeCharacterIdleTextureOffset(Character &character) {
     int playerIdleIndex = character.getIdleAnimationIndex();
@@ -32,8 +31,6 @@ float Animator::computeCharacterMovingTextureOffset(Character &character) {
 
         Game::animationTimeCounter = 0;
     }
-
-    std::cout << playerMovingIndex * 32 << std::endl;
 
     return playerMovingIndex * 32;
 }

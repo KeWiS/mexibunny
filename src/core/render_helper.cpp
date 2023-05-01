@@ -60,14 +60,17 @@ void RenderHelper::renderCharacter(Character &character) {
 
     auto texturePosition = getTextureMapIterator(textureKey);
 
-    SDL_RenderCopy(renderer, texturePosition->second, &source, &destination);
+    SDL_RendererFlip flip = SDL_RendererFlip::SDL_FLIP_NONE;
+    if (character.shouldTextureBeHorizontallyFlipped()) flip = SDL_RendererFlip::SDL_FLIP_HORIZONTAL;
+
+    SDL_RenderCopyEx(renderer, texturePosition->second, &source, &destination, 0,
+                     nullptr, flip);
 }
 
 float RenderHelper::getXCoordinateForCharacterSource(Character &character) {
     if (character.getMovement() == Movement::kLeftIdle || character.getMovement() == Movement::kRightIdle) {
         return Animator::computeCharacterIdleTextureOffset(character);
-    }
-    else if (character.getMovement() == Movement::kLeft || character.getMovement() == Movement::kRight) {
+    } else if (character.getMovement() == Movement::kLeft || character.getMovement() == Movement::kRight) {
         return Animator::computeCharacterMovingTextureOffset(character);
     }
 
@@ -75,10 +78,8 @@ float RenderHelper::getXCoordinateForCharacterSource(Character &character) {
 }
 
 std::string RenderHelper::getCharacterTextureKeyNameSuffix(Movement characterMovement) {
-    if (characterMovement == Movement::kLeftIdle) return "LeftIdle";
-    if (characterMovement == Movement::kRightIdle) return "RightIdle";
-    if (characterMovement == Movement::kLeft) return "Left";
-    return "Right";
+    if (characterMovement == Movement::kLeftIdle || characterMovement == Movement::kRightIdle) return "Idle";
+    return "Run";
 }
 
 SDL_Rect RenderHelper::generateRectForRender(int x, int y, int w, int h) {
