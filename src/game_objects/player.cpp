@@ -7,4 +7,9 @@ Player::Player(float x, float y, float mass, int destinationRenderWidth, int des
     getModel().y = 0;
     getModel().w = 32;
     getModel().h = 32;
+
+    getMutableCollider().w = 64;
+    getMutableCollider().h = 62;
+
+    setGravity(20);
 }

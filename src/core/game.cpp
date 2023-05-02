@@ -1,9 +1,11 @@
 #include "game.h"
 #include "constants.h"
 #include "texture_holder.h"
-#include "../physics/engine.h"
 #include "../utility/randomizer.h"
+#include "../physics/collision_detector.h"
+#include "../map/map.h"
 #include <SDL_image.h>
+#include <utility>
 #include <cmath>
 #include <iostream>
 
@@ -21,7 +23,7 @@ void Game::initGame() {
     renderHelper.setTextureHolder(loadAllTextures());
 
     this->player = generatePlayer();
-    this->entitiesCollection = generateEntitiesCollection();
+    generateEnvironment();
 
     startGame();
 }
@@ -46,22 +48,16 @@ TextureHolder Game::loadAllTextures() {
 }
 
 Player *Game::generatePlayer() {
-    return new Player(100, 100, 80, 64, 64);
+    return new Player(100, 400, 80, 64, 64);
 }
 
-std::vector<Entity> Game::generateEntitiesCollection() {
-    std::vector<Entity> generatedGrass = std::vector<Entity>();
-    // Calculating how many ground grass there should be
-    // Generating random number to pick grass texture (1-3 range)
-    for (int i = 0; i < std::floor(windowWidth / 64); i++) {
-        Grass grass = Grass(i * 64, 656,
-                            utility::Randomizer::getRandomIntegerInRange(1, 3),
-                            64, 64);
-
-        generatedGrass.push_back(grass);
-    }
-
-    return generatedGrass;
+void Game::generateEnvironment() {
+    // Generating ground level
+    Map::getInstance()->createLevel<Grass>(
+            {
+                    std::make_tuple(0, 656, 32, windowWidth / 64,
+                                    utility::Randomizer::getRandomIntegerInRange(1, 3), 64)
+            });
 }
 
 void Game::startGame() {
@@ -143,12 +139,38 @@ void Game::handlePlayerMovement() {
 void Game::calculateBodiesPhysics() {
     // Player
     physics::Engine::calculateRigidBodyMovement(*player, deltaTime);
-    updatePlayerPositionAfterCalculations();
+    checkCharacterCollisionsWithEnvironment(*player);
 }
 
-void Game::updatePlayerPositionAfterCalculations() {
-    player->setX(player->getCVector().getVX() + player->getPosition().getVX());
-    player->setY(player->getCVector().getVY() + player->getPosition().getVY());
+void Game::checkCharacterCollisionsWithEnvironment(Character &character) {
+    // X Axis
+    character.getLastSafePosition().setVX(character.getPositionVector().getVX());
+    updateCharacterXPositionAfterCalculations(character);
+
+    if (CollisionDetector::checkCharacterCollisionWithEnvironment(character)) {
+        character.getPositionVector().setVX(character.getLastSafePosition().getVX());
+    }
+    // Y Axis
+    character.getLastSafePosition().setVY(character.getPositionVector().getVY());
+    updateCharacterYPositionAfterCalculations(character);
+
+    if (CollisionDetector::checkCharacterCollisionWithEnvironment(character)) {
+        character.getPositionVector().setVY(character.getLastSafePosition().getVY());
+    }
+}
+
+void Game::updateCharacterXPositionAfterCalculations(Character &character) {
+    float newX = character.getPositionVector().getVX() + character.getRigidPosition().getVX();
+
+    character.setX(newX);
+    character.getMutableCollider().x = newX;
+}
+
+void Game::updateCharacterYPositionAfterCalculations(Character &character) {
+    float newY = character.getPositionVector().getVY() + character.getRigidPosition().getVY();
+
+    character.setY(newY);
+    character.getMutableCollider().y = newY;
 }
 
 void Game::updateGraphics() {
@@ -161,8 +183,10 @@ void Game::updateGraphics() {
 }
 
 void Game::renderEntities() {
-    for (Entity entity : entitiesCollection) {
-        renderHelper.renderEntity(entity);
+    for (auto level : Map::getInstance()->getLevels()) {
+        for (auto entity : level.getEntities()) {
+            renderHelper.renderEntity(entity);
+        }
     }
 }
 

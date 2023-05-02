@@ -5,6 +5,7 @@ namespace physics {
     class Vector2D {
     public:
         Vector2D() {};
+
         Vector2D(float vX, float vY);
 
         inline Vector2D operator+(Vector2D &vec) const {

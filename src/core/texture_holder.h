@@ -6,7 +6,7 @@
 #include <string>
 
 struct TextureHolder {
-    std::map<std::string, SDL_Texture*> textureMap;
+    std::map<std::string, SDL_Texture *> textureMap;
 };
 
 #endif //MEXIBUNNY_TEXTURE_HOLDER_H

@@ -2,6 +2,7 @@
 
 RigidBody::RigidBody() {
     this->mass = 1.0f;
+    this->gravity = 9.81f;
 }
 
 float RigidBody::getMass() {
@@ -12,7 +13,15 @@ void RigidBody::setMass(float mass) {
     this->mass = mass;
 }
 
-physics::Vector2D RigidBody::getPosition() {
+float RigidBody::getGravity() {
+    return gravity;
+}
+
+void RigidBody::setGravity(float gravity) {
+    this->gravity = gravity;
+}
+
+physics::Vector2D RigidBody::getRigidPosition() {
     return position;
 }
 

@@ -7,9 +7,7 @@
 namespace physics {
     class Engine {
     public:
-        inline static const float gravity = 9.81f;
-
-        static bool collisionAABB(const SDL_Rect &rectangle1, const SDL_Rect &rectangle2);
+        static bool collisionAABB(const SDL_FRect &rectangle1, const SDL_FRect &rectangle2);
 
         static void calculateRigidBodyMovement(RigidBody &body, const double deltaTime);
 

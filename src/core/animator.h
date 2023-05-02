@@ -6,6 +6,7 @@
 class Animator {
 public:
     static float computeCharacterIdleTextureOffset(Character &character);
+
     static float computeCharacterMovingTextureOffset(Character &character);
 };
 

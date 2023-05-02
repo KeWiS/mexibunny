@@ -11,7 +11,11 @@ public:
 
     void setMass(float mass);
 
-    physics::Vector2D getPosition();
+    float getGravity();
+
+    void setGravity(float gravity);
+
+    physics::Vector2D getRigidPosition();
 
     void applyForce(physics::Vector2D force);
 
@@ -29,6 +33,7 @@ public:
 
 private:
     float mass;
+    float gravity;
 
 private:
     physics::Vector2D force;

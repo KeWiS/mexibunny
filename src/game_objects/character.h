@@ -19,9 +19,13 @@ public:
     Character(float posX, float posY, std::string objName, float mass, int idleAnimFrames, int movingAnimFrames,
               int destRenderWidth, int destRenderHeight);
 
-    physics::Vector2D getPositionVector();
+    physics::Vector2D &getPositionVector();
 
-    void setPositionVector(physics::Vector2D cVector);
+    void setPositionVector(physics::Vector2D positionVector);
+
+    physics::Vector2D &getLastSafePosition();
+
+    void setLastSafePosition(physics::Vector2D lastSafePosition);
 
     float getX();
 
@@ -53,12 +57,17 @@ public:
 
     SDL_FRect &getModel();
 
+    SDL_FRect &getMutableCollider();
+
+    const SDL_FRect &getCollider() const;
+
     Movement getMovement();
 
     void setMovement(Movement movement);
 
 private:
     physics::Vector2D positionVector;
+    physics::Vector2D lastSafePosition;
 
     int idleAnimationFrames, idleAnimationIndex = -1;
     int movingAnimationFrames, movingAnimationIndex = 0;
@@ -68,6 +77,7 @@ private:
     float ph_mass = 1.0f;
 
     SDL_FRect model;
+    SDL_FRect collider;
     Movement movement;
 };
 

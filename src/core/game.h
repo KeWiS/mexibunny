@@ -28,9 +28,7 @@ private:
 
     Player *player;
 
-    std::vector<Entity> entitiesCollection;
-
-    std::vector<Entity> generateEntitiesCollection();
+    void generateEnvironment();
 
     TextureHolder loadAllTextures();
 
@@ -52,7 +50,11 @@ private:
 
     void calculateBodiesPhysics();
 
-    void updatePlayerPositionAfterCalculations();
+    void checkCharacterCollisionsWithEnvironment(Character &character);
+
+    void updateCharacterXPositionAfterCalculations(Character &character);
+
+    void updateCharacterYPositionAfterCalculations(Character &character);
 
     void updateGraphics();
 
