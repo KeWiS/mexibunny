@@ -113,6 +113,7 @@ void Game::handleGameEvents() {
 void Game::handlePlayerMovement() {
     auto *keyStates = SDL_GetKeyboardState(nullptr);
 
+    // Checking if idle
     if (player->getMovement() == Movement::kLeft || player->getMovement() == Movement::kLeftIdle) {
         player->setMovement(Movement::kLeftIdle);
         player->setShouldTextureBeHorizontallyFlipped(true);
@@ -124,21 +125,17 @@ void Game::handlePlayerMovement() {
         player->applyForceOnXAxis(0);
         player->applyFriction(physics::Vector2D(0, 0));
     }
-
-    if (keyStates[SDL_SCANCODE_LEFT]) {
-        if (player->getMovement() != Movement::kLeft) {
-            player->setShouldTextureBeHorizontallyFlipped(true);
-            player->applyForceOnXAxis(-1000);
-            player->applyFriction(physics::Vector2D(200, 1));
-        }
+    // Checking if moving
+    if (keyStates[SDL_SCANCODE_A] || keyStates[SDL_SCANCODE_LEFT]) {
+        player->setShouldTextureBeHorizontallyFlipped(true);
+        player->applyForceOnXAxis(-1000);
+        player->applyFriction(physics::Vector2D(200, 1));
         player->setMovement(Movement::kLeft);
     }
-    if (keyStates[SDL_SCANCODE_RIGHT]) {
-        if (player->getMovement() != Movement::kRight) {
-            player->setShouldTextureBeHorizontallyFlipped(false);
-            player->applyForceOnXAxis(1000);
-            player->applyFriction(physics::Vector2D(200, 1));
-        }
+    if (keyStates[SDL_SCANCODE_D] || keyStates[SDL_SCANCODE_RIGHT]) {
+        player->setShouldTextureBeHorizontallyFlipped(false);
+        player->applyForceOnXAxis(1000);
+        player->applyFriction(physics::Vector2D(200, 1));
         player->setMovement(Movement::kRight);
     }
 }
