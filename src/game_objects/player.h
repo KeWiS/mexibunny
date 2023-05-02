@@ -3,7 +3,7 @@
 
 #include "character.h"
 
-class Player : public Character, public RigidBody {
+class Player : public Character {
 public:
     Player() {}
 

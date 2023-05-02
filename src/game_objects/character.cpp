@@ -8,11 +8,11 @@ Character::Character(float posX, float posY, std::string objName, float mass, in
     this->positionVector = physics::Vector2D(posX, posY);
 }
 
-physics::Vector2D Character::getCVector() {
+physics::Vector2D Character::getPositionVector() {
     return positionVector;
 }
 
-void Character::setCVector(physics::Vector2D cVector) {
+void Character::setPositionVector(physics::Vector2D cVector) {
     this->positionVector = cVector;
 }
 

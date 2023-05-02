@@ -8,7 +8,7 @@
 #include <string>
 
 // Top-level class for character objects (player, enemies)
-class Character {
+class Character : public RigidBody {
 public:
     const std::string textureKeyName;
 
@@ -19,9 +19,9 @@ public:
     Character(float posX, float posY, std::string objName, float mass, int idleAnimFrames, int movingAnimFrames,
               int destRenderWidth, int destRenderHeight);
 
-    physics::Vector2D getCVector();
+    physics::Vector2D getPositionVector();
 
-    void setCVector(physics::Vector2D cVector);
+    void setPositionVector(physics::Vector2D cVector);
 
     float getX();
 
