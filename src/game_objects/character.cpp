@@ -5,31 +5,31 @@ Character::Character(float posX, float posY, std::string objName, float mass, in
         textureKeyName(objName), ph_mass(mass), idleAnimationFrames(idleAnimFrames),
         movingAnimationFrames(movingAnimFrames), destinationRenderWidth (destRenderWidth),
         destinationRenderHeight(destRenderHeight) {
-    this->cVector = physics::Vector2D(posX, posY);
+    this->positionVector = physics::Vector2D(posX, posY);
 }
 
 physics::Vector2D Character::getCVector() {
-    return cVector;
+    return positionVector;
 }
 
 void Character::setCVector(physics::Vector2D cVector) {
-    this->cVector = cVector;
+    this->positionVector = cVector;
 }
 
 float Character::getX() {
-    return cVector.getVX();
+    return positionVector.getVX();
 }
 
 void Character::setX(float x) {
-    cVector.setVX(x);
+    positionVector.setVX(x);
 }
 
 float Character::getY() {
-    return cVector.getVY();
+    return positionVector.getVY();
 }
 
 void Character::setY(float y) {
-    cVector.setVY(y);
+    positionVector.setVY(y);
 }
 
 int Character::getIdleAnimationFrames() {

@@ -58,7 +58,7 @@ public:
     void setMovement(Movement movement);
 
 private:
-    physics::Vector2D cVector;
+    physics::Vector2D positionVector;
 
     int idleAnimationFrames, idleAnimationIndex = -1;
     int movingAnimationFrames, movingAnimationIndex = 0;
