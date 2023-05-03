@@ -30,8 +30,9 @@ void RenderHelper::cleanRenderer() {
     SDL_RenderClear(renderer);
 }
 
-void RenderHelper::renderBackground(SDL_Texture *texture) {
-    SDL_RenderCopy(renderer, texture, nullptr, nullptr);
+void RenderHelper::renderBackground() {
+    auto texturePosition = getTextureMapIterator("background");
+    SDL_RenderCopy(renderer, texturePosition->second, nullptr, nullptr);
 }
 
 void RenderHelper::renderEntity(Entity &entity) {

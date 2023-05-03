@@ -5,7 +5,9 @@
 
 class RigidBody {
 public:
-    RigidBody();
+    RigidBody() {}
+
+    RigidBody(float mass);
 
     float getMass();
 
@@ -30,6 +32,8 @@ public:
     void removeFriction();
 
     void calculateMovement(double deltaTime, float gravity);
+
+    void resetGravitationalAcceleration();
 
 private:
     float mass;

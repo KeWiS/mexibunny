@@ -1,10 +1,12 @@
 #include "character.h"
 
 Character::Character(float posX, float posY, std::string objName, float mass, int idleAnimFrames, int movingAnimFrames,
-                     int destRenderWidth, int destRenderHeight) :
-        textureKeyName(objName), ph_mass(mass), idleAnimationFrames(idleAnimFrames),
-        movingAnimationFrames(movingAnimFrames), destinationRenderWidth(destRenderWidth),
-        destinationRenderHeight(destRenderHeight) {
+                     int destRenderWidth, int destRenderHeight) : RigidBody(mass),
+                                                                  textureKeyName(objName),
+                                                                  idleAnimationFrames(idleAnimFrames),
+                                                                  movingAnimationFrames(movingAnimFrames),
+                                                                  destinationRenderWidth(destRenderWidth),
+                                                                  destinationRenderHeight(destRenderHeight) {
     this->positionVector = physics::Vector2D(posX, posY);
     model.x = posX;
     model.y = posY;
@@ -14,16 +16,24 @@ physics::Vector2D &Character::getPositionVector() {
     return positionVector;
 }
 
-void Character::setPositionVector(physics::Vector2D positionVector) {
-    this->positionVector = positionVector;
-}
-
 physics::Vector2D &Character::getLastSafePosition() {
     return lastSafePosition;
 }
 
-void Character::setLastSafePosition(physics::Vector2D lastSafePosition) {
-    this->lastSafePosition = lastSafePosition;
+bool Character::getIsGrounded() {
+    return isGrounded;
+}
+
+void Character::setIsGrounded(bool isGrounded) {
+    this->isGrounded = isGrounded;
+}
+
+bool Character::getIsJumping() {
+    return isJumping;
+}
+
+void Character::setIsJumping(bool isJumping) {
+    this->isJumping = isJumping;
 }
 
 float Character::getX() {
@@ -80,6 +90,26 @@ bool Character::shouldTextureBeHorizontallyFlipped() {
 
 void Character::setShouldTextureBeHorizontallyFlipped(bool shouldTextureBeHorizFlipped) {
     this->shouldTextureBeHorizFlipped = shouldTextureBeHorizFlipped;
+}
+
+float Character::getJumpTime() {
+    return jumpTime;
+}
+
+void Character::setJumpTime(float jumpTime) {
+    this->jumpTime = jumpTime;
+}
+
+void Character::decreaseJumpTime(double timeToDecrease) {
+    this->jumpTime -= timeToDecrease;
+}
+
+float Character::getJumpForce() {
+    return jumpForce;
+}
+
+void Character::setJumpForce(float jumpForce) {
+    this->jumpForce = jumpForce;
 }
 
 SDL_FRect &Character::getModel() {

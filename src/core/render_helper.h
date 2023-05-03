@@ -19,7 +19,7 @@ public:
 
     void cleanRenderer();
 
-    void renderBackground(SDL_Texture *texture);
+    void renderBackground();
 
     void renderEntity(Entity &entity);
 

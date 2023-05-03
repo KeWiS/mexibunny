@@ -21,11 +21,15 @@ public:
 
     physics::Vector2D &getPositionVector();
 
-    void setPositionVector(physics::Vector2D positionVector);
-
     physics::Vector2D &getLastSafePosition();
 
-    void setLastSafePosition(physics::Vector2D lastSafePosition);
+    bool getIsGrounded();
+
+    void setIsGrounded(bool isGrounded);
+
+    bool getIsJumping();
+
+    void setIsJumping(bool isJumping);
 
     float getX();
 
@@ -55,6 +59,16 @@ public:
 
     void setShouldTextureBeHorizontallyFlipped(bool shouldTextureBeHorizFlipped);
 
+    float getJumpTime();
+
+    void setJumpTime(float jumpTime);
+
+    void decreaseJumpTime(double timeToDecrease);
+
+    float getJumpForce();
+
+    void setJumpForce(float jumpForce);
+
     SDL_FRect &getModel();
 
     SDL_FRect &getMutableCollider();
@@ -69,12 +83,16 @@ private:
     physics::Vector2D positionVector;
     physics::Vector2D lastSafePosition;
 
+    bool isGrounded;
+    bool isJumping = false;
+
     int idleAnimationFrames, idleAnimationIndex = -1;
     int movingAnimationFrames, movingAnimationIndex = 0;
     int destinationRenderWidth, destinationRenderHeight;
     bool shouldTextureBeHorizFlipped;
 
-    float ph_mass = 1.0f;
+    float jumpTime;
+    float jumpForce;
 
     SDL_FRect model;
     SDL_FRect collider;
