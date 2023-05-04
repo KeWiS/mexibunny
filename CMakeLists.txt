@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.24)
 project(mexibunny)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_EXE_LINKER_FLAGS "-static")
 
 set(SDL2_INCLUDE_DIR "C:/Users/Michal/Desktop/Michal/Studia/III rok/SGD/SDL2-2.26.4/include")
 set(SDL2_LIB_DIR "C:/Users/Michal/Desktop/Michal/Studia/III rok/SGD/SDL2-2.26.4/lib/x64")
