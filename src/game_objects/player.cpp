@@ -1,16 +1,17 @@
 #include "player.h"
 
-Player::Player(float x, float y, float mass, int destinationRenderWidth, int destinationRenderHeight) :
+Player::Player(float x, float y, float mass, int destinationRenderWidth, int destinationRenderHeight,
+               int modelWidth, int modelHeight, int colliderWidth, int colliderHeight) :
         Character(x, y, "player", mass, 3, 1,
                   destinationRenderWidth, destinationRenderHeight) {
     getModel().x = 0;
     getModel().y = 0;
-    getModel().w = 32;
-    getModel().h = 32;
+    getModel().w = modelWidth;
+    getModel().h = modelHeight;
 
-    getMutableCollider().w = 64;
-    getMutableCollider().h = 62;
+    getMutableCollider().w = colliderWidth;
+    getMutableCollider().h = colliderHeight;
 
-    setGravity(100);
-    setJumpForce(200);
+    setGravity(250);
+    setJumpForce(400);
 }

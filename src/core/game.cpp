@@ -49,14 +49,39 @@ TextureHolder Game::loadAllTextures() {
 }
 
 Player *Game::generatePlayer() {
-    return new Player(100, 550, 2, 64, 64);
+    return new Player(0, 450, 2, 64, 64, 32, 32,
+                      64, 62);
 }
 
 void Game::generateEnvironment() {
     // Generating ground level
     Map::getInstance()->createLevel<Grass>(
             {
-                    std::make_tuple(0, 656, 32, windowWidth / 64,
+                    std::make_tuple(0, 592, 62, 7,
+                                    utility::Randomizer::getRandomIntegerInRange(1, 3), 64),
+                    std::make_tuple(7 * 64, 656, 62, 10,
+                                    utility::Randomizer::getRandomIntegerInRange(1, 3), 64),
+                    std::make_tuple(17 * 64, 592, 62, 3,
+                                    utility::Randomizer::getRandomIntegerInRange(1, 3), 64)
+            });
+    // Generating second level
+    Map::getInstance()->createLevel<Grass>(
+            {
+                    std::make_tuple(128, 400, 62, 3,
+                                    utility::Randomizer::getRandomIntegerInRange(1, 3), 64),
+                    std::make_tuple(320, 400, 62, 10,
+                                    utility::Randomizer::getRandomIntegerInRange(1, 3), 64),
+            });
+    // Generating third level
+    Map::getInstance()->createLevel<Grass>(
+            {
+                    std::make_tuple(192, 272, 62, 4,
+                                    utility::Randomizer::getRandomIntegerInRange(1, 3), 64),
+                    std::make_tuple(448, 208, 62, 4,
+                                    utility::Randomizer::getRandomIntegerInRange(1, 3), 64),
+                    std::make_tuple(704, 272, 62, 2,
+                                    utility::Randomizer::getRandomIntegerInRange(1, 3), 64),
+                    std::make_tuple(1024, 272, 62, 4,
                                     utility::Randomizer::getRandomIntegerInRange(1, 3), 64)
             });
 }
@@ -175,7 +200,7 @@ void Game::checkCharacterCollisionsWithEnvironment(Character &character) {
     }
 
     // Checking if character is out of boundaries of the map
-    if (character.getPositionVector().getVY() > (windowHeight - 32) || character.getPositionVector().getVY() < 0) {
+    if (character.getPositionVector().getVY() > (windowHeight - 32)) {
         character.getPositionVector().setVY(character.getLastSafePosition().getVY());
     }
     if (character.getPositionVector().getVX() > (windowWidth - character.getModel().w * 2)

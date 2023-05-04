@@ -7,7 +7,8 @@ class Player : public Character {
 public:
     Player() {}
 
-    Player(float x, float y, float mass, int destinationRenderWidth, int destinationRenderHeight);
+    Player(float x, float y, float mass, int destinationRenderWidth, int destinationRenderHeight,
+           int modelWidth, int modelHeight, int colliderWidth, int colliderHeight);
 };
 
 #endif //MEXIBUNNY_PLAYER_H
