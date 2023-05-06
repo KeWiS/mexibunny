@@ -81,7 +81,7 @@ void Game::generateEnvironment() {
                                     utility::Randomizer::getRandomIntegerInRange(1, 3), 64),
                     std::make_tuple(704, 272, 62, 2,
                                     utility::Randomizer::getRandomIntegerInRange(1, 3), 64),
-                    std::make_tuple(1024, 272, 62, 4,
+                    std::make_tuple(1088, 272, 62, 3,
                                     utility::Randomizer::getRandomIntegerInRange(1, 3), 64)
             });
 }
