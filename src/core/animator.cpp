@@ -4,7 +4,7 @@
 float Animator::computeCharacterIdleTextureOffset(Character &character) {
     int playerIdleIndex = character.getIdleAnimationIndex();
 
-    if (Game::animationTimeCounter >= 500) {
+    if (Game::animationTimeCounter >= 400) {
         if (character.getIdleAnimationIndex() == character.getIdleAnimationFrames()) {
             character.setIdleAnimationIndex(0);
             playerIdleIndex = 0;
@@ -21,7 +21,7 @@ float Animator::computeCharacterIdleTextureOffset(Character &character) {
 float Animator::computeCharacterMovingTextureOffset(Character &character) {
     int playerMovingIndex = character.getMovingAnimationIndex();
 
-    if (Game::animationTimeCounter >= 250) {
+    if (Game::animationTimeCounter >= 200) {
         if (character.getMovingAnimationIndex() == character.getMovingAnimationFrames()) {
             character.setMovingAnimationIndex(0);
             playerMovingIndex = 0;

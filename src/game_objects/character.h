@@ -4,6 +4,7 @@
 #include "../enums/movement.h"
 #include "../physics/vector2D.h"
 #include "../physics/rigid_body.h"
+#include "../core/constants.h"
 #include <SDL.h>
 #include <string>
 
@@ -86,12 +87,12 @@ private:
     bool isGrounded;
     bool isJumping = false;
 
-    int idleAnimationFrames, idleAnimationIndex = -1;
+    int idleAnimationFrames, idleAnimationIndex = 0;
     int movingAnimationFrames, movingAnimationIndex = 0;
     int destinationRenderWidth, destinationRenderHeight;
     bool shouldTextureBeHorizFlipped;
 
-    float jumpTime;
+    float jumpTime = constants::physics::kJumpTime;
     float jumpForce;
 
     SDL_FRect model;

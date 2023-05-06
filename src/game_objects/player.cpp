@@ -13,5 +13,5 @@ Player::Player(float x, float y, float mass, int destinationRenderWidth, int des
     getMutableCollider().h = colliderHeight;
 
     setGravity(6000);
-    setJumpForce(7000);
+    setJumpForce(18000);
 }
