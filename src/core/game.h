@@ -14,6 +14,9 @@ public:
     Game(int gameWindowWidth, int gameWindowHeight);
 
     inline static double animationTimeCounter = 0;
+    inline static double const targetFPS = 144;
+    inline static double const targetDeltaTime = 1000 / 144;
+    inline static double const maxDeltaTime = 7;
 
 private:
     int windowWidth, windowHeight;
@@ -21,7 +24,7 @@ private:
     bool gameInProgress;
 
     Uint64 previousTick = 0;
-    Uint64 currentTick = SDL_GetTicks64();
+    Uint64 currentTick = SDL_GetPerformanceCounter();
     double deltaTime = 0;
 
     RenderHelper renderHelper;
@@ -43,6 +46,8 @@ private:
     double calculateDeltaTime();
 
     void updateAnimationTimeCounter();
+
+    void delayToMeetFrameRateLimit();
 
     void handleGameEvents();
 

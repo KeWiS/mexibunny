@@ -9,7 +9,7 @@ namespace constants::physics {
     inline const float kUpwardForce = -1;
     inline const float kDownwardForce = 1;
     // Rigid body
-    inline const float kJumpTime = 0.25;
+    inline const float kJumpTime = 0.3;
 }
 
 namespace constants::file_names {

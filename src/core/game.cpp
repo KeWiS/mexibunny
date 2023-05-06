@@ -101,6 +101,8 @@ void Game::updateGameState() {
     deltaTime = calculateDeltaTime();
     // Updating animationTimeCounter for proper animations displaying
     updateAnimationTimeCounter();
+    // Limiting frame rate to 144
+    delayToMeetFrameRateLimit();
     // Handling game events, player movement, calculations of NPC movements and physics, graphics display
     handleGameEvents();
     handlePlayerMovement();
@@ -110,13 +112,21 @@ void Game::updateGameState() {
 
 double Game::calculateDeltaTime() {
     previousTick = currentTick;
-    currentTick = SDL_GetTicks64();
+    currentTick = SDL_GetPerformanceCounter();
 
-    return currentTick - previousTick;
+    double deltaT = (double)((currentTick - previousTick) * 1000 / (double)SDL_GetPerformanceFrequency());
+
+    if (deltaT > maxDeltaTime) deltaT = maxDeltaTime;
+
+    return deltaT;
 }
 
 void Game::updateAnimationTimeCounter() {
     animationTimeCounter += deltaTime;
+}
+
+void Game::delayToMeetFrameRateLimit() {
+    if (deltaTime < targetDeltaTime) SDL_Delay(targetDeltaTime - deltaTime);
 }
 
 void Game::handleGameEvents() {
@@ -150,13 +160,13 @@ void Game::handlePlayerMovement() {
     // Checking if moving
     if (keyStates[SDL_SCANCODE_A] || keyStates[SDL_SCANCODE_LEFT]) {
         player->setShouldTextureBeHorizontallyFlipped(true);
-        player->applyForceOnXAxis(constants::physics::kBackwardForce * 2500);
+        player->applyForceOnXAxis(constants::physics::kBackwardForce * 750);
         player->applyFriction(physics::Vector2D(200, 1));
         player->setMovement(Movement::kLeft);
     }
     if (keyStates[SDL_SCANCODE_D] || keyStates[SDL_SCANCODE_RIGHT]) {
         player->setShouldTextureBeHorizontallyFlipped(false);
-        player->applyForceOnXAxis(constants::physics::kForwardForce * 2500);
+        player->applyForceOnXAxis(constants::physics::kForwardForce * 750);
         player->applyFriction(physics::Vector2D(200, 1));
         player->setMovement(Movement::kRight);
     }
