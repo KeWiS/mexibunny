@@ -105,7 +105,7 @@ private:
 
     SDL_FRect model;
     SDL_FRect collider;
-    Movement movement;
+    Movement movement = Movement::kLeftIdle;
     Movement lastRecordedMovementDirection;
 };
 

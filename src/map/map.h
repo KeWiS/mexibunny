@@ -2,6 +2,7 @@
 #define MEXIBUNNY_MAP_H
 
 #include "level.h"
+#include "segment_parameters.h"
 #include <string>
 #include <vector>
 #include <tuple>
@@ -16,7 +17,7 @@ public:
 
     std::vector<map::Level> getLevels();
 
-    void createLevel(std::vector<std::tuple<float, float, float, float, int, int, std::string>> entitiesSegments);
+    void createLevel(std::vector<SegmentParameters> entitiesSegments);
 
 private:
     Map() = default;

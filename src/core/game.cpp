@@ -4,6 +4,7 @@
 #include "../utility/randomizer.h"
 #include "../physics/collision_detector.h"
 #include "../map/map.h"
+#include "../game_objects/banana.h"
 #include <SDL_image.h>
 #include <iostream>
 
@@ -20,8 +21,9 @@ void Game::initGame() {
     renderHelper.initiateWindowAndRender();
     renderHelper.setTextureHolder(loadAllTextures());
 
-    this->player = generatePlayer();
     generateEnvironment();
+    this->player = generatePlayer();
+    generateInitialEnemies();
 
     startGame();
 }
@@ -49,6 +51,10 @@ TextureHolder Game::loadAllTextures() {
     textureHolder.textureMap.insert({"playerInAir",
                                      renderHelper.loadTexture(constants::file_names::kBunnyInAir)});
 
+    // Enemies
+    textureHolder.textureMap.insert({"bananaIdle",
+                                     renderHelper.loadTexture(constants::file_names::kBananaIdle)});
+
     return textureHolder;
 }
 
@@ -57,40 +63,73 @@ Player *Game::generatePlayer() {
                       64, 62);
 }
 
+void Game::generateInitialEnemies() {
+    // Generating one enemy per level
+    for (auto level : Map::getInstance()->getLevels()) {
+        // Choosing first segment with possibility of spawn
+        for (auto segment : level.getSegments()) {
+            if (segment.allowSpawnOnSegment) {
+                auto bananaXCoordinate = utility::Randomizer::getRandomIntegerInRange(
+                        segment.frect.x,
+                        segment.frect.x + segment.frect.w - 64
+                );
+
+                auto bananaYCoordinate = segment.frect.y - segment.frect.h;
+
+                enemies.push_back(Banana(bananaXCoordinate, bananaYCoordinate, 2, 64,
+                                         64, 32, 32, 64, 62));
+
+                break;
+            }
+        }
+    }
+}
+
 void Game::generateEnvironment() {
     // Generating first level with grass
     Map::getInstance()->createLevel(
             {
-                    std::make_tuple(0, 656, 62, 7,
-                                    utility::Randomizer::getRandomIntegerInRange(1, 1), 64, "ground"),
-                    std::make_tuple(0, 592, 62, 7,
-                                    utility::Randomizer::getRandomIntegerInRange(1, 3), 64, "grass"),
-                    std::make_tuple(7 * 64, 656, 62, 10,
-                                    utility::Randomizer::getRandomIntegerInRange(1, 3), 64, "grass"),
-                    std::make_tuple(17 * 64, 656, 62, 3,
-                                    utility::Randomizer::getRandomIntegerInRange(1, 1), 64, "ground"),
-                    std::make_tuple(17 * 64, 592, 62, 3,
-                                    utility::Randomizer::getRandomIntegerInRange(1, 3), 64, "grass")
+                    SegmentParameters(0, 656, 62, 7,
+                                      utility::Randomizer::getRandomIntegerInRange(1, 1),
+                                      64, "ground", false),
+                    SegmentParameters(0, 592, 62, 7,
+                                      utility::Randomizer::getRandomIntegerInRange(1, 3),
+                                      64, "grass", false),
+                    SegmentParameters(7 * 64, 656, 62, 10,
+                                      utility::Randomizer::getRandomIntegerInRange(1, 3),
+                                      64, "grass", true),
+                    SegmentParameters(17 * 64, 656, 62, 3,
+                                      utility::Randomizer::getRandomIntegerInRange(1, 1),
+                                      64, "ground", false),
+                    SegmentParameters(17 * 64, 592, 62, 3,
+                                      utility::Randomizer::getRandomIntegerInRange(1, 3),
+                                      64, "grass", true)
             });
     // Generating second level
     Map::getInstance()->createLevel(
             {
-                    std::make_tuple(128, 400, 62, 3,
-                                    utility::Randomizer::getRandomIntegerInRange(1, 3), 64, "grass"),
-                    std::make_tuple(320, 400, 62, 10,
-                                    utility::Randomizer::getRandomIntegerInRange(1, 3), 64, "grass"),
+                    SegmentParameters(128, 400, 62, 3,
+                                      utility::Randomizer::getRandomIntegerInRange(1, 3),
+                                      64, "grass", true),
+                    SegmentParameters(320, 400, 62, 10,
+                                      utility::Randomizer::getRandomIntegerInRange(1, 3),
+                                      64, "grass", true),
             });
     // Generating third level
     Map::getInstance()->createLevel(
             {
-                    std::make_tuple(192, 208, 62, 4,
-                                    utility::Randomizer::getRandomIntegerInRange(1, 3), 64, "grass"),
-                    std::make_tuple(448, 144, 62, 4,
-                                    utility::Randomizer::getRandomIntegerInRange(1, 3), 64, "grass"),
-                    std::make_tuple(704, 208, 62, 2,
-                                    utility::Randomizer::getRandomIntegerInRange(1, 3), 64, "grass"),
-                    std::make_tuple(1088, 272, 62, 3,
-                                    utility::Randomizer::getRandomIntegerInRange(1, 3), 64, "grass")
+                    SegmentParameters(192, 208, 62, 4,
+                                      utility::Randomizer::getRandomIntegerInRange(1, 3),
+                                      64, "grass", true),
+                    SegmentParameters(448, 144, 62, 4,
+                                      utility::Randomizer::getRandomIntegerInRange(1, 3),
+                                      64, "grass", true),
+                    SegmentParameters(704, 208, 62, 2,
+                                      utility::Randomizer::getRandomIntegerInRange(1, 3),
+                                      64, "grass", true),
+                    SegmentParameters(1088, 272, 62, 3,
+                                      utility::Randomizer::getRandomIntegerInRange(1, 3),
+                                      64, "grass", true)
             });
 }
 
@@ -250,6 +289,7 @@ void Game::updateGraphics() {
     renderHelper.renderBackground();
     renderEntities();
     renderHelper.renderCharacter(*player);
+    renderEnemies();
 
     renderHelper.display();
 }
@@ -259,6 +299,12 @@ void Game::renderEntities() {
         for (auto entity : level.getEntities()) {
             renderHelper.renderEntity(entity);
         }
+    }
+}
+
+void Game::renderEnemies() {
+    for (auto enemy : enemies) {
+        renderHelper.renderCharacter(enemy);
     }
 }
 

@@ -25,6 +25,8 @@ namespace constants::file_names {
     inline const char *kBunnyRun = "../resources/textures/bunny_run.png";
     inline const char *kBunnyIdle = "../resources/textures/bunny_idle.png";
     inline const char *kBunnyInAir = "../resources/textures/bunny_in_air.png";
+    // Enemies
+    inline const char *kBananaIdle = "../resources/textures/banana_idle.png";
 }
 
 #endif //MEXIBUNNY_CONSTANTS_H

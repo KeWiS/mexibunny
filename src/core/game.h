@@ -29,11 +29,15 @@ private:
 
     Player *player;
 
+    std::vector<Character> enemies = std::vector<Character>();
+
     void generateEnvironment();
 
     TextureHolder loadAllTextures();
 
     Player *generatePlayer();
+
+    void generateInitialEnemies();
 
     void initGame();
 
@@ -62,6 +66,8 @@ private:
     void updateGraphics();
 
     void renderEntities();
+
+    void renderEnemies();
 
     void closeGame();
 

@@ -5,7 +5,7 @@
 bool CollisionDetector::checkCharacterCollisionWithEnvironment(const Character &character) {
     for (auto level : Map::getInstance()->getLevels()) {
         for (auto segment : level.getSegments()) {
-            if (physics::Engine::collisionAABB(character.getCollider(), segment)) {
+            if (physics::Engine::collisionAABB(character.getCollider(), segment.frect)) {
                 return true;
             }
         }

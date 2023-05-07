@@ -1,5 +1,6 @@
 #include "map.h"
 #include "../game_objects/environment_block.h"
+#include "segment_frect.h"
 
 Map *Map::getInstance() {
     if (map == nullptr) {
@@ -13,25 +14,25 @@ std::vector<map::Level> Map::getLevels() {
     return levels;
 }
 
-void Map::createLevel(std::vector<std::tuple<float, float, float, float, int, int, std::string>> entitiesSegments) {
-    map::Level level = map::Level(std::vector<SDL_FRect>());
+void Map::createLevel(
+        std::vector<SegmentParameters> entitiesSegments
+) {
+    map::Level level = map::Level(std::vector<SegmentFrect>());
 
     for (auto entitySegment : entitiesSegments) {
-        auto segmentX = std::get<0>(entitySegment);
-        auto segmentY = std::get<1>(entitySegment);
-        auto segmentHeight = std::get<2>(entitySegment);
-        auto segmentBlockAmount = std::get<3>(entitySegment);
-        auto segmentBlockTextureIndex = std::get<4>(entitySegment);
-        auto segmentBlockSize = std::get<5>(entitySegment);
-        auto segmentObjectName = std::get<6>(entitySegment);
+        SDL_FRect segmentRect = {entitySegment.segmentX, entitySegment.segmentY,
+                                 entitySegment.segmentBlockAmount * entitySegment.segmentBlockSize,
+                                 entitySegment.segmentHeight};
 
-        level.addToSegments({segmentX, segmentY, segmentBlockAmount * segmentBlockSize,
-                             segmentHeight});
+        level.addToSegments(SegmentFrect(entitySegment.allowSpawnOnSegment, segmentRect));
 
-        for (int i = 0; i < segmentBlockAmount; i++) {
-            level.addToEntities(EnvironmentBlock(segmentX + i * segmentBlockSize, segmentY,
-                                                 segmentBlockTextureIndex, segmentBlockSize,
-                                                 segmentBlockSize, segmentObjectName));
+        for (int i = 0; i < entitySegment.segmentBlockAmount; i++) {
+            level.addToEntities(EnvironmentBlock(entitySegment.segmentX + i * entitySegment.segmentBlockSize,
+                                                 entitySegment.segmentY,
+                                                 entitySegment.segmentBlockTextureIndex,
+                                                 entitySegment.segmentBlockSize,
+                                                 entitySegment.segmentBlockSize,
+                                                 entitySegment.segmentObjectName));
         }
     }
 
