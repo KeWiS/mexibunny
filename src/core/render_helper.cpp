@@ -61,7 +61,6 @@ void RenderHelper::renderCharacter(Character &character) {
 
     auto texturePosition = getTextureMapIterator(textureKey);
 
-    // TODO: Fix/Change way of storing player's last movement direction.
     SDL_RendererFlip flip = SDL_RendererFlip::SDL_FLIP_NONE;
     if (character.shouldTextureBeHorizontallyFlipped()) flip = SDL_RendererFlip::SDL_FLIP_HORIZONTAL;
 

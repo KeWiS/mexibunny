@@ -99,11 +99,7 @@ int Character::getDestinationRenderHeight() {
 }
 
 bool Character::shouldTextureBeHorizontallyFlipped() {
-    return shouldTextureBeHorizFlipped;
-}
-
-void Character::setShouldTextureBeHorizontallyFlipped(bool shouldTextureBeHorizFlipped) {
-    this->shouldTextureBeHorizFlipped = shouldTextureBeHorizFlipped;
+    return lastRecordedMovementDirection == Movement::kLeft;
 }
 
 float Character::getJumpTime() {
@@ -144,4 +140,12 @@ Movement Character::getMovement() {
 
 void Character::setMovement(Movement movement) {
     this->movement = movement;
+}
+
+Movement Character::getLastRecordedMovementDirection() {
+    return lastRecordedMovementDirection;
+}
+
+void Character::setLastRecordedMovementDirection(Movement lastRecordedMovementDirection) {
+    this->lastRecordedMovementDirection = lastRecordedMovementDirection;
 }

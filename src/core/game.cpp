@@ -156,27 +156,25 @@ void Game::handlePlayerMovement() {
     // Checking if idle
     if (player->getMovement() == Movement::kLeft || player->getMovement() == Movement::kLeftIdle) {
         player->setMovement(Movement::kLeftIdle);
-        player->setShouldTextureBeHorizontallyFlipped(true);
         player->applyForceOnXAxis(0);
         player->applyFriction(physics::Vector2D(0, 0));
     } else {
         player->setMovement(Movement::kRightIdle);
-        player->setShouldTextureBeHorizontallyFlipped(false);
         player->applyForceOnXAxis(0);
         player->applyFriction(physics::Vector2D(0, 0));
     }
     // Checking if moving
     if (keyStates[SDL_SCANCODE_A] || keyStates[SDL_SCANCODE_LEFT]) {
-        player->setShouldTextureBeHorizontallyFlipped(true);
         player->applyForceOnXAxis(constants::physics::kBackwardForce * 750);
         player->applyFriction(physics::Vector2D(200, 1));
         player->setMovement(Movement::kLeft);
+        player->setLastRecordedMovementDirection(Movement::kLeft);
     }
     if (keyStates[SDL_SCANCODE_D] || keyStates[SDL_SCANCODE_RIGHT]) {
-        player->setShouldTextureBeHorizontallyFlipped(false);
         player->applyForceOnXAxis(constants::physics::kForwardForce * 750);
         player->applyFriction(physics::Vector2D(200, 1));
         player->setMovement(Movement::kRight);
+        player->setLastRecordedMovementDirection(Movement::kRight);
     }
     // Checking if jumping
     if (player->getIsGrounded() && !player->getIsJumping() && keyStates[SDL_SCANCODE_SPACE]) {
