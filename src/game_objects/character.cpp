@@ -102,6 +102,18 @@ bool Character::shouldTextureBeHorizontallyFlipped() {
     return lastRecordedMovementDirection == Movement::kLeft;
 }
 
+double Character::getAnimationTimeCounter() {
+    return animationTimeCounter;
+}
+
+void Character::resetAnimationTimeCounter() {
+    animationTimeCounter = 0;
+}
+
+void Character::addToAnimationTimeCounter(double timeToAdd) {
+    animationTimeCounter += timeToAdd;
+}
+
 float Character::getJumpTime() {
     return jumpTime;
 }

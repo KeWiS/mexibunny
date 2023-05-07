@@ -146,8 +146,6 @@ void Game::startGame() {
 void Game::updateGameState() {
     // Calculating delta time for physics and other computations
     deltaTime = calculateDeltaTime();
-    // Updating animationTimeCounter for proper animations displaying
-    updateAnimationTimeCounter();
     // Limiting frame rate to 144
     delayToMeetFrameRateLimit();
     // Handling game events, player movement, calculations of NPC movements and physics, graphics display
@@ -166,10 +164,6 @@ double Game::calculateDeltaTime() {
     if (deltaT > maxDeltaTime) deltaT = maxDeltaTime;
 
     return deltaT;
-}
-
-void Game::updateAnimationTimeCounter() {
-    animationTimeCounter += deltaTime;
 }
 
 void Game::delayToMeetFrameRateLimit() {
@@ -289,6 +283,7 @@ void Game::updateGraphics() {
     renderHelper.renderBackground();
     renderEntities();
     renderHelper.renderCharacter(*player);
+    player->addToAnimationTimeCounter(deltaTime);
     renderEnemies();
 
     renderHelper.display();
@@ -303,7 +298,8 @@ void Game::renderEntities() {
 }
 
 void Game::renderEnemies() {
-    for (auto enemy : enemies) {
+    for (auto &enemy : enemies) {
+        enemy.addToAnimationTimeCounter(deltaTime);
         renderHelper.renderCharacter(enemy);
     }
 }

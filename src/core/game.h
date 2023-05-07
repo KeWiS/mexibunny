@@ -12,7 +12,6 @@ class Game {
 public:
     Game(int gameWindowWidth, int gameWindowHeight);
 
-    inline static double animationTimeCounter = 0;
     inline static double const targetDeltaTime = 1000 / 60;
     inline static double const maxDeltaTime = 7;
 
@@ -46,8 +45,6 @@ private:
     void updateGameState();
 
     double calculateDeltaTime();
-
-    void updateAnimationTimeCounter();
 
     void delayToMeetFrameRateLimit();
 

@@ -64,6 +64,12 @@ public:
 
     bool shouldTextureBeHorizontallyFlipped();
 
+    double getAnimationTimeCounter();
+
+    void resetAnimationTimeCounter();
+
+    void addToAnimationTimeCounter(double timeToAdd);
+
     float getJumpTime();
 
     void setJumpTime(float jumpTime);
@@ -100,13 +106,15 @@ private:
     int inAirAnimationFrames, inAirAnimationIndex = 0;
     int destinationRenderWidth, destinationRenderHeight;
 
+    double animationTimeCounter = 0;
+
     float jumpTime = constants::physics::kJumpTime;
     float jumpForce;
 
     SDL_FRect model;
     SDL_FRect collider;
-    Movement movement = Movement::kLeftIdle;
-    Movement lastRecordedMovementDirection;
+    Movement movement = Movement::kRightIdle;
+    Movement lastRecordedMovementDirection = Movement::kRight;
 };
 
 #endif //MEXIBUNNY_CHARACTER_H
