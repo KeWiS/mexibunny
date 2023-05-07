@@ -76,6 +76,18 @@ void Character::setMovingAnimationIndex(int movingAnimationIndex) {
     this->movingAnimationIndex = movingAnimationIndex;
 }
 
+int Character::getInAirAnimationFrames() {
+    return inAirAnimationFrames;
+}
+
+int Character::getInAirAnimationIndex() {
+    return inAirAnimationIndex;
+}
+
+void Character::setInAirAnimationIndex(int inAirAnimationIndex) {
+    this->inAirAnimationIndex = inAirAnimationIndex;
+}
+
 int Character::getDestinationRenderWidth() {
     return destinationRenderWidth;
 }

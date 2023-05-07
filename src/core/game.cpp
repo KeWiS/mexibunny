@@ -46,6 +46,8 @@ TextureHolder Game::loadAllTextures() {
                                      renderHelper.loadTexture(constants::file_names::kBunnyRun)});
     textureHolder.textureMap.insert({"playerIdle",
                                      renderHelper.loadTexture(constants::file_names::kBunnyIdle)});
+    textureHolder.textureMap.insert({"playerInAir",
+                                     renderHelper.loadTexture(constants::file_names::kBunnyInAir)});
 
     return textureHolder;
 }
@@ -87,7 +89,7 @@ void Game::generateEnvironment() {
                                     utility::Randomizer::getRandomIntegerInRange(1, 3), 64, "grass"),
                     std::make_tuple(704, 208, 62, 2,
                                     utility::Randomizer::getRandomIntegerInRange(1, 3), 64, "grass"),
-                    std::make_tuple(1088, 208, 62, 3,
+                    std::make_tuple(1088, 272, 62, 3,
                                     utility::Randomizer::getRandomIntegerInRange(1, 3), 64, "grass")
             });
 }
@@ -119,8 +121,8 @@ void Game::updateGameState() {
 double Game::calculateDeltaTime() {
     previousTick = currentTick;
     currentTick = SDL_GetPerformanceCounter();
-
-    double deltaT = (double)((currentTick - previousTick) * 1000 / (double)SDL_GetPerformanceFrequency());
+    // TODO: Check with Daniel if game runs correctly
+    double deltaT = (double) ((currentTick - previousTick) * 1000 / (double) SDL_GetPerformanceFrequency());
 
     if (deltaT > maxDeltaTime) deltaT = maxDeltaTime;
 
@@ -181,6 +183,7 @@ void Game::handlePlayerMovement() {
         player->setIsGrounded(false);
         player->setIsJumping(true);
         player->applyForceOnYAxis(constants::physics::kUpwardForce * player->getJumpForce());
+        player->setMovement(Movement::kInAir);
     } else if (player->getIsJumping() && player->getJumpTime() > 0) {
         player->decreaseJumpTime(deltaTime / 1000);
     } else if (player->getIsJumping()) {
@@ -208,11 +211,13 @@ void Game::checkCharacterCollisionsWithEnvironment(Character &character) {
     character.getLastSafePosition().setVY(character.getPositionVector().getVY());
     updateCharacterYPositionAfterCalculations(character);
 
-    character.setIsGrounded(false);
     if (CollisionDetector::checkCharacterCollisionWithEnvironment(character)) {
         character.getPositionVector().setVY(character.getLastSafePosition().getVY());
         character.setIsGrounded(true);
         character.resetGravitationalAcceleration();
+    } else {
+        character.setIsGrounded(false);
+        character.setMovement(Movement::kInAir);
     }
 
     // Checking if character is out of boundaries of the map

@@ -8,6 +8,8 @@ public:
     static float computeCharacterIdleTextureOffset(Character &character);
 
     static float computeCharacterMovingTextureOffset(Character &character);
+
+    static float computeCharacterInAirTextureOffset(Character &character);
 };
 
 #endif //MEXIBUNNY_ANIMATOR_H

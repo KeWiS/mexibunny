@@ -5,7 +5,8 @@ enum Movement {
     kLeftIdle,
     kRightIdle,
     kLeft,
-    kRight
+    kRight,
+    kInAir
 };
 
 #endif //MEXIBUNNY_MOVEMENT_H

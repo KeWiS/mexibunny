@@ -52,6 +52,12 @@ public:
 
     void setMovingAnimationIndex(int movingAnimationIndex);
 
+    int getInAirAnimationFrames();
+
+    int getInAirAnimationIndex();
+
+    void setInAirAnimationIndex(int inAirAnimationIndex);
+
     int getDestinationRenderWidth();
 
     int getDestinationRenderHeight();
@@ -89,6 +95,7 @@ private:
 
     int idleAnimationFrames, idleAnimationIndex = 0;
     int movingAnimationFrames, movingAnimationIndex = 0;
+    int inAirAnimationFrames, inAirAnimationIndex = 0;
     int destinationRenderWidth, destinationRenderHeight;
     bool shouldTextureBeHorizFlipped;
 

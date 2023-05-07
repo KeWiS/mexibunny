@@ -61,6 +61,7 @@ void RenderHelper::renderCharacter(Character &character) {
 
     auto texturePosition = getTextureMapIterator(textureKey);
 
+    // TODO: Fix/Change way of storing player's last movement direction.
     SDL_RendererFlip flip = SDL_RendererFlip::SDL_FLIP_NONE;
     if (character.shouldTextureBeHorizontallyFlipped()) flip = SDL_RendererFlip::SDL_FLIP_HORIZONTAL;
 
@@ -73,6 +74,8 @@ float RenderHelper::getXCoordinateForCharacterSource(Character &character) {
         return Animator::computeCharacterIdleTextureOffset(character);
     } else if (character.getMovement() == Movement::kLeft || character.getMovement() == Movement::kRight) {
         return Animator::computeCharacterMovingTextureOffset(character);
+    } else if (character.getMovement() == Movement::kInAir) {
+        return Animator::computeCharacterInAirTextureOffset(character);
     }
 
     return 0;
@@ -80,6 +83,7 @@ float RenderHelper::getXCoordinateForCharacterSource(Character &character) {
 
 std::string RenderHelper::getCharacterTextureKeyNameSuffix(Movement characterMovement) {
     if (characterMovement == Movement::kLeftIdle || characterMovement == Movement::kRightIdle) return "Idle";
+    if (characterMovement == Movement::kInAir) return "InAir";
     return "Run";
 }
 

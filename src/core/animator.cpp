@@ -34,3 +34,20 @@ float Animator::computeCharacterMovingTextureOffset(Character &character) {
 
     return playerMovingIndex * 32;
 }
+
+float Animator::computeCharacterInAirTextureOffset(Character &character) {
+    int playerInAirIndex = character.getInAirAnimationIndex();
+
+    if (Game::animationTimeCounter >= 150) {
+        if (character.getInAirAnimationIndex() == character.getInAirAnimationFrames()) {
+            character.setInAirAnimationIndex(0);
+            playerInAirIndex = 0;
+        } else {
+            character.setInAirAnimationIndex(++playerInAirIndex);
+        }
+
+        Game::animationTimeCounter = 0;
+    }
+
+    return playerInAirIndex * 32;
+}
