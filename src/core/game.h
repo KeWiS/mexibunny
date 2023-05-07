@@ -7,7 +7,6 @@
 #include "render_helper.h"
 #include "../physics/engine.h"
 #include "../game_objects/player.h"
-#include "../game_objects/grass.h"
 
 class Game {
 public:

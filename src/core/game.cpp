@@ -33,6 +33,8 @@ TextureHolder Game::loadAllTextures() {
     textureHolder.textureMap.insert({"background",
                                      renderHelper.loadTexture(constants::file_names::kBackground)});
     // Environment
+    textureHolder.textureMap.insert({"ground1",
+                                     renderHelper.loadTexture(constants::file_names::kGroundFilePath)});
     textureHolder.textureMap.insert({"grass1",
                                      renderHelper.loadTexture(constants::file_names::kGrass1FilePath)});
     textureHolder.textureMap.insert({"grass2",
@@ -54,35 +56,39 @@ Player *Game::generatePlayer() {
 }
 
 void Game::generateEnvironment() {
-    // Generating ground level
-    Map::getInstance()->createLevel<Grass>(
+    // Generating first level with grass
+    Map::getInstance()->createLevel(
             {
+                    std::make_tuple(0, 656, 62, 7,
+                                    utility::Randomizer::getRandomIntegerInRange(1, 1), 64, "ground"),
                     std::make_tuple(0, 592, 62, 7,
-                                    utility::Randomizer::getRandomIntegerInRange(1, 3), 64),
+                                    utility::Randomizer::getRandomIntegerInRange(1, 3), 64, "grass"),
                     std::make_tuple(7 * 64, 656, 62, 10,
-                                    utility::Randomizer::getRandomIntegerInRange(1, 3), 64),
+                                    utility::Randomizer::getRandomIntegerInRange(1, 3), 64, "grass"),
+                    std::make_tuple(17 * 64, 656, 62, 3,
+                                    utility::Randomizer::getRandomIntegerInRange(1, 1), 64, "ground"),
                     std::make_tuple(17 * 64, 592, 62, 3,
-                                    utility::Randomizer::getRandomIntegerInRange(1, 3), 64)
+                                    utility::Randomizer::getRandomIntegerInRange(1, 3), 64, "grass")
             });
     // Generating second level
-    Map::getInstance()->createLevel<Grass>(
+    Map::getInstance()->createLevel(
             {
                     std::make_tuple(128, 400, 62, 3,
-                                    utility::Randomizer::getRandomIntegerInRange(1, 3), 64),
+                                    utility::Randomizer::getRandomIntegerInRange(1, 3), 64, "grass"),
                     std::make_tuple(320, 400, 62, 10,
-                                    utility::Randomizer::getRandomIntegerInRange(1, 3), 64),
+                                    utility::Randomizer::getRandomIntegerInRange(1, 3), 64, "grass"),
             });
     // Generating third level
-    Map::getInstance()->createLevel<Grass>(
+    Map::getInstance()->createLevel(
             {
-                    std::make_tuple(192, 272, 62, 4,
-                                    utility::Randomizer::getRandomIntegerInRange(1, 3), 64),
-                    std::make_tuple(448, 208, 62, 4,
-                                    utility::Randomizer::getRandomIntegerInRange(1, 3), 64),
-                    std::make_tuple(704, 272, 62, 2,
-                                    utility::Randomizer::getRandomIntegerInRange(1, 3), 64),
-                    std::make_tuple(1088, 272, 62, 3,
-                                    utility::Randomizer::getRandomIntegerInRange(1, 3), 64)
+                    std::make_tuple(192, 208, 62, 4,
+                                    utility::Randomizer::getRandomIntegerInRange(1, 3), 64, "grass"),
+                    std::make_tuple(448, 144, 62, 4,
+                                    utility::Randomizer::getRandomIntegerInRange(1, 3), 64, "grass"),
+                    std::make_tuple(704, 208, 62, 2,
+                                    utility::Randomizer::getRandomIntegerInRange(1, 3), 64, "grass"),
+                    std::make_tuple(1088, 208, 62, 3,
+                                    utility::Randomizer::getRandomIntegerInRange(1, 3), 64, "grass")
             });
 }
 

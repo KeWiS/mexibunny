@@ -16,6 +16,7 @@ namespace constants::file_names {
     // Background, credits to: https://www.pinterest.com/pin/39054721754164011/
     inline const char *kBackground = "../resources/textures/background.png";
     // Environment
+    inline const char *kGroundFilePath = "../resources/textures/ground.png";
     inline const char *kGrass1FilePath = "../resources/textures/grass_1.png";
     inline const char *kGrass2FilePath = "../resources/textures/grass_2.png";
     inline const char *kGrass3FilePath = "../resources/textures/grass_3.png";
