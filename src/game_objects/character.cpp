@@ -1,12 +1,14 @@
 #include "character.h"
 
 Character::Character(float posX, float posY, std::string objName, float mass, int idleAnimFrames, int movingAnimFrames,
-                     int destRenderWidth, int destRenderHeight) : RigidBody(mass),
-                                                                  textureKeyName(objName),
-                                                                  idleAnimationFrames(idleAnimFrames),
-                                                                  movingAnimationFrames(movingAnimFrames),
-                                                                  destinationRenderWidth(destRenderWidth),
-                                                                  destinationRenderHeight(destRenderHeight) {
+                     int inAirAnimFrames, int destRenderWidth, int destRenderHeight) :
+        RigidBody(mass),
+        textureKeyName(objName),
+        idleAnimationFrames(idleAnimFrames),
+        movingAnimationFrames(movingAnimFrames),
+        inAirAnimationFrames(inAirAnimFrames),
+        destinationRenderWidth(destRenderWidth),
+        destinationRenderHeight(destRenderHeight) {
     this->positionVector = physics::Vector2D(posX, posY);
     model.x = posX;
     model.y = posY;

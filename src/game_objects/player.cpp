@@ -2,7 +2,7 @@
 
 Player::Player(float x, float y, float mass, int destinationRenderWidth, int destinationRenderHeight,
                int modelWidth, int modelHeight, int colliderWidth, int colliderHeight) :
-        Character(x, y, "player", mass, 3, 1,
+        Character(x, y, "player", mass, 3, 1, 1,
                   destinationRenderWidth, destinationRenderHeight) {
     getModel().x = 0;
     getModel().y = 0;

@@ -18,7 +18,7 @@ public:
     virtual ~Character() = default;
 
     Character(float posX, float posY, std::string objName, float mass, int idleAnimFrames, int movingAnimFrames,
-              int destRenderWidth, int destRenderHeight);
+              int inAirAnimFrames, int destRenderWidth, int destRenderHeight);
 
     physics::Vector2D &getPositionVector();
 
