@@ -17,8 +17,9 @@ public:
 
     virtual ~Character() = default;
 
-    Character(float posX, float posY, std::string objName, float mass, int idleAnimFrames, int movingAnimFrames,
-              int inAirAnimFrames, int destRenderWidth, int destRenderHeight);
+    Character(float posX, float posY, int modelWidth, int modelHeight, std::string objName, float mass,
+              int idleAnimFrames, int movingAnimFrames, int inAirAnimFrames, int strikeAnimFrames,
+              int destRenderWidth, int destRenderHeight, double maxStrTime);
 
     physics::Vector2D &getPositionVector();
 
@@ -58,9 +59,21 @@ public:
 
     void setInAirAnimationIndex(int inAirAnimationIndex);
 
+    int getStrikeAnimationFrames();
+
+    int getStrikeAnimationIndex();
+
+    void setStrikeAnimationIndex(int strikeAnimationIndex);
+
     int getDestinationRenderWidth();
 
+    void setDestinationRenderWidth(int destinationRenderWidth);
+
     int getDestinationRenderHeight();
+
+    int getInitialDestinationRenderWidth();
+
+    int getInitialModelWidth();
 
     bool shouldTextureBeHorizontallyFlipped();
 
@@ -69,6 +82,18 @@ public:
     void resetAnimationTimeCounter();
 
     void addToAnimationTimeCounter(double timeToAdd);
+
+    bool checkIsStriking();
+
+    void setIsStriking(bool isStriking);
+
+    double getMaxStrikeTime();
+
+    double getStrikeTimeCounter();
+
+    void resetStrikeTimeCounter();
+
+    void decreaseStrikeTimeCounter(double timeToDecrease);
 
     float getJumpTime();
 
@@ -85,6 +110,10 @@ public:
     SDL_FRect &getMutableCollider();
 
     const SDL_FRect &getCollider() const;
+
+    const SDL_FRect &getWeaponCollider() const;
+
+    SDL_FRect &getMutableWeaponCollider();
 
     Movement getMovement();
 
@@ -104,15 +133,24 @@ private:
     int idleAnimationFrames, idleAnimationIndex = 0;
     int movingAnimationFrames, movingAnimationIndex = 0;
     int inAirAnimationFrames, inAirAnimationIndex = 0;
+    int strikeAnimationFrames, strikeAnimationIndex = 0;
     int destinationRenderWidth, destinationRenderHeight;
 
+    int initialDestinationRenderWidth, initialModelWidth;
+
     double animationTimeCounter = 0;
+
+    bool isStriking = false;
+    double maxStrikeTime;
+    double strikeTimeCounter;
 
     float jumpTime = constants::physics::kJumpTime;
     float jumpForce;
 
     SDL_FRect model;
     SDL_FRect collider;
+    SDL_FRect weaponCollider;
+
     Movement movement = Movement::kRightIdle;
     Movement lastRecordedMovementDirection = Movement::kRight;
 };

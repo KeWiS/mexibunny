@@ -57,7 +57,7 @@ void RenderHelper::renderCharacter(Character &character) {
                                                  character.getDestinationRenderHeight());
 
     std::string textureKey = character.textureKeyName +
-                             getCharacterTextureKeyNameSuffix(character.getMovement());
+                             getCharacterTextureKeyNameSuffix(character);
 
     auto texturePosition = getTextureMapIterator(textureKey);
 
@@ -69,7 +69,10 @@ void RenderHelper::renderCharacter(Character &character) {
 }
 
 float RenderHelper::getXCoordinateForCharacterSource(Character &character) {
-    if (character.getMovement() == Movement::kLeftIdle || character.getMovement() == Movement::kRightIdle) {
+    // Checking first if character is striking because strike blocks every movement
+    if (character.checkIsStriking()) {
+        return Animator::computeCharacterStrikeTextureOffset(character);
+    } else if (character.getMovement() == Movement::kLeftIdle || character.getMovement() == Movement::kRightIdle) {
         return Animator::computeCharacterIdleTextureOffset(character);
     } else if (character.getMovement() == Movement::kLeft || character.getMovement() == Movement::kRight) {
         return Animator::computeCharacterMovingTextureOffset(character);
@@ -80,9 +83,12 @@ float RenderHelper::getXCoordinateForCharacterSource(Character &character) {
     return 0;
 }
 
-std::string RenderHelper::getCharacterTextureKeyNameSuffix(Movement characterMovement) {
-    if (characterMovement == Movement::kLeftIdle || characterMovement == Movement::kRightIdle) return "Idle";
-    if (characterMovement == Movement::kInAir) return "InAir";
+std::string RenderHelper::getCharacterTextureKeyNameSuffix(Character &character) {
+    // Checking first if character is striking because strike blocks every movement
+    if (character.checkIsStriking()) return "Strike";
+    if (character.getMovement() == Movement::kLeftIdle || character.getMovement() == Movement::kRightIdle)
+        return "Idle";
+    if (character.getMovement() == Movement::kInAir) return "InAir";
     return "Run";
 }
 

@@ -1,17 +1,29 @@
 #include "character.h"
 
-Character::Character(float posX, float posY, std::string objName, float mass, int idleAnimFrames, int movingAnimFrames,
-                     int inAirAnimFrames, int destRenderWidth, int destRenderHeight) :
+Character::Character(float posX, float posY, int modelWidth, int modelHeight, std::string objName, float mass,
+                     int idleAnimFrames, int movingAnimFrames, int inAirAnimFrames, int strikeAnimFrames,
+                     int destRenderWidth, int destRenderHeight, double maxStrTime) :
         RigidBody(mass),
         textureKeyName(objName),
         idleAnimationFrames(idleAnimFrames),
         movingAnimationFrames(movingAnimFrames),
         inAirAnimationFrames(inAirAnimFrames),
+        strikeAnimationFrames(strikeAnimFrames),
         destinationRenderWidth(destRenderWidth),
-        destinationRenderHeight(destRenderHeight) {
-    this->positionVector = physics::Vector2D(posX, posY);
-    model.x = posX;
-    model.y = posY;
+        destinationRenderHeight(destRenderHeight),
+        maxStrikeTime(maxStrTime) {
+    // Setting up position vector
+    positionVector = physics::Vector2D(posX, posY);
+    // Setting up texture source model
+    model.x = 0;
+    model.y = 0;
+    model.w = modelWidth;
+    model.h = modelHeight;
+    // Setting strike time counter for the first time
+    strikeTimeCounter = maxStrikeTime;
+    // Setting up initial destination render width and model width for rollback after strike
+    initialModelWidth = getModel().w;
+    initialDestinationRenderWidth = destinationRenderWidth;
 }
 
 physics::Vector2D &Character::getPositionVector() {
@@ -90,12 +102,36 @@ void Character::setInAirAnimationIndex(int inAirAnimationIndex) {
     this->inAirAnimationIndex = inAirAnimationIndex;
 }
 
+int Character::getStrikeAnimationFrames() {
+    return strikeAnimationFrames;
+}
+
+int Character::getStrikeAnimationIndex() {
+    return strikeAnimationIndex;
+}
+
+void Character::setStrikeAnimationIndex(int strikeAnimationIndex) {
+    this->strikeAnimationIndex = strikeAnimationIndex;
+}
+
 int Character::getDestinationRenderWidth() {
     return destinationRenderWidth;
 }
 
+void Character::setDestinationRenderWidth(int destinationRenderWidth) {
+    this->destinationRenderWidth = destinationRenderWidth;
+}
+
 int Character::getDestinationRenderHeight() {
     return destinationRenderHeight;
+}
+
+int Character::getInitialDestinationRenderWidth() {
+    return initialDestinationRenderWidth;
+}
+
+int Character::getInitialModelWidth() {
+    return initialModelWidth;
 }
 
 bool Character::shouldTextureBeHorizontallyFlipped() {
@@ -112,6 +148,30 @@ void Character::resetAnimationTimeCounter() {
 
 void Character::addToAnimationTimeCounter(double timeToAdd) {
     animationTimeCounter += timeToAdd;
+}
+
+bool Character::checkIsStriking() {
+    return isStriking;
+}
+
+void Character::setIsStriking(bool isStriking) {
+    this->isStriking = isStriking;
+}
+
+double Character::getMaxStrikeTime() {
+    return maxStrikeTime;
+}
+
+double Character::getStrikeTimeCounter() {
+    return strikeTimeCounter;
+}
+
+void Character::resetStrikeTimeCounter() {
+    strikeTimeCounter = maxStrikeTime;
+}
+
+void Character::decreaseStrikeTimeCounter(double timeToDecrease) {
+    strikeTimeCounter -= timeToDecrease;
 }
 
 float Character::getJumpTime() {
@@ -144,6 +204,14 @@ SDL_FRect &Character::getMutableCollider() {
 
 const SDL_FRect &Character::getCollider() const {
     return collider;
+}
+
+const SDL_FRect &Character::getWeaponCollider() const {
+    return weaponCollider;
+}
+
+SDL_FRect &Character::getMutableWeaponCollider() {
+    return weaponCollider;
 }
 
 Movement Character::getMovement() {

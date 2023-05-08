@@ -50,6 +50,8 @@ TextureHolder Game::loadAllTextures() {
                                      renderHelper.loadTexture(constants::file_names::kBunnyIdle)});
     textureHolder.textureMap.insert({"playerInAir",
                                      renderHelper.loadTexture(constants::file_names::kBunnyInAir)});
+    textureHolder.textureMap.insert({"playerStrike",
+                                     renderHelper.loadTexture(constants::file_names::kBunnyStrike)});
 
     // Enemies
     textureHolder.textureMap.insert({"bananaIdle",
@@ -60,7 +62,7 @@ TextureHolder Game::loadAllTextures() {
 
 Player *Game::generatePlayer() {
     return new Player(0, 450, 2, 64, 64, 32, 32,
-                      64, 62);
+                      64, 62, 150);
 }
 
 void Game::generateInitialEnemies() {
@@ -77,7 +79,8 @@ void Game::generateInitialEnemies() {
                 auto bananaYCoordinate = segment.frect.y - segment.frect.h;
 
                 enemies.push_back(Banana(bananaXCoordinate, bananaYCoordinate, 2, 64,
-                                         64, 32, 32, 64, 62));
+                                         64, 32, 32, 64, 62,
+                                         150));
 
                 break;
             }
@@ -197,20 +200,21 @@ void Game::handlePlayerMovement() {
         player->applyFriction(physics::Vector2D(0, 0));
     }
     // Checking if moving
-    if (keyStates[SDL_SCANCODE_A] || keyStates[SDL_SCANCODE_LEFT]) {
+    if (!player->checkIsStriking() && (keyStates[SDL_SCANCODE_A] || keyStates[SDL_SCANCODE_LEFT])) {
         player->applyForceOnXAxis(constants::physics::kBackwardForce * 750);
         player->applyFriction(physics::Vector2D(200, 1));
         player->setMovement(Movement::kLeft);
         player->setLastRecordedMovementDirection(Movement::kLeft);
     }
-    if (keyStates[SDL_SCANCODE_D] || keyStates[SDL_SCANCODE_RIGHT]) {
+    if (!player->checkIsStriking() && (keyStates[SDL_SCANCODE_D] || keyStates[SDL_SCANCODE_RIGHT])) {
         player->applyForceOnXAxis(constants::physics::kForwardForce * 750);
         player->applyFriction(physics::Vector2D(200, 1));
         player->setMovement(Movement::kRight);
         player->setLastRecordedMovementDirection(Movement::kRight);
     }
     // Checking if jumping
-    if (player->getIsGrounded() && !player->getIsJumping() && keyStates[SDL_SCANCODE_SPACE]) {
+    if (!player->checkIsStriking() && player->getIsGrounded() && !player->getIsJumping() &&
+        keyStates[SDL_SCANCODE_SPACE]) {
         player->setIsGrounded(false);
         player->setIsJumping(true);
         player->applyForceOnYAxis(constants::physics::kUpwardForce * player->getJumpForce());
@@ -221,6 +225,47 @@ void Game::handlePlayerMovement() {
         player->setIsJumping(false);
         player->setJumpTime(constants::physics::kJumpTime);
         player->applyForceOnYAxis(0);
+    }
+    // Checking if player strikes
+    if (player->getIsGrounded() && player->checkHasBeenStrikeUp() && keyStates[SDL_SCANCODE_LSHIFT]) {
+        prepareForPlayerStrike();
+    } else if (player->checkIsStriking() && player->getStrikeTimeCounter() > 0) {
+        player->decreaseStrikeTimeCounter(deltaTime);
+    } else if (player->checkIsStriking() && player->getStrikeTimeCounter() <= 0) {
+        cleanupAfterPlayerStrike();
+    } else if (!player->checkIsStriking() && !keyStates[SDL_SCANCODE_LSHIFT]) {
+        player->setHasBeenStrikeUp(true);
+    }
+}
+
+void Game::prepareForPlayerStrike() {
+    // Setting flags
+    player->setHasBeenStrikeUp(false);
+    player->setIsStriking(true);
+    // Resetting animation time counter and strike animation index
+    player->resetAnimationTimeCounter();
+    player->setStrikeAnimationIndex(0);
+    // Modifying player destination render width and source model
+    //  In addition to changing above-mentioned values player, we need to move the player to prevent from weird
+    //  texture teleportation if player is facing left
+    if (player->shouldTextureBeHorizontallyFlipped()) {
+        player->setX(player->getX() - player->getModel().w * 2);
+    }
+    player->setDestinationRenderWidth(player->getDestinationRenderWidth() * 2);
+    player->getModel().w = player->getModel().w * 2;
+}
+
+void Game::cleanupAfterPlayerStrike() {
+    // Setting flag
+    player->setIsStriking(false);
+    // Resetting animation time counter
+    player->resetStrikeTimeCounter();
+    // Rollback changes of destination render width and source model
+    player->setDestinationRenderWidth(player->getInitialDestinationRenderWidth());
+    player->getModel().w = player->getInitialModelWidth();
+    // Rollback position changes if player is facing left
+    if (player->shouldTextureBeHorizontallyFlipped()) {
+        player->setX(player->getX() + player->getModel().w * 2);
     }
 }
 
@@ -264,17 +309,30 @@ void Game::checkCharacterCollisionsWithEnvironment(Character &character) {
 void Game::updateCharacterXPositionAfterCalculations(Character &character) {
     float newX = character.getPositionVector().getVX() + character.getRigidPosition().getVX();
 
+    // Setting new model and collider positions
     character.setX(newX);
     character.getMutableCollider().x = newX;
     character.getMutableCollider().y = character.getY();
+    // Setting weapon collider
+    //  Detecting how character moves (checking which side character is facing to change weapon collider position
+    //  accordingly)
+    if (character.shouldTextureBeHorizontallyFlipped()) {
+        character.getMutableWeaponCollider().x = newX - character.getModel().w;
+    } else {
+        character.getMutableWeaponCollider().x = newX + character.getModel().w;
+    }
 }
 
 void Game::updateCharacterYPositionAfterCalculations(Character &character) {
     float newY = character.getPositionVector().getVY() + character.getRigidPosition().getVY();
 
+    // Setting new model and collider positions
     character.setY(newY);
     character.getMutableCollider().x = character.getX();
     character.getMutableCollider().y = newY;
+    // Setting weapon collider
+    //  Adding model height and subtracting quarter to place it on proper height
+    character.getMutableWeaponCollider().y = newY + character.getModel().h - character.getModel().h / 4;
 }
 
 void Game::updateGraphics() {

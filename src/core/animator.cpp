@@ -2,52 +2,70 @@
 #include <iostream>
 
 float Animator::computeCharacterIdleTextureOffset(Character &character) {
-    int playerIdleIndex = character.getIdleAnimationIndex();
+    int characterIdleIndex = character.getIdleAnimationIndex();
 
     if (character.getAnimationTimeCounter() >= 400) {
         if (character.getIdleAnimationIndex() == character.getIdleAnimationFrames()) {
             character.setIdleAnimationIndex(0);
-            playerIdleIndex = 0;
+            characterIdleIndex = 0;
         } else {
-            character.setIdleAnimationIndex(++playerIdleIndex);
+            character.setIdleAnimationIndex(++characterIdleIndex);
         }
 
         character.resetAnimationTimeCounter();
     }
 
-    return playerIdleIndex * 32;
+    return characterIdleIndex * 32;
 }
 
 float Animator::computeCharacterMovingTextureOffset(Character &character) {
-    int playerMovingIndex = character.getMovingAnimationIndex();
+    int characterMovingIndex = character.getMovingAnimationIndex();
 
     if (character.getAnimationTimeCounter() >= 200) {
         if (character.getMovingAnimationIndex() == character.getMovingAnimationFrames()) {
             character.setMovingAnimationIndex(0);
-            playerMovingIndex = 0;
+            characterMovingIndex = 0;
         } else {
-            character.setMovingAnimationIndex(++playerMovingIndex);
+            character.setMovingAnimationIndex(++characterMovingIndex);
         }
 
         character.resetAnimationTimeCounter();
     }
 
-    return playerMovingIndex * 32;
+    return characterMovingIndex * 32;
 }
 
 float Animator::computeCharacterInAirTextureOffset(Character &character) {
-    int playerInAirIndex = character.getInAirAnimationIndex();
+    int characterInAirIndex = character.getInAirAnimationIndex();
 
     if (character.getAnimationTimeCounter() >= 150) {
         if (character.getInAirAnimationIndex() == character.getInAirAnimationFrames()) {
             character.setInAirAnimationIndex(0);
-            playerInAirIndex = 0;
+            characterInAirIndex = 0;
         } else {
-            character.setInAirAnimationIndex(++playerInAirIndex);
+            character.setInAirAnimationIndex(++characterInAirIndex);
         }
 
         character.resetAnimationTimeCounter();
     }
 
-    return playerInAirIndex * 32;
+    return characterInAirIndex * 32;
+}
+
+float Animator::computeCharacterStrikeTextureOffset(Character &character) {
+    int playerStrikeIndex = character.getStrikeAnimationIndex();
+    // Time of one animation frame is based on max strike time divided by animation frames count (+1 indexing from 0)
+    if (character.getAnimationTimeCounter() >=
+        character.getMaxStrikeTime() / (character.getStrikeAnimationFrames() + 1)) {
+        if (character.getStrikeAnimationIndex() == character.getStrikeAnimationFrames()) {
+            character.setStrikeAnimationIndex(0);
+            playerStrikeIndex = 0;
+        } else {
+            character.setStrikeAnimationIndex(++playerStrikeIndex);
+        }
+
+        character.resetAnimationTimeCounter();
+    }
+
+    return playerStrikeIndex * 64;
 }

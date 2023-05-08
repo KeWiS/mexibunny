@@ -52,6 +52,10 @@ private:
 
     void handlePlayerMovement();
 
+    void prepareForPlayerStrike();
+
+    void cleanupAfterPlayerStrike();
+
     void calculateBodiesPhysics();
 
     void checkCharacterCollisionsWithEnvironment(Character &character);

@@ -27,7 +27,7 @@ public:
 
     float getXCoordinateForCharacterSource(Character &character);
 
-    std::string getCharacterTextureKeyNameSuffix(Movement characterMovement);
+    std::string getCharacterTextureKeyNameSuffix(Character &character);
 
     SDL_Rect generateRectForRender(int x, int y, int w, int h);
 
