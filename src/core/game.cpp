@@ -245,7 +245,7 @@ void Game::prepareForPlayerStrike() {
     // Resetting animation time counter and strike animation index
     player->resetAnimationTimeCounter();
     player->setStrikeAnimationIndex(0);
-    // Modifying player destination render width and source model
+    // Modifying player destination render width, source model width and collider width
     //  In addition to changing above-mentioned values player, we need to move the player to prevent from weird
     //  texture teleportation if player is facing left
     if (player->shouldTextureBeHorizontallyFlipped()) {
@@ -253,7 +253,6 @@ void Game::prepareForPlayerStrike() {
     }
     player->setDestinationRenderWidth(player->getDestinationRenderWidth() * 2);
     player->getModel().w = player->getModel().w * 2;
-
     player->getMutableCollider().w = player->getMutableCollider().w * 2;
 }
 
@@ -262,10 +261,9 @@ void Game::cleanupAfterPlayerStrike() {
     player->setIsStriking(false);
     // Resetting animation time counter
     player->resetStrikeTimeCounter();
-    // Rollback changes of destination render width and source model
+    // Rollback changes of destination render width, source model width and collider width
     player->setDestinationRenderWidth(player->getInitialDestinationRenderWidth());
     player->getModel().w = player->getInitialModelWidth();
-
     player->getMutableCollider().w = player->getInitialColliderWidth();
     // Rollback position changes if player is facing left
     if (player->shouldTextureBeHorizontallyFlipped()) {
