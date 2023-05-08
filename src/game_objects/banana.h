@@ -8,7 +8,7 @@ public:
     Banana() {}
 
     Banana(float x, float y, float mass, int destinationRenderWidth, int destinationRenderHeight,
-           int modelWidth, int modelHeight, int colliderWidth, int colliderHeight, double maxStrikeTime);
+           float modelWidth, float modelHeight, float colliderWidth, float colliderHeight, double maxStrikeTime);
 };
 
 #endif //MEXIBUNNY_BANANA_H

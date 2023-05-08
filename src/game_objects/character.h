@@ -17,9 +17,9 @@ public:
 
     virtual ~Character() = default;
 
-    Character(float posX, float posY, int modelWidth, int modelHeight, std::string objName, float mass,
-              int idleAnimFrames, int movingAnimFrames, int inAirAnimFrames, int strikeAnimFrames,
-              int destRenderWidth, int destRenderHeight, double maxStrTime);
+    Character(float posX, float posY, float modelWidth, float modelHeight, float colliderWidth, float colliderHeight,
+              std::string objName, float mass, int idleAnimFrames, int movingAnimFrames, int inAirAnimFrames,
+              int strikeAnimFrames, int destRenderWidth, int destRenderHeight, double maxStrTime);
 
     physics::Vector2D &getPositionVector();
 
@@ -73,7 +73,9 @@ public:
 
     int getInitialDestinationRenderWidth();
 
-    int getInitialModelWidth();
+    float getInitialModelWidth();
+
+    float getInitialColliderWidth();
 
     bool shouldTextureBeHorizontallyFlipped();
 
@@ -136,7 +138,8 @@ private:
     int strikeAnimationFrames, strikeAnimationIndex = 0;
     int destinationRenderWidth, destinationRenderHeight;
 
-    int initialDestinationRenderWidth, initialModelWidth;
+    int initialDestinationRenderWidth;
+    float initialModelWidth, initialColliderWidth;
 
     double animationTimeCounter = 0;
 

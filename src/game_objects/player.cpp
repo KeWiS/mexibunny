@@ -1,13 +1,10 @@
 #include "player.h"
 
 Player::Player(float x, float y, float mass, int destinationRenderWidth, int destinationRenderHeight,
-               int modelWidth, int modelHeight, int colliderWidth, int colliderHeight, double maxStrikeTime) :
-        Character(x, y, modelWidth, modelHeight, "player", mass, 3, 1,
-                  1, 2, destinationRenderWidth,
-                  destinationRenderHeight, maxStrikeTime) {
-    // Setting collider size
-    getMutableCollider().w = colliderWidth;
-    getMutableCollider().h = colliderHeight;
+               float modelWidth, float modelHeight, float colliderWidth, float colliderHeight, double maxStrikeTime) :
+        Character(x, y, modelWidth, modelHeight, colliderWidth, colliderHeight,
+                  "player", mass, 3, 1, 1, 2,
+                  destinationRenderWidth, destinationRenderHeight, maxStrikeTime) {
     // Setting weapon collider size
     getMutableWeaponCollider().w = colliderWidth;
     getMutableWeaponCollider().h = colliderHeight / 2;

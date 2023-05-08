@@ -1,8 +1,9 @@
 #include "character.h"
 
-Character::Character(float posX, float posY, int modelWidth, int modelHeight, std::string objName, float mass,
-                     int idleAnimFrames, int movingAnimFrames, int inAirAnimFrames, int strikeAnimFrames,
-                     int destRenderWidth, int destRenderHeight, double maxStrTime) :
+Character::Character(float posX, float posY, float modelWidth, float modelHeight, float colliderWidth,
+                     float colliderHeight, std::string objName, float mass, int idleAnimFrames, int movingAnimFrames,
+                     int inAirAnimFrames, int strikeAnimFrames, int destRenderWidth, int destRenderHeight,
+                     double maxStrTime) :
         RigidBody(mass),
         textureKeyName(objName),
         idleAnimationFrames(idleAnimFrames),
@@ -19,11 +20,15 @@ Character::Character(float posX, float posY, int modelWidth, int modelHeight, st
     model.y = 0;
     model.w = modelWidth;
     model.h = modelHeight;
+    // Setting collider size
+    collider.w = colliderWidth;
+    collider.h = colliderHeight;
     // Setting strike time counter for the first time
     strikeTimeCounter = maxStrikeTime;
     // Setting up initial destination render width and model width for rollback after strike
-    initialModelWidth = getModel().w;
+    initialModelWidth = model.w;
     initialDestinationRenderWidth = destinationRenderWidth;
+    initialColliderWidth = collider.w;
 }
 
 physics::Vector2D &Character::getPositionVector() {
@@ -130,8 +135,12 @@ int Character::getInitialDestinationRenderWidth() {
     return initialDestinationRenderWidth;
 }
 
-int Character::getInitialModelWidth() {
+float Character::getInitialModelWidth() {
     return initialModelWidth;
+}
+
+float Character::getInitialColliderWidth() {
+    return initialColliderWidth;
 }
 
 bool Character::shouldTextureBeHorizontallyFlipped() {

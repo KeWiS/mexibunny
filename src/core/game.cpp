@@ -253,6 +253,8 @@ void Game::prepareForPlayerStrike() {
     }
     player->setDestinationRenderWidth(player->getDestinationRenderWidth() * 2);
     player->getModel().w = player->getModel().w * 2;
+
+    player->getMutableCollider().w = player->getMutableCollider().w * 2;
 }
 
 void Game::cleanupAfterPlayerStrike() {
@@ -263,6 +265,8 @@ void Game::cleanupAfterPlayerStrike() {
     // Rollback changes of destination render width and source model
     player->setDestinationRenderWidth(player->getInitialDestinationRenderWidth());
     player->getModel().w = player->getInitialModelWidth();
+
+    player->getMutableCollider().w = player->getInitialColliderWidth();
     // Rollback position changes if player is facing left
     if (player->shouldTextureBeHorizontallyFlipped()) {
         player->setX(player->getX() + player->getModel().w * 2);
