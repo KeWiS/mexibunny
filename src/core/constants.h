@@ -13,6 +13,8 @@ namespace constants::physics {
 }
 
 namespace constants::file_names {
+    // Music, credits to: https://youtu.be/EQmIBHObtCs
+    inline const char *kMainMusic = "../resources/sound/The_Only_Thing_They_Fear_Is_You_DOOM_Eternal_OST.mp3";
     // Background, credits to: https://www.pinterest.com/pin/39054721754164011/
     inline const char *kBackground = "../resources/textures/background.png";
     // Environment

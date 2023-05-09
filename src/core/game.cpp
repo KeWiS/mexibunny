@@ -1,11 +1,13 @@
 #include "game.h"
 #include "constants.h"
 #include "texture_holder.h"
+#include "sound_handler.h"
 #include "../utility/randomizer.h"
 #include "../physics/collision_detector.h"
 #include "../map/map.h"
 #include "../game_objects/banana.h"
 #include <SDL_image.h>
+#include <SDL_mixer.h>
 #include <iostream>
 #include <algorithm>
 
@@ -18,6 +20,9 @@ Game::Game(int gameWindowWidth, int gameWindowHeight) : windowWidth(gameWindowWi
 void Game::initGame() {
     SDL_Init(SDL_INIT_EVERYTHING);
     IMG_Init(IMG_INIT_PNG);
+    Mix_Init(MIX_INIT_MP3);
+    SoundHandler::getInstance()->init();
+
 
     renderHelper.initiateWindowAndRender();
     renderHelper.setTextureHolder(loadAllTextures());
@@ -139,6 +144,8 @@ void Game::generateEnvironment() {
 
 void Game::startGame() {
     gameInProgress = true;
+
+    SoundHandler::getInstance()->playMainMusic();
 
     while (gameInProgress) {
         updateGameState();
@@ -428,4 +435,5 @@ void Game::destroyCharacters() {
 void Game::quitLibrariesEntities() {
     IMG_Quit();
     SDL_Quit();
+    Mix_Quit();
 }
