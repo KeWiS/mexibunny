@@ -28,7 +28,7 @@ private:
 
     Player *player;
 
-    std::vector<Character> enemies = std::vector<Character>();
+    std::vector<Character*> enemies = std::vector<Character*>();
 
     void generateEnvironment();
 
@@ -54,6 +54,12 @@ private:
 
     void prepareForPlayerStrike();
 
+    void checkPlayerStrikeCollision(Player *player);
+
+    void applyDamageAfterHit(int minDamage, int maxDamage, Character &victim);
+
+    bool checkIfEnemyDied(Character &enemy);
+
     void cleanupAfterPlayerStrike();
 
     void calculateBodiesPhysics();
@@ -73,6 +79,8 @@ private:
     void closeGame();
 
     void destroyTextures();
+
+    void destroyCharacters();
 
     void quitLibrariesEntities();
 };

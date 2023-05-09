@@ -19,7 +19,8 @@ public:
 
     Character(float posX, float posY, float modelWidth, float modelHeight, float colliderWidth, float colliderHeight,
               std::string objName, float mass, int idleAnimFrames, int movingAnimFrames, int inAirAnimFrames,
-              int strikeAnimFrames, int destRenderWidth, int destRenderHeight, double maxStrTime);
+              int strikeAnimFrames, int destRenderWidth, int destRenderHeight, double maxStrTime, int maxHealth,
+              int minDmg, int maxDmg);
 
     physics::Vector2D &getPositionVector();
 
@@ -32,6 +33,16 @@ public:
     bool getIsJumping();
 
     void setIsJumping(bool isJumping);
+
+    int getHealth();
+
+    void removeHealth(int damage);
+
+    bool checkDeathCondition();
+
+    int getMinDamage();
+
+    int getMaxDamage();
 
     float getX();
 
@@ -131,6 +142,9 @@ private:
 
     bool isGrounded;
     bool isJumping = false;
+
+    int health;
+    int minDamage, maxDamage;
 
     int idleAnimationFrames, idleAnimationIndex = 0;
     int movingAnimationFrames, movingAnimationIndex = 0;

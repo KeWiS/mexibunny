@@ -3,7 +3,7 @@
 Character::Character(float posX, float posY, float modelWidth, float modelHeight, float colliderWidth,
                      float colliderHeight, std::string objName, float mass, int idleAnimFrames, int movingAnimFrames,
                      int inAirAnimFrames, int strikeAnimFrames, int destRenderWidth, int destRenderHeight,
-                     double maxStrTime) :
+                     double maxStrTime, int maxHealth, int minDmg, int maxDmg) :
         RigidBody(mass),
         textureKeyName(objName),
         idleAnimationFrames(idleAnimFrames),
@@ -12,7 +12,10 @@ Character::Character(float posX, float posY, float modelWidth, float modelHeight
         strikeAnimationFrames(strikeAnimFrames),
         destinationRenderWidth(destRenderWidth),
         destinationRenderHeight(destRenderHeight),
-        maxStrikeTime(maxStrTime) {
+        maxStrikeTime(maxStrTime),
+        health(maxHealth),
+        minDamage(minDmg),
+        maxDamage(maxDmg) {
     // Setting up position vector
     positionVector = physics::Vector2D(posX, posY);
     // Setting up texture source model
@@ -21,6 +24,8 @@ Character::Character(float posX, float posY, float modelWidth, float modelHeight
     model.w = modelWidth;
     model.h = modelHeight;
     // Setting collider size
+    collider.x = posX;
+    collider.y = posY;
     collider.w = colliderWidth;
     collider.h = colliderHeight;
     // Setting strike time counter for the first time
@@ -53,6 +58,26 @@ bool Character::getIsJumping() {
 
 void Character::setIsJumping(bool isJumping) {
     this->isJumping = isJumping;
+}
+
+int Character::getHealth() {
+    return health;
+}
+
+void Character::removeHealth(int damage) {
+    health -= damage;
+}
+
+bool Character::checkDeathCondition() {
+    return health <= 0;
+}
+
+int Character::getMinDamage() {
+    return minDamage;
+}
+
+int Character::getMaxDamage() {
+    return maxDamage;
 }
 
 float Character::getX() {

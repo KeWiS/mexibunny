@@ -7,6 +7,7 @@
 #include "../game_objects/banana.h"
 #include <SDL_image.h>
 #include <iostream>
+#include <algorithm>
 
 Game::Game(int gameWindowWidth, int gameWindowHeight) : windowWidth(gameWindowWidth), windowHeight(gameWindowHeight) {
     this->renderHelper = RenderHelper(gameWindowWidth, gameWindowHeight);
@@ -62,7 +63,7 @@ TextureHolder Game::loadAllTextures() {
 
 Player *Game::generatePlayer() {
     return new Player(0, 450, 2, 64, 64, 32, 32,
-                      64, 62, 150);
+                      64, 62, 150, 20, 5, 10);
 }
 
 void Game::generateInitialEnemies() {
@@ -78,9 +79,9 @@ void Game::generateInitialEnemies() {
 
                 auto bananaYCoordinate = segment.frect.y - segment.frect.h;
 
-                enemies.push_back(Banana(bananaXCoordinate, bananaYCoordinate, 2, 64,
+                enemies.push_back(new Banana(bananaXCoordinate, bananaYCoordinate, 2, 64,
                                          64, 32, 32, 64, 62,
-                                         150));
+                                         150, 10, 3, 5));
 
                 break;
             }
@@ -229,6 +230,7 @@ void Game::handlePlayerMovement() {
     // Checking if player strikes
     if (player->getIsGrounded() && player->checkHasBeenStrikeUp() && keyStates[SDL_SCANCODE_LSHIFT]) {
         prepareForPlayerStrike();
+        checkPlayerStrikeCollision(player);
     } else if (player->checkIsStriking() && player->getStrikeTimeCounter() > 0) {
         player->decreaseStrikeTimeCounter(deltaTime);
     } else if (player->checkIsStriking() && player->getStrikeTimeCounter() <= 0) {
@@ -254,6 +256,35 @@ void Game::prepareForPlayerStrike() {
     player->setDestinationRenderWidth(player->getDestinationRenderWidth() * 2);
     player->getModel().w = player->getModel().w * 2;
     player->getMutableCollider().w = player->getMutableCollider().w * 2;
+}
+
+void Game::checkPlayerStrikeCollision(Player *player) {
+    enemies.erase(
+            std::remove_if(
+                    enemies.begin(),
+                    enemies.end(),
+                    [player, this](Character *enemy) {
+                        if (CollisionDetector::checkCharacterToCharacterStrikeCollision(*player,
+                                                                                        *enemy)) {
+                            applyDamageAfterHit(player->getMinDamage(), player->getMaxDamage(),
+                                                *enemy);
+                        }
+
+                        return checkIfEnemyDied(*enemy);
+                    }
+            ),
+            enemies.end()
+    );
+}
+
+void Game::applyDamageAfterHit(int minDamage, int maxDamage, Character &victim) {
+    auto damageDealt = utility::Randomizer::getRandomIntegerInRange(minDamage, maxDamage);
+
+    victim.removeHealth(damageDealt);
+}
+
+bool Game::checkIfEnemyDied(Character &enemy) {
+    return enemy.checkDeathCondition();
 }
 
 void Game::cleanupAfterPlayerStrike() {
@@ -359,14 +390,16 @@ void Game::renderEntities() {
 
 void Game::renderEnemies() {
     for (auto &enemy : enemies) {
-        enemy.addToAnimationTimeCounter(deltaTime);
-        renderHelper.renderCharacter(enemy);
+        enemy->addToAnimationTimeCounter(deltaTime);
+        renderHelper.renderCharacter(*enemy);
     }
 }
 
 void Game::closeGame() {
     // Destroying all textures from texture map
     destroyTextures();
+    // Destroying player and enemies pointers
+    destroyCharacters();
     // Cleanup inside renderHelper, destroying renderer and window
     renderHelper.cleanup();
     // Quitting initialized libraries
@@ -381,6 +414,15 @@ void Game::destroyTextures() {
     }
 
     renderHelper.getTextureHolder().textureMap.clear();
+}
+
+void Game::destroyCharacters() {
+    // Destroying player
+    delete player;
+    // Destroying enemies
+    for (auto enemy : enemies) {
+        delete enemy;
+    }
 }
 
 void Game::quitLibrariesEntities() {

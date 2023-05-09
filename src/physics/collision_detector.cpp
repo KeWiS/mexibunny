@@ -1,3 +1,4 @@
+#include <iostream>
 #include "collision_detector.h"
 #include "../map/map.h"
 #include "../physics/engine.h"
@@ -12,4 +13,9 @@ bool CollisionDetector::checkCharacterCollisionWithEnvironment(const Character &
     }
 
     return false;
+}
+
+bool CollisionDetector::checkCharacterToCharacterStrikeCollision(const Character &strikingCharacter,
+                                                                 const Character &victim) {
+    return physics::Engine::collisionAABB(strikingCharacter.getWeaponCollider(), victim.getCollider());
 }
