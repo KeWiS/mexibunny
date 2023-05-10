@@ -15,7 +15,7 @@ namespace map {
 
         void addToEntities(Entity entity);
 
-        std::vector<SegmentFrect> getSegments();
+        std::vector<SegmentFrect> &getSegments();
 
         void addToSegments(SegmentFrect segment);
 

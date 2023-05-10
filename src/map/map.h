@@ -19,12 +19,18 @@ public:
 
     void createLevel(std::vector<SegmentParameters> entitiesSegments);
 
+    void registerSpawnableSegments();
+
+    std::vector<SegmentFrect*> getSpawnableSegments();
+
 private:
     Map() = default;
 
     inline static Map *map = nullptr;
 
     std::vector<map::Level> levels;
+
+    std::vector<SegmentFrect*> spawnableSegments;
 };
 
 #endif //MEXIBUNNY_MAP_H

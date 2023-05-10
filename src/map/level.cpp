@@ -10,7 +10,7 @@ void map::Level::addToEntities(Entity entity) {
     entities.push_back(entity);
 }
 
-std::vector<SegmentFrect> map::Level::getSegments() {
+std::vector<SegmentFrect> &map::Level::getSegments() {
     return segments;
 }
 

@@ -23,6 +23,10 @@ private:
     Uint64 previousTick = 0;
     Uint64 currentTick = SDL_GetPerformanceCounter();
     double deltaTime = 0;
+    double spawnerTimer = 0;
+    double spawnDelay = 2000;
+
+    int spawnCounter = 0;
 
     RenderHelper renderHelper;
 
@@ -69,6 +73,10 @@ private:
     void updateCharacterXPositionAfterCalculations(Character &character);
 
     void updateCharacterYPositionAfterCalculations(Character &character);
+
+    void manageEnemySpawns();
+
+    void spawnEnemyOnRandomSegment();
 
     void updateGraphics();
 

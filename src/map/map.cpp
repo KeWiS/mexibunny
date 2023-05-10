@@ -38,3 +38,15 @@ void Map::createLevel(
 
     levels.push_back(level);
 }
+
+void Map::registerSpawnableSegments() {
+    for (auto &level : levels) {
+        for (auto &segment : level.getSegments()) {
+            if (segment.allowSpawnOnSegment) spawnableSegments.push_back(&segment);
+        }
+    }
+}
+
+std::vector<SegmentFrect*> Map::getSpawnableSegments() {
+    return spawnableSegments;
+}

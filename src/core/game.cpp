@@ -85,8 +85,8 @@ void Game::generateInitialEnemies() {
                 auto bananaYCoordinate = segment.frect.y - segment.frect.h;
 
                 enemies.push_back(new Banana(bananaXCoordinate, bananaYCoordinate, 2, 64,
-                                         64, 32, 32, 64, 62,
-                                         150, 10, 3, 5));
+                                             64, 32, 32, 64, 62,
+                                             150, 10, 3, 5));
 
                 break;
             }
@@ -135,11 +135,14 @@ void Game::generateEnvironment() {
                                       64, "grass", true),
                     SegmentParameters(704, 208, 62, 2,
                                       utility::Randomizer::getRandomIntegerInRange(1, 3),
-                                      64, "grass", true),
+                                      64, "grass", false),
                     SegmentParameters(1088, 272, 62, 3,
                                       utility::Randomizer::getRandomIntegerInRange(1, 3),
                                       64, "grass", true)
             });
+
+    // Registering spawnable segments
+    Map::getInstance()->registerSpawnableSegments();
 }
 
 void Game::startGame() {
@@ -163,6 +166,7 @@ void Game::updateGameState() {
     handleGameEvents();
     handlePlayerMovement();
     calculateBodiesPhysics();
+    manageEnemySpawns();
     updateGraphics();
 }
 
@@ -170,7 +174,11 @@ double Game::calculateDeltaTime() {
     previousTick = currentTick;
     currentTick = SDL_GetPerformanceCounter();
     // TODO: Check with Daniel if game runs correctly
+    // Updating spawner timer by real time
+
     double deltaT = (double) ((currentTick - previousTick) * 1000 / (double) SDL_GetPerformanceFrequency());
+
+    spawnerTimer += deltaT;
 
     if (deltaT > maxDeltaTime) deltaT = maxDeltaTime;
 
@@ -373,6 +381,38 @@ void Game::updateCharacterYPositionAfterCalculations(Character &character) {
     // Setting weapon collider
     //  Adding model height and subtracting quarter to place it on proper height
     character.getMutableWeaponCollider().y = newY + character.getModel().h - character.getModel().h / 4;
+}
+
+void Game::manageEnemySpawns() {
+    // Checking if it is time for spawning an enemy
+    if (enemies.size() < 25 && spawnerTimer >= spawnDelay) {
+        spawnEnemyOnRandomSegment();
+
+        spawnCounter++;
+        spawnerTimer = 0;
+        if (spawnCounter % 5 == 0 && spawnCounter > 500) {
+            spawnDelay -= 500;
+        }
+    }
+}
+
+void Game::spawnEnemyOnRandomSegment() {
+    std::cout << "Spawning..." << std::endl;
+    // Getting random segment
+    auto spawnableSegments = Map::getInstance()->getSpawnableSegments();
+    auto segmentIndex = utility::Randomizer::getRandomIntegerInRange(0,spawnableSegments.size() - 1);
+
+    auto segment = spawnableSegments[segmentIndex];
+    auto bananaXCoordinate = utility::Randomizer::getRandomIntegerInRange(
+            segment->frect.x,
+            segment->frect.x + segment->frect.w - 64
+    );
+
+    auto bananaYCoordinate = segment->frect.y - segment->frect.h;
+
+    enemies.push_back(new Banana(bananaXCoordinate, bananaYCoordinate, 2, 64,
+                                 64, 32, 32, 64, 62,
+                                 150, 10, 3, 5));
 }
 
 void Game::updateGraphics() {
