@@ -4,7 +4,6 @@
 #include "sound_handler.h"
 #include "../utility/randomizer.h"
 #include "../physics/collision_detector.h"
-#include "../map/map.h"
 #include "../game_objects/banana.h"
 #include <SDL_image.h>
 #include <SDL_mixer.h>
@@ -77,21 +76,25 @@ void Game::generateInitialEnemies() {
         // Choosing first segment with possibility of spawn
         for (auto segment : level.getSegments()) {
             if (segment.allowSpawnOnSegment) {
-                auto bananaXCoordinate = utility::Randomizer::getRandomIntegerInRange(
-                        segment.frect.x,
-                        segment.frect.x + segment.frect.w - 64
-                );
-
-                auto bananaYCoordinate = segment.frect.y - segment.frect.h;
-
-                enemies.push_back(new Banana(bananaXCoordinate, bananaYCoordinate, 2, 64,
-                                             64, 32, 32, 64, 62,
-                                             150, 10, 3, 5));
+                spawnBananaOnSegment(segment);
 
                 break;
             }
         }
     }
+}
+
+void Game::spawnBananaOnSegment(SegmentFrect &segment) {
+    auto bananaXCoordinate = utility::Randomizer::getRandomIntegerInRange(
+            segment.frect.x,
+            segment.frect.x + segment.frect.w - 64
+    );
+
+    auto bananaYCoordinate = segment.frect.y - segment.frect.h;
+
+    enemies.push_back(new Banana(bananaXCoordinate, bananaYCoordinate, 2, 64,
+                                 64, 32, 32, 64, 62,
+                                 150, 10, 3, 5));
 }
 
 void Game::generateEnvironment() {
@@ -401,18 +404,9 @@ void Game::spawnEnemyOnRandomSegment() {
     // Getting random segment
     auto spawnableSegments = Map::getInstance()->getSpawnableSegments();
     auto segmentIndex = utility::Randomizer::getRandomIntegerInRange(0,spawnableSegments.size() - 1);
-
     auto segment = spawnableSegments[segmentIndex];
-    auto bananaXCoordinate = utility::Randomizer::getRandomIntegerInRange(
-            segment->frect.x,
-            segment->frect.x + segment->frect.w - 64
-    );
-
-    auto bananaYCoordinate = segment->frect.y - segment->frect.h;
-
-    enemies.push_back(new Banana(bananaXCoordinate, bananaYCoordinate, 2, 64,
-                                 64, 32, 32, 64, 62,
-                                 150, 10, 3, 5));
+    
+    spawnBananaOnSegment(*segment);
 }
 
 void Game::updateGraphics() {

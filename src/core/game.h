@@ -7,6 +7,7 @@
 #include "render_helper.h"
 #include "../physics/engine.h"
 #include "../game_objects/player.h"
+#include "../map/map.h"
 
 class Game {
 public:
@@ -41,6 +42,8 @@ private:
     Player *generatePlayer();
 
     void generateInitialEnemies();
+
+    void spawnBananaOnSegment(SegmentFrect &segment);
 
     void initGame();
 
