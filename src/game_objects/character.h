@@ -136,8 +136,6 @@ public:
 
     void setMovement(Movement movement);
 
-    Movement getLastRecordedMovementDirection();
-
     void setLastRecordedMovementDirection(Movement lastRecordedMovementDirection);
 
 private:

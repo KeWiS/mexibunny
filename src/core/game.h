@@ -69,6 +69,12 @@ private:
 
     void cleanupAfterPlayerStrike();
 
+    void handleEnemyMovements();
+
+    void moveEnemyTowardsPlayer(Character *enemy);
+
+    void setEnemyIdleAnimation(Character *enemy);
+
     void calculateBodiesPhysics();
 
     void checkCharacterCollisionsWithEnvironment(Character &character);

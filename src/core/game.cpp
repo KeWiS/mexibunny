@@ -59,8 +59,12 @@ TextureHolder Game::loadAllTextures() {
                                      renderHelper.loadTexture(constants::file_names::kBunnyStrike)});
 
     // Enemies
+    textureHolder.textureMap.insert({"bananaRun",
+                                     renderHelper.loadTexture(constants::file_names::kBananaRun)});
     textureHolder.textureMap.insert({"bananaIdle",
                                      renderHelper.loadTexture(constants::file_names::kBananaIdle)});
+    textureHolder.textureMap.insert({"bananaInAir",
+                                     renderHelper.loadTexture(constants::file_names::kBananaInAir)});
 
     return textureHolder;
 }
@@ -90,7 +94,7 @@ void Game::spawnBananaOnSegment(SegmentFrect &segment) {
             segment.frect.x + segment.frect.w - 64
     );
 
-    auto bananaYCoordinate = segment.frect.y - segment.frect.h;
+    auto bananaYCoordinate = segment.frect.y - segment.frect.h - 65;
 
     enemies.push_back(new Banana(bananaXCoordinate, bananaYCoordinate, 2, 64,
                                  64, 32, 32, 64, 62,
@@ -120,12 +124,9 @@ void Game::generateEnvironment() {
     // Generating second level
     Map::getInstance()->createLevel(
             {
-                    SegmentParameters(128, 400, 62, 3,
+                    SegmentParameters(128, 400, 62, 13,
                                       utility::Randomizer::getRandomIntegerInRange(1, 3),
-                                      64, "grass", true),
-                    SegmentParameters(320, 400, 62, 10,
-                                      utility::Randomizer::getRandomIntegerInRange(1, 3),
-                                      64, "grass", true),
+                                      64, "grass", true)
             });
     // Generating third level
     Map::getInstance()->createLevel(
@@ -168,6 +169,7 @@ void Game::updateGameState() {
     // Handling game events, player movement, calculations of NPC movements and physics, graphics display
     handleGameEvents();
     handlePlayerMovement();
+    handleEnemyMovements();
     calculateBodiesPhysics();
     manageEnemySpawns();
     updateGraphics();
@@ -320,10 +322,60 @@ void Game::cleanupAfterPlayerStrike() {
     }
 }
 
+void Game::handleEnemyMovements() {
+    // Looping through enemies
+    for (auto enemy : enemies) {
+        // Checking if enemy is at the same segment as player
+        if (player->getCurrentSegment() == enemy->getCurrentSegment()) {
+            moveEnemyTowardsPlayer(enemy);
+        }
+        else {
+            enemy->applyForceOnXAxis(0);
+            enemy->applyFriction(physics::Vector2D(0, 0));
+            setEnemyIdleAnimation(enemy);
+        }
+    }
+}
+
+void Game::moveEnemyTowardsPlayer(Character *enemy) {
+    auto playerX = player->getX();
+    if (playerX > enemy->getX()) {
+        enemy->applyForceOnXAxis(constants::physics::kForwardForce * 300);
+        enemy->applyFriction(physics::Vector2D(200, 1));
+        enemy->setMovement(Movement::kRight);
+        enemy->setLastRecordedMovementDirection(Movement::kRight);
+    }
+    else if (playerX < enemy->getX()) {
+        enemy->applyForceOnXAxis(constants::physics::kBackwardForce * 300);
+        enemy->applyFriction(physics::Vector2D(200, 1));
+        enemy->setMovement(Movement::kLeft);
+        enemy->setLastRecordedMovementDirection(Movement::kLeft);
+    }
+    else {
+        enemy->applyForceOnXAxis(0);
+        enemy->applyFriction(physics::Vector2D(0, 0));
+        setEnemyIdleAnimation(enemy);
+    }
+}
+
+void Game::setEnemyIdleAnimation(Character *enemy) {
+    if (enemy->shouldTextureBeHorizontallyFlipped()) {
+        enemy->setMovement(Movement::kLeftIdle);
+    }
+    else {
+        enemy->setMovement(Movement::kRightIdle);
+    }
+}
+
 void Game::calculateBodiesPhysics() {
     // Player
     physics::Engine::calculateRigidBodyMovement(*player, deltaTime);
     checkCharacterCollisionsWithEnvironment(*player);
+    // Enemies
+    for (auto enemy : enemies) {
+        physics::Engine::calculateRigidBodyMovement(*enemy, deltaTime);
+        checkCharacterCollisionsWithEnvironment(*enemy);
+    }
 }
 
 void Game::checkCharacterCollisionsWithEnvironment(Character &character) {
@@ -400,12 +452,11 @@ void Game::manageEnemySpawns() {
 }
 
 void Game::spawnEnemyOnRandomSegment() {
-    std::cout << "Spawning..." << std::endl;
     // Getting random segment
     auto spawnableSegments = Map::getInstance()->getSpawnableSegments();
-    auto segmentIndex = utility::Randomizer::getRandomIntegerInRange(0,spawnableSegments.size() - 1);
+    auto segmentIndex = utility::Randomizer::getRandomIntegerInRange(0, spawnableSegments.size() - 1);
     auto segment = spawnableSegments[segmentIndex];
-    
+
     spawnBananaOnSegment(*segment);
 }
 

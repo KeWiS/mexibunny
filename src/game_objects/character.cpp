@@ -264,10 +264,6 @@ void Character::setMovement(Movement movement) {
     this->movement = movement;
 }
 
-Movement Character::getLastRecordedMovementDirection() {
-    return lastRecordedMovementDirection;
-}
-
 void Character::setLastRecordedMovementDirection(Movement lastRecordedMovementDirection) {
     this->lastRecordedMovementDirection = lastRecordedMovementDirection;
 }
