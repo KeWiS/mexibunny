@@ -3,13 +3,18 @@
 #include "../map/map.h"
 #include "../physics/engine.h"
 
-bool CollisionDetector::checkCharacterCollisionWithEnvironment(const Character &character) {
+bool CollisionDetector::checkCharacterCollisionWithEnvironment(Character &character) {
+    int segmentIndex = 0;
+
     for (auto level : Map::getInstance()->getLevels()) {
-        for (auto segment : level.getSegments()) {
-            if (physics::Engine::collisionAABB(character.getCollider(), segment.frect)) {
+        for (int i = 0; i < level.getSegments().size(); i++) {
+            if (physics::Engine::collisionAABB(character.getCollider(), level.getSegments()[i].frect)) {
+                character.setCurrentSegment(segmentIndex + i);
+
                 return true;
             }
         }
+        segmentIndex += level.getSegments().size();
     }
 
     return false;

@@ -5,7 +5,7 @@
 
 class CollisionDetector {
 public:
-    static bool checkCharacterCollisionWithEnvironment(const Character &character);
+    static bool checkCharacterCollisionWithEnvironment(Character &character);
 
     static bool checkCharacterToCharacterStrikeCollision(const Character &strikingCharacter, const Character &victim);
 

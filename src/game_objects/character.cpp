@@ -60,6 +60,14 @@ void Character::setIsJumping(bool isJumping) {
     this->isJumping = isJumping;
 }
 
+int Character::getCurrentSegment() {
+    return currentSegment;
+}
+
+void Character::setCurrentSegment(int currentSegment) {
+    this->currentSegment = currentSegment;
+}
+
 int Character::getHealth() {
     return health;
 }

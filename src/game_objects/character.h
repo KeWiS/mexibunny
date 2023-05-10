@@ -34,6 +34,10 @@ public:
 
     void setIsJumping(bool isJumping);
 
+    int getCurrentSegment();
+
+    void setCurrentSegment(int currentSegment);
+
     int getHealth();
 
     void removeHealth(int damage);
@@ -142,6 +146,8 @@ private:
 
     bool isGrounded;
     bool isJumping = false;
+
+    int currentSegment;
 
     int health;
     int minDamage, maxDamage;
