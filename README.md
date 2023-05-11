@@ -1,6 +1,6 @@
 # MexiBunny
-A game about hungry and angry bunny collecting burritos, fighting deadly bananas, hating them as I do, with carrot
-(which I also hate) nunchakus.
+A game about hungry and angry bunny (collecting burritos - not implemented yet), fighting deadly bananas (they also do 
+not fight back yet), hating them as I do, with carrot (which I also hate) nunchakus.
 
 Project has been built and written using default CLion MinGW Toolchain, SDL2 2.6.3, SDL2 mixer 2.26.4 and SDL_image 
 2.6.3.
