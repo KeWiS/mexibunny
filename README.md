@@ -25,4 +25,4 @@ This is my college project, but it will be continued afterward and potentially r
 Unreal Engine and released on digital platform.
 
 Background source: https://www.pinterest.com/pin/39054721754164011/
-Main music source: https://youtu.be/EQmIBHObtCs
+<br/>Main music source: https://youtu.be/EQmIBHObtCs
