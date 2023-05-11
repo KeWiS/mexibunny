@@ -47,6 +47,6 @@ void Map::registerSpawnableSegments() {
     }
 }
 
-std::vector<SegmentFrect*> Map::getSpawnableSegments() {
+std::vector<SegmentFrect *> Map::getSpawnableSegments() {
     return spawnableSegments;
 }

@@ -21,7 +21,7 @@ public:
 
     void registerSpawnableSegments();
 
-    std::vector<SegmentFrect*> getSpawnableSegments();
+    std::vector<SegmentFrect *> getSpawnableSegments();
 
 private:
     Map() = default;
@@ -30,7 +30,7 @@ private:
 
     std::vector<map::Level> levels;
 
-    std::vector<SegmentFrect*> spawnableSegments;
+    std::vector<SegmentFrect *> spawnableSegments;
 };
 
 #endif //MEXIBUNNY_MAP_H

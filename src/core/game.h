@@ -33,7 +33,7 @@ private:
 
     Player *player;
 
-    std::vector<Character*> enemies = std::vector<Character*>();
+    std::vector<Character *> enemies = std::vector<Character *>();
 
     void generateEnvironment();
 

@@ -328,8 +328,7 @@ void Game::handleEnemyMovements() {
         // Checking if enemy is at the same segment as player
         if (player->getCurrentSegment() == enemy->getCurrentSegment()) {
             moveEnemyTowardsPlayer(enemy);
-        }
-        else {
+        } else {
             enemy->applyForceOnXAxis(0);
             enemy->applyFriction(physics::Vector2D(0, 0));
             setEnemyIdleAnimation(enemy);
@@ -344,14 +343,12 @@ void Game::moveEnemyTowardsPlayer(Character *enemy) {
         enemy->applyFriction(physics::Vector2D(200, 1));
         enemy->setMovement(Movement::kRight);
         enemy->setLastRecordedMovementDirection(Movement::kRight);
-    }
-    else if (playerX < enemy->getX()) {
+    } else if (playerX < enemy->getX()) {
         enemy->applyForceOnXAxis(constants::physics::kBackwardForce * 300);
         enemy->applyFriction(physics::Vector2D(200, 1));
         enemy->setMovement(Movement::kLeft);
         enemy->setLastRecordedMovementDirection(Movement::kLeft);
-    }
-    else {
+    } else {
         enemy->applyForceOnXAxis(0);
         enemy->applyFriction(physics::Vector2D(0, 0));
         setEnemyIdleAnimation(enemy);
@@ -361,8 +358,7 @@ void Game::moveEnemyTowardsPlayer(Character *enemy) {
 void Game::setEnemyIdleAnimation(Character *enemy) {
     if (enemy->shouldTextureBeHorizontallyFlipped()) {
         enemy->setMovement(Movement::kLeftIdle);
-    }
-    else {
+    } else {
         enemy->setMovement(Movement::kRightIdle);
     }
 }

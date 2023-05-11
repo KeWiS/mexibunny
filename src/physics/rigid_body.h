@@ -9,27 +9,17 @@ public:
 
     RigidBody(float mass);
 
-    float getMass();
-
-    void setMass(float mass);
-
     float getGravity();
 
     void setGravity(float gravity);
 
     physics::Vector2D getRigidPosition();
 
-    void applyForce(physics::Vector2D force);
-
     void applyForceOnXAxis(float forceX);
 
     void applyForceOnYAxis(float forceY);
 
-    void removeForce();
-
     void applyFriction(physics::Vector2D friction);
-
-    void removeFriction();
 
     void calculateMovement(double deltaTime, float gravity);
 
